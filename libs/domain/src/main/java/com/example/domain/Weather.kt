@@ -1,7 +1,7 @@
 package com.example.domain
 
 data class Weather(
-    val condition: Condition,
+    val conditions: List<Condition>,
     val temperature: Temperature,
     val pressure: Int,
     val humidity: Int,
@@ -10,7 +10,7 @@ data class Weather(
     val clouds: Int,
     val timestamp: Long,
     val location: Location,
-    val sunrise: Long,
-    val sunset: Long
+    val sunriseTimeMillis: Long,
+    val sunsetTimeMillis: Long
 )
 

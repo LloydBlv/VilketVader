@@ -8,4 +8,5 @@ plugins {
     alias(libs.plugins.spotless) apply false
     alias(libs.plugins.doctor)
     alias(libs.plugins.detekt) apply false
+    alias(libs.plugins.android.library) apply false
 }

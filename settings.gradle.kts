@@ -18,7 +18,8 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 rootProject.name = "VilketVader"
 include(":app")
 include(":libs:domain")
+include(":libs:data")

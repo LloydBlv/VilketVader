@@ -5,5 +5,4 @@ data class Temperature(
     val feelsLike: Float,
     val min: Float,
     val max: Float,
-    val unit: String,
 )

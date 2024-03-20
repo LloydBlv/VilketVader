@@ -2,4 +2,8 @@
 plugins {
     alias(libs.plugins.android.application) apply false
     alias(libs.plugins.jetbrains.kotlin.android) apply false
+    alias(libs.plugins.spotless) apply false
+    alias(libs.plugins.cacheFixPlugin) apply false
+    alias(libs.plugins.doctor)
+    alias(libs.plugins.detekt) apply false
 }

@@ -21,3 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "VilketVader"
 include(":app")
+include(":libs:domain")

@@ -5,7 +5,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-internal data class MainDto(
+data class MainDto(
     @SerialName("feels_like") val feelsLike: Float?,
     @SerialName("humidity") val humidity: Int?,
     @SerialName("pressure") val pressure: Int?,

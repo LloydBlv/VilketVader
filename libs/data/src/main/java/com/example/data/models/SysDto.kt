@@ -5,7 +5,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-internal data class SysDto(
+data class SysDto(
     @SerialName("country") val country: String?,
     @SerialName("id") val id: Int?,
     @SerialName("sunrise") val sunriseTimeMillis: Long?,

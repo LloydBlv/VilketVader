@@ -9,11 +9,9 @@ import kotlinx.serialization.json.Json
 import org.junit.Test
 
 class WeatherResponseDeserializationTest {
-    private val json = Json(builderAction = { ignoreUnknownKeys = true })
-
     @Test
     fun testWeatherRepository() {
-        val weatherDto = TestData.getTestResponse()
+        val weatherDto = com.example.testing.TestData.getTestResponse()
         assertThat(weatherDto).all {
             prop(WeatherResponseDto::clouds).transform { it?.all }.isEqualTo(0)
             prop(WeatherResponseDto::coord).all {

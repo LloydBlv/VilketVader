@@ -1,28 +1,32 @@
-package com.example.data
+package com.example.data.models
 
-import com.example.data.models.WeatherResponseDto
+
 import com.example.domain.Condition
 import com.example.domain.Coordination
 import com.example.domain.Location
 import com.example.domain.Temperature
 import com.example.domain.Weather
-import com.example.domain.WeatherRepository
 import com.example.domain.Wind
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.map
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+import org.jetbrains.annotations.VisibleForTesting
 
-class WeatherRepositoryFake : WeatherRepository {
-    override fun getWeather(location: String): Flow<Weather> {
-        return flow {
-            emit(TestData.getTestResponse())
-        }.map {
-            it.toWeather()
-        }
-    }
-}
+@Serializable
+data class WeatherResponseDto(
+    @SerialName("clouds") val clouds: CloudsDto?,
+    @SerialName("coord") val coord: CoordDto?,
+    @SerialName("dt") val dt: Int?,
+    @SerialName("id") val id: Int?,
+    @SerialName("main") val main: MainDto?,
+    @SerialName("name") val name: String?,
+    @SerialName("sys") val sys: SysDto?,
+    @SerialName("timezone") val timezone: Int?,
+    @SerialName("visibility") val visibility: Long?,
+    @SerialName("weather") val weather: List<WeatherDto?>?,
+    @SerialName("wind") val wind: WindDto?
+)
 
-private fun WeatherResponseDto.toWeather(): Weather {
+fun WeatherResponseDto.toWeather(): Weather {
     return Weather(
         location = Location(
             id = id ?: 0,

@@ -23,3 +23,4 @@ rootProject.name = "VilketVader"
 include(":app")
 include(":libs:domain")
 include(":libs:data")
+include(":common:testing")

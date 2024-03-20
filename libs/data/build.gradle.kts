@@ -2,6 +2,8 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.kotlinx.serialization)
+    alias(libs.plugins.ktorfitGradlePlugin)
+    alias(libs.plugins.kspGradlePlugin)
 }
 
 android {
@@ -35,9 +37,21 @@ android {
 
 dependencies {
     implementation(projects.libs.domain)
+    testImplementation(projects.common.testing)
     implementation(libs.kotlinx.coroutines.jvm)
+    implementation(libs.ktorfitLib)
+    implementation(libs.kermit)
+    implementation(libs.ktorClientOkHttp)
+    implementation(libs.okHttpLoggingInterceptor)
+    implementation(libs.ktorContentNegotiation)
+    implementation(libs.ktorKotlinxSerialization)
+    testImplementation(libs.ktorKotlinxSerialization)
+    testImplementation(libs.ktor.clientmock)
+    ksp(libs.ktorfitKsp)
+    kspTest(libs.ktorfitKsp)
     testImplementation(libs.kotlinx.coroutines.test)
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
+    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.kotlinxCollectionsImmutable)
     testImplementation(libs.junit)
     testImplementation(libs.assertk)
     testImplementation(libs.turbine)

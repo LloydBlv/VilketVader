@@ -1,17 +1,20 @@
-package com.example.data
+package com.example.testing
 
 import com.example.data.models.WeatherResponseDto
 import kotlinx.serialization.json.Json
 import java.io.File
 
-internal object TestData {
+object TestData {
     fun getTestResponse(json: Json = Json { ignoreUnknownKeys = true }): WeatherResponseDto {
+        val weatherDto = json.decodeFromString<WeatherResponseDto>(getRawTestResponse())
+        return weatherDto
+    }
+    fun getRawTestResponse(): String {
         val file = File("src/test/resources/stockholm-weather-response.json")
         val rawJson =
             file.bufferedReader().use {
                 it.readText()
             }
-        val weatherDto = json.decodeFromString<WeatherResponseDto>(rawJson)
-        return weatherDto
+        return rawJson
     }
 }

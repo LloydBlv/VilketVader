@@ -5,7 +5,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-internal data class WindDto(
+data class WindDto(
     @SerialName("deg") val deg: Int?,
     @SerialName("speed") val speed: Float?
 )

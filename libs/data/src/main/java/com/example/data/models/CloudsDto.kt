@@ -5,6 +5,6 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-internal data class CloudsDto(
+data class CloudsDto(
     @SerialName("all") val all: Int?
 )

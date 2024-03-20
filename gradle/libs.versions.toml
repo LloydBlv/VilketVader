@@ -1,21 +1,29 @@
 [versions]
 agp = "8.5.0-alpha01"
-kotlin = "1.9.0"
+kotlin = "1.9.22"
 coreKtx = "1.12.0"
 junit = "4.13.2"
 junitVersion = "1.1.5"
 espressoCore = "3.5.1"
+kotlinxSerializationJson = "1.6.3"
+kotlinxSerializationJsonJvm = "1.6.3"
 lifecycleRuntimeKtx = "2.7.0"
 activityCompose = "1.8.2"
-composeBom = "2023.08.00"
+composeBom = "2024.02.02"
 detekt = "1.23.5"
 spotless = "6.25.0"
-jetbrainsKotlinJvm = "1.9.0"
+jetbrainsKotlinJvm = "1.9.22"
 coroutines = "1.8.0"
 appcompat = "1.6.1"
 material = "1.11.0"
 assertk = "0.28.0"
 turbine = "1.1.0"
+ktorfit = "1.12.0"
+ksp = "1.9.22-1.0.17"
+ktor = "2.3.9"
+okHttp = "4.12.0"
+kermit = "2.0.3"
+
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -34,10 +42,21 @@ androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 kotlinx-coroutines-jvm = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
+kotlinx-serialization-json-jvm = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json-jvm", version.ref = "kotlinxSerializationJsonJvm" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 assertk = { module = "com.willowtreeapps.assertk:assertk", version.ref = "assertk" }
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
+ktorfitLib = { module = "de.jensklingenberg.ktorfit:ktorfit-lib", version.ref = "ktorfit" }
+ktorfitKsp = { module = "de.jensklingenberg.ktorfit:ktorfit-ksp", version.ref = "ktorfit" }
+kotlinxCollectionsImmutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version = "0.3.7" }
+ktorClientOkHttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
+okHttpLoggingInterceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "okHttp" }
+ktorContentNegotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
+ktorKotlinxSerialization = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
+ktor-clientmock = { group = "io.ktor", name = "ktor-client-mock" ,version.ref = "ktor" }
+kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
 
 
 [plugins]
@@ -51,4 +70,5 @@ dependencyGraph = { id = "com.savvasdalkitsis.module-dependency-graph", version 
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }
 android-library = { id = "com.android.library", version.ref = "agp" }
-
+kspGradlePlugin = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+ktorfitGradlePlugin = { id = "de.jensklingenberg.ktorfit", version.ref = "ktorfit" }

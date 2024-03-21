@@ -52,6 +52,8 @@ android {
 dependencies {
     implementation(projects.libs.data)
     implementation(projects.libs.domain)
+
+    implementation(libs.kotlinxDatetime)
     implementation(libs.kotlinxCollectionsImmutable)
     implementation(libs.ktorfitLib)
     implementation(libs.composeCoil)

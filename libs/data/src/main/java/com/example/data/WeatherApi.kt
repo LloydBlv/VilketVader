@@ -19,6 +19,7 @@ internal interface WeatherApi {
     suspend fun getWeather(
         @Query("q") cityName: String,
         @Query("units") weatherUnit: String,
+        @Query("lang") language: String,
     ): WeatherResponseDto
 }
 
@@ -28,10 +29,11 @@ class WeatherApiClientDefault(
     private val weatherApi = ktorfit.create<WeatherApi>()
 
 
-    override suspend fun getWeather(cityName: String): Weather {
+    override suspend fun getWeather(cityName: String, language: String): Weather {
         return weatherApi.getWeather(
-            cityName,
-            weatherUnit = WeatherUnit.METRIC.value
+            cityName = cityName,
+            weatherUnit = WeatherUnit.METRIC.value,
+            language = language
         ).toWeather()
     }
 
@@ -48,5 +50,5 @@ class WeatherApiClientDefault(
 }
 
 interface WeatherApiClient {
-    suspend fun getWeather(cityName: String): Weather
+    suspend fun getWeather(cityName: String, language: String): Weather
 }

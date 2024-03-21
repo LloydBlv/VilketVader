@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.core.splashscreen.SplashScreen
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.example.vilketvader.ui.theme.VilketVaderTheme
@@ -22,7 +23,11 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             VilketVaderTheme {
-                MainDrawer()
+                CompositionLocalProvider(
+                    LocalDateFormatter provides DateFormatterDefault()
+                ) {
+                    MainDrawer()
+                }
             }
         }
     }

@@ -5,7 +5,7 @@ import com.example.domain.Weather
 import com.example.domain.WeatherRepository
 
 class WeatherRepositoryDefault(private val client: WeatherApiClient) : WeatherRepository {
-    override suspend fun getWeather(location: String): Weather {
-        return client.getWeather(location)
+    override suspend fun getWeather(location: String, language: String): Weather {
+        return client.getWeather(location, language)
     }
 }

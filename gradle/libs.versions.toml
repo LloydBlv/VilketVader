@@ -63,6 +63,7 @@ ktor-clientmock = { group = "io.ktor", name = "ktor-client-mock" ,version.ref = 
 kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
 composeCoil = { module = "io.coil-kt:coil-compose", version = "2.6.0" }
 robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
+kotlinxDatetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version = "0.5.0" }
 
 #Circuit
 circuit-codegen = { module = "com.slack.circuit:circuit-codegen", version.ref = "circuit" }

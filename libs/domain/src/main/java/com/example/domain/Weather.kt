@@ -13,5 +13,7 @@ data class Weather(
     val sunriseTimeMillis: Long,
     val sunsetTimeMillis: Long,
     val icon: String = ""
-)
+) {
+    fun isRainy() = conditions.any { it.type == Condition.Type.RAIN }
+}
 

@@ -9,7 +9,6 @@ import com.example.domain.Weather
 import com.example.domain.Wind
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import org.jetbrains.annotations.VisibleForTesting
 
 @Serializable
 data class WeatherResponseDto(
@@ -41,7 +40,8 @@ fun WeatherResponseDto.toWeather(): Weather {
         conditions = weather?.map {
             Condition(
                 name = it?.main.orEmpty(),
-                description = it?.description.orEmpty()
+                description = it?.description.orEmpty(),
+                type = Condition.Type.from(it?.id ?: 0)
             )
         } ?: emptyList(),
         temperature = Temperature(

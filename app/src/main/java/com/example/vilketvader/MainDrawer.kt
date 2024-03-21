@@ -2,6 +2,7 @@ package com.example.vilketvader
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.DismissibleNavigationDrawer
 import androidx.compose.material3.DrawerValue
@@ -49,8 +50,11 @@ internal fun MainDrawer() {
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
     val items = persistentListOf(
-        UiLocation("Stockholm", isSelected = true),
+        UiLocation("Mongo", isSelected = true),
+        UiLocation("Kinlochleven", isSelected = false),
+        UiLocation("Stockholm", isSelected = false),
         UiLocation("Amsterdam"),
+        UiLocation("Zurich"),
         UiLocation("Accra"),
         UiLocation("Gothenburg"),
         UiLocation("London"),
@@ -67,28 +71,35 @@ internal fun MainDrawer() {
     )
     var selectedItem by remember { mutableStateOf(items[0]) }
 
-    fun openDrawer() {
-        scope.launch { drawerState.open() }
-    }
+    fun openDrawer() { scope.launch { drawerState.open() } }
+    fun closeDrawer() { scope.launch { drawerState.close() } }
     BackHandler(enabled = drawerState.isOpen, onBack = ::openDrawer)
 
-    DismissibleNavigationDrawer(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Brush.verticalGradient(sunnyColorsGradient)),
-        drawerState = drawerState,
-        drawerContent = { MainDrawerSheet(
-            items = items,
-            selectedItem = selectedItem,
-            onDrawerItemClicked = { selectedItem = it }
-        ) },
-        content = {
-            MainContent(
-                selectedItem = selectedItem,
-                onDrawerClicked = ::openDrawer
-            )
-        }
-    )
+    Box {
+        DismissibleNavigationDrawer(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Brush.verticalGradient(sunnyColorsGradient)),
+            drawerState = drawerState,
+            drawerContent = {
+                MainDrawerSheet(
+                    items = items,
+                    selectedItem = selectedItem,
+                    onDrawerItemClicked = {
+                        selectedItem = it
+                        closeDrawer()
+                    }
+                )
+            },
+            content = {
+                MainContent(
+                    selectedItem = selectedItem,
+                    onDrawerClicked = ::openDrawer
+                )
+            }
+        )
+    }
+
 }
 
 @Composable

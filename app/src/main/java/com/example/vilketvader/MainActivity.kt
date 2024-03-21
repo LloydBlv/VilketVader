@@ -25,37 +25,8 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             VilketVaderTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+               WeatherScreenUi(modifier = Modifier.fillMaxSize())
             }
         }
-        lifecycleScope.launch {
-            withContext(Dispatchers.IO) {
-                val repository = WeatherRepositoryDefault(
-                    client = WeatherApiClientDefault()
-                )
-                repository.getWeather("Zanjan")
-            }
-        }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    VilketVaderTheme {
-        Greeting("Android")
     }
 }

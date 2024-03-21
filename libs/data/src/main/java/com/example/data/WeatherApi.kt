@@ -6,15 +6,19 @@ import com.example.domain.Weather
 import de.jensklingenberg.ktorfit.Ktorfit
 import de.jensklingenberg.ktorfit.http.GET
 import de.jensklingenberg.ktorfit.http.Query
-import io.ktor.client.HttpClient
-import io.ktor.client.engine.okhttp.OkHttp
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
+
+
+enum class WeatherUnit(val value: String) {
+    METRIC("metric"),
+    IMPERIAL("imperial"),
+    STANDARD("standard")
+}
 
 internal interface WeatherApi {
     @GET("weather")
     suspend fun getWeather(
         @Query("q") cityName: String,
+        @Query("units") weatherUnit: String,
     ): WeatherResponseDto
 }
 
@@ -25,7 +29,10 @@ class WeatherApiClientDefault(
 
 
     override suspend fun getWeather(cityName: String): Weather {
-        return weatherApi.getWeather(cityName).toWeather()
+        return weatherApi.getWeather(
+            cityName,
+            weatherUnit = WeatherUnit.METRIC.value
+        ).toWeather()
     }
 
     companion object {

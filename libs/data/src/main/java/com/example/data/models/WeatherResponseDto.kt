@@ -60,7 +60,8 @@ fun WeatherResponseDto.toWeather(): Weather {
             speed = wind?.speed ?: 0.0f,
             degree = wind?.deg ?: 0
         ),
-        timestamp = dt?.toLong() ?: 0L
+        timestamp = dt?.toLong() ?: 0L,
+        icon = weather?.firstOrNull()?.icon.orEmpty()
     )
 
 }

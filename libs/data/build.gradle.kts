@@ -45,7 +45,6 @@ dependencies {
     implementation(libs.okHttpLoggingInterceptor)
     implementation(libs.ktorContentNegotiation)
     implementation(libs.ktorKotlinxSerialization)
-    testImplementation(libs.ktorKotlinxSerialization)
     testImplementation(libs.ktor.clientmock)
     ksp(libs.ktorfitKsp)
     kspTest(libs.ktorfitKsp)

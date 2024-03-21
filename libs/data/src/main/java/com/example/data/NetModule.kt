@@ -33,14 +33,14 @@ object NetModule {
     }
 
     fun provideHttpClient(
-        engineFactory: OkHttp = OkHttp,
         okHttpClient: OkHttpClient,
         ktorJsonSettings: Json,
     ): HttpClient {
-        val httpClient = HttpClient(engineFactory) {
+        val httpClient = HttpClient(OkHttp) {
             engine {
                 config {
                     preconfigured = okHttpClient
+                    addInterceptor(AuthInterceptor())
                     addInterceptor(
                         HttpLoggingInterceptor().apply {
                             level = if (true) {

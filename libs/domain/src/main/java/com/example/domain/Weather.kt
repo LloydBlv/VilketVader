@@ -11,6 +11,7 @@ data class Weather(
     val timestamp: Long,
     val location: Location,
     val sunriseTimeMillis: Long,
-    val sunsetTimeMillis: Long
+    val sunsetTimeMillis: Long,
+    val icon: String = ""
 )
 

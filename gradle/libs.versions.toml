@@ -36,6 +36,7 @@ androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", versi
 androidx-ui = { group = "androidx.compose.ui", name = "ui" }
 androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
 androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
+androidx-ui-icons = { module = "androidx.compose.material:material-icons-extended" }
 androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
@@ -57,7 +58,7 @@ ktorContentNegotiation = { module = "io.ktor:ktor-client-content-negotiation", v
 ktorKotlinxSerialization = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
 ktor-clientmock = { group = "io.ktor", name = "ktor-client-mock" ,version.ref = "ktor" }
 kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
-
+composeCoil = { module = "io.coil-kt:coil-compose", version = "2.6.0" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

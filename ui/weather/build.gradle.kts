@@ -36,6 +36,7 @@ android {
 
 dependencies {
     implementation(projects.libs.domain)
+    implementation(projects.common.screens)
     implementation(libs.circuit.runtime.presenter)
     implementation(libs.circuit.retained)
     testImplementation(libs.circuit.test)

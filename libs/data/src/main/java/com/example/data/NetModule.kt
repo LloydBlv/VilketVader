@@ -5,6 +5,8 @@ import de.jensklingenberg.ktorfit.Ktorfit
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.okhttp.OkHttp
 import io.ktor.client.engine.okhttp.OkHttpEngine
+import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -52,19 +54,22 @@ object NetModule {
                     )
                 }
             }
-            defaultKtorConfig(ktorJsonSettings)
+            install(ContentNegotiation) {
+                json(ktorJsonSettings)
+            }
         }
         return httpClient
     }
 
     fun provideJson(): Json {
         return Json {
-            encodeDefaults = true
+//            encodeDefaults = true
             isLenient = true
-            allowSpecialFloatingPointValues = true
-            allowStructuredMapKeys = true
-            prettyPrint = false
-            useArrayPolymorphism = false
+            explicitNulls = false
+//            allowSpecialFloatingPointValues = true
+//            allowStructuredMapKeys = true
+            prettyPrint = true
+//            useArrayPolymorphism = false
             ignoreUnknownKeys = true
         }
     }

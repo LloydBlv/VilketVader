@@ -4,17 +4,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import com.example.domain.GetWeatherUseCase
+import com.example.screens.WeatherScreen
 import com.slack.circuit.retained.collectAsRetainedState
 import com.slack.circuit.runtime.presenter.Presenter
 
 class WeatherPresenter constructor(
+    private val screen: WeatherScreen,
     private val getWeatherUseCase: GetWeatherUseCase
 ) : Presenter<WeatherUiState> {
     @Composable
     override fun present(): WeatherUiState {
         val state by getWeatherUseCase.flow.collectAsRetainedState(initial = null)
         LaunchedEffect(key1 = Unit) {
-            getWeatherUseCase.invoke(GetWeatherUseCase.Params(location = "stockholm"))
+            getWeatherUseCase.invoke(GetWeatherUseCase.Params(location = screen.location))
         }
         return WeatherUiState(
             isLoading = state == null,

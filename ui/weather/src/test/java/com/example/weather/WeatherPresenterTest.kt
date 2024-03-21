@@ -8,6 +8,7 @@ import assertk.assertions.isNull
 import assertk.assertions.isTrue
 import assertk.assertions.prop
 import com.example.domain.GetWeatherUseCase
+import com.example.screens.WeatherScreen
 import com.example.testing.WeatherRepositoryFake
 import com.example.testing.assertTestWeather
 import com.slack.circuit.test.test
@@ -24,7 +25,8 @@ class WeatherPresenterTest {
         val usecase = GetWeatherUseCase(
             weatherRepository = WeatherRepositoryFake()
         )
-        val presenter = WeatherPresenter(getWeatherUseCase = usecase)
+        val presenter =
+            WeatherPresenter(getWeatherUseCase = usecase, screen = WeatherScreen("stockholm"))
         presenter.test {
             assertThat(awaitItem()).all {
                 prop(WeatherUiState::isLoading).isTrue()
@@ -39,6 +41,7 @@ class WeatherPresenterTest {
             ensureAllEventsConsumed()
         }
     }
+
     @Test
     fun `test presenter emits failed state when usecase fails`() = runTest {
         val usecase = GetWeatherUseCase(
@@ -46,7 +49,8 @@ class WeatherPresenterTest {
                 exception = Exception("Test exception")
             }
         )
-        val presenter = WeatherPresenter(getWeatherUseCase = usecase)
+        val presenter =
+            WeatherPresenter(getWeatherUseCase = usecase, screen = WeatherScreen("stockholm"))
         presenter.test {
             assertThat(awaitItem()).all {
                 prop(WeatherUiState::isLoading).isTrue()

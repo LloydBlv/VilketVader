@@ -7,11 +7,3 @@ import kotlinx.serialization.json.Json
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.serialization.kotlinx.json.json
 
-fun HttpClientConfig<*>.defaultKtorConfig(
-    ktorJsonSettings: Json,
-) {
-    install(ContentNegotiation) {
-        json(ktorJsonSettings)
-    }
-}
-

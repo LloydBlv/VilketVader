@@ -4,29 +4,27 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.lifecycleScope
-import com.example.data.WeatherApiClientDefault
-import com.example.data.repositories.WeatherRepositoryDefault
+import androidx.core.splashscreen.SplashScreen
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.example.vilketvader.ui.theme.VilketVaderTheme
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+
+
+data class UiLocation(
+    val cityName: String,
+    val isSelected: Boolean = false
+)
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+        val splashScreen: SplashScreen = installSplashScreen()
         enableEdgeToEdge()
+
+        super.onCreate(savedInstanceState)
         setContent {
             VilketVaderTheme {
-               WeatherScreenUi(modifier = Modifier.fillMaxSize())
+                MainDrawer()
             }
         }
     }
+
 }

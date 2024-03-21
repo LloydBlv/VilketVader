@@ -42,6 +42,9 @@ dependencies {
     testImplementation(libs.circuit.test)
     testImplementation(libs.kotlinx.coroutines.test)
 
+    implementation(libs.kotlinxCollectionsImmutable)
+
+
     testImplementation(libs.robolectric)
     testImplementation(libs.assertk)
     testImplementation(projects.common.testing)

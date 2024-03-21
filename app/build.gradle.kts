@@ -52,6 +52,7 @@ android {
 dependencies {
     implementation(projects.libs.data)
     implementation(projects.libs.domain)
+    implementation(libs.kotlinxCollectionsImmutable)
     implementation(libs.ktorfitLib)
     implementation(libs.composeCoil)
     implementation("androidx.core:core-splashscreen:1.0.1")

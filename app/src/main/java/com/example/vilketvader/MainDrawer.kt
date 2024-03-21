@@ -8,13 +8,15 @@ import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.launch
 
 
@@ -46,7 +48,7 @@ val sunnyColorsGradient = listOf(
 internal fun MainDrawer() {
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
-    val items = listOf(
+    val items = persistentListOf(
         UiLocation("Stockholm", isSelected = true),
         UiLocation("Amsterdam"),
         UiLocation("Accra"),
@@ -63,7 +65,7 @@ internal fun MainDrawer() {
         UiLocation("Västerås"),
         UiLocation("Örebro"),
     )
-    val selectedItem: MutableState<UiLocation> = remember { mutableStateOf(items[0]) }
+    var selectedItem by remember { mutableStateOf(items[0]) }
 
     fun openDrawer() {
         scope.launch { drawerState.open() }
@@ -75,7 +77,11 @@ internal fun MainDrawer() {
             .fillMaxSize()
             .background(Brush.verticalGradient(sunnyColorsGradient)),
         drawerState = drawerState,
-        drawerContent = { MainDrawerSheet(items, selectedItem, scope, drawerState) },
+        drawerContent = { MainDrawerSheet(
+            items = items,
+            selectedItem = selectedItem,
+            onDrawerItemClicked = { selectedItem = it }
+        ) },
         content = {
             MainContent(
                 selectedItem = selectedItem,
@@ -87,7 +93,7 @@ internal fun MainDrawer() {
 
 @Composable
 private fun MainContent(
-    selectedItem: MutableState<UiLocation>,
+    selectedItem: UiLocation,
     onDrawerClicked: () -> Unit
 ) {
     Scaffold(
@@ -96,14 +102,14 @@ private fun MainContent(
         modifier = Modifier.fillMaxSize(),
         topBar = {
             MainTopAppBar(
-                selectedCity = selectedItem.value,
+                selectedCity = selectedItem,
                 onDrawerOpenClicked = onDrawerClicked
             )
         },
         content = {
             WeatherScreenUi(
                 modifier = Modifier,
-                location = selectedItem.value,
+                location = selectedItem,
                 paddingValues = it
             )
         }

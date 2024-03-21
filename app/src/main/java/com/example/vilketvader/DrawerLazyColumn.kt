@@ -26,32 +26,35 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import kotlinx.collections.immutable.ImmutableList
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 
 @Composable
 internal fun DrawerLazyColumn(
-    items: List<UiLocation>,
-    selectedItem: MutableState<UiLocation>,
-    scope: CoroutineScope,
-    drawerState: DrawerState
+    items: ImmutableList<UiLocation>,
+    selectedItem: UiLocation,
+    onDrawerItemClicked: (UiLocation) -> Unit
 ) {
     LazyColumn(
         modifier = Modifier.wrapContentHeight(),
         contentPadding = PaddingValues(8.dp)
     ) {
         drawerTopAppBar()
-        drawerItems(items, selectedItem, scope, drawerState)
+        drawerItems(
+            items = items,
+            selectedItem = selectedItem,
+            onDrawerItemClicked = onDrawerItemClicked
+        )
     }
 }
 
 private fun LazyListScope.drawerItems(
-    items: List<UiLocation>,
-    selectedItem: MutableState<UiLocation>,
-    scope: CoroutineScope,
-    drawerState: DrawerState
+    items: ImmutableList<UiLocation>,
+    selectedItem: UiLocation,
+    onDrawerItemClicked: (UiLocation) -> Unit
 ) {
     items(items) { item ->
+        val isSelected = item == selectedItem
         NavigationDrawerItem(
             colors = NavigationDrawerItemDefaults.colors(
                 unselectedContainerColor = Color.Transparent,
@@ -59,7 +62,7 @@ private fun LazyListScope.drawerItems(
                 unselectedTextColor = Color.White.copy(alpha = 0.8f),
                 selectedTextColor = Color.White,
             ),
-            icon = item.takeIf { it == selectedItem.value }
+            icon = item.takeIf { isSelected }
                 ?.let {
                     {
                         Icon(
@@ -68,14 +71,9 @@ private fun LazyListScope.drawerItems(
                         )
                     }
                 },
-            label = {
-                DrawerLocationItem(item, selectedItem)
-            },
-            selected = item == selectedItem.value,
-            onClick = {
-                scope.launch { drawerState.close() }
-                selectedItem.value = item
-            },
+            label = { DrawerLocationItem(item.cityName, isSelected) },
+            selected = isSelected,
+            onClick = { onDrawerItemClicked.invoke(item) },
             modifier = Modifier.padding(horizontal = 4.dp)
         )
 
@@ -84,13 +82,13 @@ private fun LazyListScope.drawerItems(
 
 @Composable
 private fun DrawerLocationItem(
-    item: UiLocation,
-    selectedItem: MutableState<UiLocation>
+    cityName: String,
+    isSelected: Boolean
 ) {
     Text(
-        item.cityName,
+        cityName,
         style = MaterialTheme.typography.titleLarge.copy(
-            fontWeight = if (item == selectedItem.value) {
+            fontWeight = if (isSelected) {
                 FontWeight.Bold
             } else {
                 FontWeight.Normal

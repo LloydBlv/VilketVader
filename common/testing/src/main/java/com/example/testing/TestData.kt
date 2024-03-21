@@ -10,11 +10,12 @@ object TestData {
         return weatherDto
     }
     fun getRawTestResponse(): String {
-        val file = File("src/test/resources/stockholm-weather-response.json")
+        val file = File("../../libs/data/src/test/resources/stockholm-weather-response.json")
         val rawJson =
             file.bufferedReader().use {
                 it.readText()
             }
         return rawJson
     }
+
 }

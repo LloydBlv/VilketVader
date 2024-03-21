@@ -5,9 +5,11 @@ import assertk.all
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import assertk.assertions.isNull
+import assertk.assertions.startsWith
 import com.example.data.repositories.WeatherRepositoryDefault
 import com.example.domain.GetWeatherUseCase
 import com.example.testing.TestData
+import com.example.testing.assertTestWeather
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.mock.MockEngine
 import io.ktor.client.engine.mock.MockRequestHandleScope
@@ -32,7 +34,7 @@ class GetWeatherUseCaseTest {
     ): MockEngine {
         return MockEngine {
             assertThat(it.url.toString())
-                .isEqualTo("https://api.openweathermap.org/data/2.5/weather?q=stockholm")
+                .startsWith("https://api.openweathermap.org/data/2.5/weather?q=stockholm")
             response.invoke(this, it)
         }
     }

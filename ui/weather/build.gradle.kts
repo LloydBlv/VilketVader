@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.testing"
+    namespace = "com.example.weather"
     compileSdk = 34
 
     defaultConfig {
@@ -30,16 +30,20 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    buildFeatures.compose = true
+    composeOptions.kotlinCompilerExtensionVersion = "1.5.10"
 }
 
 dependencies {
-    implementation(libs.kotlinx.serialization.json.jvm)
-    implementation(libs.assertk)
-    implementation(projects.libs.data)
     implementation(projects.libs.domain)
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.material)
+    implementation(libs.circuit.runtime.presenter)
+    implementation(libs.circuit.retained)
+    testImplementation(libs.circuit.test)
+    testImplementation(libs.kotlinx.coroutines.test)
+
+    testImplementation(libs.robolectric)
+    testImplementation(libs.assertk)
+    testImplementation(projects.common.testing)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

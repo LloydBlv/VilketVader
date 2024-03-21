@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.testing"
+    namespace = "com.example.screens"
     compileSdk = 34
 
     defaultConfig {
@@ -33,10 +33,7 @@ android {
 }
 
 dependencies {
-    implementation(libs.kotlinx.serialization.json.jvm)
-    implementation(libs.assertk)
-    implementation(projects.libs.data)
-    implementation(projects.libs.domain)
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)

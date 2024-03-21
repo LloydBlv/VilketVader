@@ -1,25 +1,12 @@
 plugins {
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.jetbrains.kotlin.android)
+    id("com.vilketvader.android.application")
+    id("com.vilketvader.android.application.compose")
+    id("com.vilketvader.kotlin.android")
+    id("com.vilketvader.hilt")
 }
 
 android {
     namespace = "com.example.vilketvader"
-    compileSdk = 34
-
-    defaultConfig {
-        applicationId = "com.example.vilketvader"
-        minSdk = 24
-        targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables {
-            useSupportLibrary = true
-        }
-    }
-
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -28,19 +15,6 @@ android {
                 "proguard-rules.pro"
             )
         }
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_17.toString()
-    }
-    buildFeatures {
-        compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.10"
     }
     packaging {
         resources {

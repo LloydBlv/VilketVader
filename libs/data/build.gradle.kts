@@ -1,22 +1,13 @@
 plugins {
-    alias(libs.plugins.android.library)
-    alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.kotlinx.serialization)
     alias(libs.plugins.ktorfitGradlePlugin)
-    alias(libs.plugins.kspGradlePlugin)
+    id("com.vilketvader.kotlin.android")
+    id("com.vilketvader.android.library")
+    id("com.vilketvader.hilt")
 }
 
 android {
     namespace = "com.example.data"
-    compileSdk = 34
-
-    defaultConfig {
-        minSdk = 24
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles("consumer-rules.pro")
-    }
-
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -25,13 +16,6 @@ android {
                 "proguard-rules.pro"
             )
         }
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_17.toString()
     }
 }
 

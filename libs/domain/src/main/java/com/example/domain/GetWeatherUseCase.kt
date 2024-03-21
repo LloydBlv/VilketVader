@@ -4,8 +4,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
-class GetWeatherUseCase(
+class GetWeatherUseCase @Inject constructor(
     private val weatherRepository: WeatherRepository
 ) : SubjectInteractor<GetWeatherUseCase.Params, Result<Weather>>() {
     data class Params(val location: String, val language: String)

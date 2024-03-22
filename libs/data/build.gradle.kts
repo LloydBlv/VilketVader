@@ -27,6 +27,14 @@ dependencies {
     implementation(projects.libs.domain)
     testImplementation(projects.common.testing)
     implementation(libs.kotlinx.coroutines.jvm)
+    implementation(libs.store)
+
+    testImplementation(libs.robolectric)
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    ksp(libs.androidx.room.compiler)
+    kspTest(libs.androidx.room.compiler)
+
     implementation(libs.ktorfitLib)
     implementation(libs.kermit)
     implementation(libs.ktorClientOkHttp)

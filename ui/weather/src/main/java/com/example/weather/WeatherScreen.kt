@@ -36,7 +36,6 @@ import coil.compose.AsyncImage
 import com.example.screens.WeatherScreen
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.components.SingletonComponent
-import java.time.LocalTime
 
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -66,16 +65,6 @@ fun WeatherScreenUi(
             item { Spacer(modifier = Modifier.height(10.dp)) }
             item { CloudCard(state) }
             item { Spacer(modifier = Modifier.height(10.dp)) }
-            item {
-                SunPathUI(
-                    sunriseTime = LocalTime.now().minusHours(1),
-                    sunsetTime = LocalTime.now().plusHours(10),
-                    currentTime = LocalTime.now()
-                )
-            }
-            item {
-                SunriseSunsetUI()
-            }
         }
         if (state.weather?.isRainy() == true) {
             RainAnimationScreen()

@@ -1,5 +1,6 @@
-package com.example.data
+package com.example.data.di
 
+import com.example.data.AuthInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

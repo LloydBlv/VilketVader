@@ -1,5 +1,6 @@
-package com.example.data
+package com.example.data.datasource
 
+import com.example.data.di.NetModule
 import com.example.data.models.WeatherResponseDto
 import com.example.data.models.toWeather
 import com.example.domain.Weather

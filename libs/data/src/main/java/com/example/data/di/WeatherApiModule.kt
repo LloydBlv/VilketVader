@@ -1,5 +1,7 @@
-package com.example.data
+package com.example.data.di
 
+import com.example.data.datasource.WeatherApiClient
+import com.example.data.datasource.WeatherApiClientDefault
 import com.example.data.repositories.WeatherRepositoryDefault
 import com.example.domain.WeatherRepository
 import dagger.Binds

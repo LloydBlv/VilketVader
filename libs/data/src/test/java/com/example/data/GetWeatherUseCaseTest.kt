@@ -6,6 +6,8 @@ import assertk.assertThat
 import assertk.assertions.isEqualTo
 import assertk.assertions.isNull
 import assertk.assertions.startsWith
+import com.example.data.datasource.WeatherApiClientDefault
+import com.example.data.di.NetModule
 import com.example.data.repositories.WeatherRepositoryDefault
 import com.example.domain.GetWeatherUseCase
 import com.example.testing.TestData
@@ -54,7 +56,7 @@ class GetWeatherUseCaseTest {
         val usecase = GetWeatherUseCase(repository)
         usecase.flow.test {
             expectNoEvents()
-            usecase.invoke(GetWeatherUseCase.Params("stockholm"))
+            usecase.invoke(GetWeatherUseCase.Params("stockholm", language = "en"))
             ensureAllEventsConsumed()
             assertThat(awaitItem()).all {
                 transform { it.getOrNull()!! }.all {
@@ -77,7 +79,7 @@ class GetWeatherUseCaseTest {
         val usecase = GetWeatherUseCase(repository)
         usecase.flow.test {
             expectNoEvents()
-            usecase.invoke(GetWeatherUseCase.Params("stockholm"))
+            usecase.invoke(GetWeatherUseCase.Params("stockholm", language = "en"))
             ensureAllEventsConsumed()
             assertThat(awaitItem()).all {
                 transform { it.getOrNull() }.isNull()

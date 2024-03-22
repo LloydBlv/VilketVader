@@ -9,7 +9,7 @@ import javax.inject.Inject
 class GetWeatherUseCase @Inject constructor(
     private val weatherRepository: WeatherRepository
 ) : SubjectInteractor<GetWeatherUseCase.Params, Result<Weather>>() {
-    data class Params(val location: String, val language: String)
+    data class Params(val location: Location, val language: String)
 
     override fun createObservable(params: Params): Flow<Result<Weather>> {
         return flow { emit(weatherRepository.getWeather(params.location, params.language)) }

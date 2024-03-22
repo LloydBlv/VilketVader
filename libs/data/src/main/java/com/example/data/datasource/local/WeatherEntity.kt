@@ -3,13 +3,27 @@ package com.example.data.datasource.local
 import androidx.room.ColumnInfo
 import androidx.room.Embedded
 import androidx.room.Entity
+import androidx.room.ForeignKey
+import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.example.domain.Weather
 
 
-@Entity(tableName = "weather")
+@Entity(
+    tableName = "weather",
+    foreignKeys = [
+        ForeignKey(
+            entity = LocationEntity::class,
+            parentColumns = ["id"],
+            childColumns = ["location_id"],
+            onDelete = ForeignKey.CASCADE
+        ),
+    ],
+    indices = [Index(value = ["location_id"])]
+)
 data class WeatherEntity(
-    @PrimaryKey(autoGenerate = false) val locationId: Int,
+    @PrimaryKey(autoGenerate = true) val id: Int = 0,
+    @ColumnInfo("location_id") val locationId: Int,
 
     @Embedded(prefix = "condition_") val condition: ConditionEntity?,
     @Embedded(prefix = "temp_") val temperature: TemperatureEntity,
@@ -19,7 +33,6 @@ data class WeatherEntity(
     @Embedded(prefix = "_wind") val wind: WindEntity,
     @ColumnInfo("clouds") val clouds: Int,
     @ColumnInfo("timestamp") val timestamp: Long,
-    @Embedded(prefix = "_location") val location: LocationEntity,
     @ColumnInfo("sunrise_ms") val sunriseTimeMillis: Long,
     @ColumnInfo("sunset_ms") val sunsetTimeMillis: Long,
     @ColumnInfo("icon") val icon: String
@@ -36,29 +49,30 @@ fun Weather.toEntity(): WeatherEntity {
         wind = wind.toEntity(),
         clouds = clouds,
         timestamp = timestamp,
-        location = location.toEntity(),
         sunriseTimeMillis = sunriseTimeMillis,
         sunsetTimeMillis = sunsetTimeMillis,
-        icon = icon
+        icon = icon,
     )
 }
 
 
-fun WeatherEntity.toDomain(): Weather {
-    return Weather(
-        conditions = condition?.toDomain()?.let { listOf(it) }.orEmpty(),
-        temperature = temperature.toDomain(),
-        pressure = pressure,
-        humidity = humidity,
-        visibility = visibility,
-        wind = wind.toDomain(),
-        clouds = clouds,
-        timestamp = timestamp,
-        location = location.toDomain(),
-        sunriseTimeMillis = sunriseTimeMillis,
-        sunsetTimeMillis = sunsetTimeMillis,
-        icon = icon
-    )
+fun WeatherAndLocation.toDomain(): Weather {
+    with(weather) {
+        return Weather(
+            conditions = listOfNotNull(condition?.toDomain()),
+            temperature = temperature.toDomain(),
+            pressure = pressure,
+            humidity = humidity,
+            visibility = visibility,
+            wind = wind.toDomain(),
+            clouds = clouds,
+            timestamp = timestamp,
+            sunriseTimeMillis = sunriseTimeMillis,
+            sunsetTimeMillis = sunsetTimeMillis,
+            icon = icon,
+            location = location.toDomain()
+        )
+    }
 }
 
 

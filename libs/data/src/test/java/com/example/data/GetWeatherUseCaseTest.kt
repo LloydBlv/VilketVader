@@ -4,12 +4,14 @@ import app.cash.turbine.test
 import assertk.all
 import assertk.assertThat
 import assertk.assertions.isEqualTo
+import assertk.assertions.isNotNull
 import assertk.assertions.isNull
 import assertk.assertions.startsWith
 import com.example.data.datasource.WeatherApiClientDefault
 import com.example.data.di.NetModule
 import com.example.data.repositories.WeatherRepositoryDefault
 import com.example.domain.GetWeatherUseCase
+import com.example.testing.FakeLocalDataSource
 import com.example.testing.TestData
 import com.example.testing.assertTestWeather
 import io.ktor.client.HttpClient
@@ -56,12 +58,12 @@ class GetWeatherUseCaseTest {
         val usecase = GetWeatherUseCase(repository)
         usecase.flow.test {
             expectNoEvents()
-            usecase.invoke(GetWeatherUseCase.Params("stockholm", language = "en"))
+            usecase.invoke(GetWeatherUseCase.Params(TestData.STOCKHOLM, language = "en"))
             ensureAllEventsConsumed()
             assertThat(awaitItem()).all {
-                transform { it.getOrNull()!! }.all {
-                    assertTestWeather()
-                }
+                transform { it.getOrNull() }
+                    .isNotNull()
+                    .all { assertTestWeather() }
             }
             ensureAllEventsConsumed()
         }
@@ -79,7 +81,7 @@ class GetWeatherUseCaseTest {
         val usecase = GetWeatherUseCase(repository)
         usecase.flow.test {
             expectNoEvents()
-            usecase.invoke(GetWeatherUseCase.Params("stockholm", language = "en"))
+            usecase.invoke(GetWeatherUseCase.Params(TestData.STOCKHOLM, language = "en"))
             ensureAllEventsConsumed()
             assertThat(awaitItem()).all {
                 transform { it.getOrNull() }.isNull()
@@ -103,7 +105,7 @@ class GetWeatherUseCaseTest {
                 createMockedClient(engine)
             )
         )
-        val repository = WeatherRepositoryDefault(client = client)
+        val repository = WeatherRepositoryDefault(client = client, FakeLocalDataSource())
         return repository
     }
 

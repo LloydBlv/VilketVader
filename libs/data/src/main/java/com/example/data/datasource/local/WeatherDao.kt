@@ -5,18 +5,22 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Transaction
 import kotlinx.coroutines.flow.Flow
 
 
 @Dao
 interface WeatherDao {
-    @Query("SELECT * FROM weather where locationId = :id")
-    suspend fun getWeather(id: Int): WeatherEntity
+    @Query("SELECT * FROM weather where location_id = :id")
+    @Transaction
+    suspend fun getWeather(id: Int): WeatherAndLocation?
     @Query("SELECT * FROM weather")
-    suspend fun getAllWeathers(): List<WeatherEntity>
+    @Transaction
+    suspend fun getAllWeathers(): List<WeatherAndLocation>
 
-    @Query("SELECT * FROM weather where locationId = :id")
-    fun observeLocation(id: Int): Flow<WeatherEntity>
+    @Query("SELECT * FROM weather where location_id = :id")
+    @Transaction
+    fun observeWeather(id: Int): Flow<WeatherAndLocation>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertWeather(weather: WeatherEntity)

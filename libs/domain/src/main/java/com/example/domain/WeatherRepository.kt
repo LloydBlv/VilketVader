@@ -3,7 +3,7 @@ package com.example.domain
 
 interface WeatherRepository {
     suspend fun getWeather(
-        location: String,
+        location: Location,
         language: String
     ): Weather
 }

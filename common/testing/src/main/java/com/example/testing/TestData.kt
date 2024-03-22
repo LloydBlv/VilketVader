@@ -1,6 +1,8 @@
 package com.example.testing
 
 import com.example.data.models.WeatherResponseDto
+import com.example.domain.Coordination
+import com.example.domain.Location
 import kotlinx.serialization.json.Json
 import java.io.File
 
@@ -9,6 +11,7 @@ object TestData {
         val weatherDto = json.decodeFromString<WeatherResponseDto>(getRawTestResponse())
         return weatherDto
     }
+
     fun getRawTestResponse(): String {
         val file = File("../../libs/data/src/test/resources/stockholm-weather-response.json")
         val rawJson =
@@ -18,4 +21,11 @@ object TestData {
         return rawJson
     }
 
+    val STOCKHOLM: Location = Location(
+        id = 2673730,
+        name = "stockholm",
+        coordination = Coordination(59.3326f, 18.0649f),
+        timezone = 3600,
+        country = "SE"
+    )
 }

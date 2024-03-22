@@ -1,4 +1,4 @@
-package com.example.vilketvader.drawer
+package com.example.home.drawer
 
 import android.annotation.SuppressLint
 import androidx.activity.compose.BackHandler
@@ -19,9 +19,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import com.example.home.HomeUiState
+import com.example.screens.HomeScreen
 import com.example.screens.WeatherScreen
-import com.example.weather.UiLocation
+import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.foundation.CircuitContent
+import dagger.hilt.components.SingletonComponent
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.launch
 
@@ -51,10 +54,12 @@ val sunnyColorsGradient = listOf(
 )
 
 @Composable
-internal fun MainDrawer() {
+@CircuitInject(HomeScreen::class, SingletonComponent::class)
+fun HomeScreenUi(state: HomeUiState, modifier: Modifier = Modifier) {
+    val items = state.locations
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
-    val items = persistentListOf(
+    val items1 = persistentListOf(
         UiLocation("Mongo", isSelected = true),
         UiLocation("Kinlochleven", isSelected = false),
         UiLocation("Stockholm", isSelected = false),
@@ -74,10 +79,15 @@ internal fun MainDrawer() {
         UiLocation("Västerås"),
         UiLocation("Örebro"),
     )
-    var selectedItem by remember { mutableStateOf(items[0]) }
+    var selectedItem: UiLocation by remember { mutableStateOf(items[0]) }
 
-    fun openDrawer() { scope.launch { drawerState.open() } }
-    fun closeDrawer() { scope.launch { drawerState.close() } }
+    fun openDrawer() {
+        scope.launch { drawerState.open() }
+    }
+
+    fun closeDrawer() {
+        scope.launch { drawerState.close() }
+    }
     BackHandler(enabled = drawerState.isOpen, onBack = ::openDrawer)
 
     Box {
@@ -127,8 +137,12 @@ private fun MainContent(
         val weatherScreen = WeatherScreen(selectedItem.cityName)
 //        val backstack = rememberSaveableBackStack(root = weatherScreen)
 //        val navigator = rememberCircuitNavigator(backstack)
-        CircuitContent(screen = weatherScreen,
-            modifier = Modifier.fillMaxSize().padding(it))
+        CircuitContent(
+            screen = weatherScreen,
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(it)
+        )
 //        NavigableCircuitContent(
 //            navigator = navigator,
 //            backStack = backstack,

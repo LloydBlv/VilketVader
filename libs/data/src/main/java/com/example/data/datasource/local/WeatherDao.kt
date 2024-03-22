@@ -14,6 +14,7 @@ interface WeatherDao {
     @Query("SELECT * FROM weather where location_id = :id")
     @Transaction
     suspend fun getWeather(id: Int): WeatherAndLocation?
+
     @Query("SELECT * FROM weather")
     @Transaction
     suspend fun getAllWeathers(): List<WeatherAndLocation>

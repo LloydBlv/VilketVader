@@ -2,7 +2,6 @@ package com.example.data.datasource.local
 
 import com.example.domain.Weather
 import javax.inject.Inject
-import javax.inject.Singleton
 
 
 interface LocalDataSource {
@@ -11,7 +10,6 @@ interface LocalDataSource {
     suspend fun updateWeather(weather: Weather)
 }
 
-@Singleton
 class LocalDataSourceDefault @Inject constructor(
     private val weatherDao: WeatherDao,
     private val locationDao: LocationDao

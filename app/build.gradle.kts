@@ -32,9 +32,10 @@ android {
 dependencies {
     runtimeOnly(projects.libs.data)
     implementation(projects.libs.domain)
-    
+
     implementation(projects.common.screens)
     implementation(projects.ui.weather)
+    implementation(projects.ui.home)
 
     implementation(libs.circuit.foundation)
     implementation(libs.circuit.runtime)

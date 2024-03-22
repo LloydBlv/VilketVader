@@ -7,8 +7,11 @@ import assertk.assertions.isFalse
 import assertk.assertions.isNull
 import assertk.assertions.isTrue
 import assertk.assertions.prop
+import com.example.domain.GetSelectedLocationUseCase
 import com.example.domain.GetWeatherUseCase
 import com.example.screens.WeatherScreen
+import com.example.testing.FakeLocationRepository
+import com.example.testing.TestData
 import com.example.testing.WeatherRepositoryFake
 import com.example.testing.assertTestWeather
 import com.slack.circuit.test.test
@@ -22,11 +25,17 @@ import org.robolectric.RobolectricTestRunner
 class WeatherPresenterTest {
     @Test
     fun `test presenter emits success state when usecase succeeds`() = runTest {
-        val usecase = GetWeatherUseCase(
-            weatherRepository = WeatherRepositoryFake()
+        val usecase = GetWeatherUseCase(weatherRepository = WeatherRepositoryFake())
+
+        val selectedLocationUseCase = GetSelectedLocationUseCase(
+            locationRepository = FakeLocationRepository(mutableListOf(TestData.STOCKHOLM.copy(isSelected = true)))
         )
         val presenter =
-            WeatherPresenter(getWeatherUseCase = usecase, screen = WeatherScreen("stockholm"))
+            WeatherPresenter(
+                getWeatherUseCase = usecase,
+                getSelectedLocationUseCase = selectedLocationUseCase,
+                screen = WeatherScreen("stockholm")
+            )
         presenter.test {
             assertThat(awaitItem()).all {
                 prop(WeatherUiState::isLoading).isTrue()
@@ -49,8 +58,15 @@ class WeatherPresenterTest {
                 exception = Exception("Test exception")
             }
         )
+        val selectedLocationUseCase = GetSelectedLocationUseCase(
+            locationRepository = FakeLocationRepository(mutableListOf(TestData.STOCKHOLM.copy(isSelected = true)))
+        )
         val presenter =
-            WeatherPresenter(getWeatherUseCase = usecase, screen = WeatherScreen("stockholm"))
+            WeatherPresenter(
+                getWeatherUseCase = usecase,
+                getSelectedLocationUseCase = selectedLocationUseCase,
+                screen = WeatherScreen("stockholm")
+            )
         presenter.test {
             assertThat(awaitItem()).all {
                 prop(WeatherUiState::isLoading).isTrue()

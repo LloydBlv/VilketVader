@@ -7,10 +7,11 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.core.splashscreen.SplashScreen
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import com.example.vilketvader.drawer.MainDrawer
+import com.example.screens.HomeScreen
 import com.example.vilketvader.ui.theme.VilketVaderTheme
 import com.slack.circuit.foundation.Circuit
 import com.slack.circuit.foundation.CircuitCompositionLocals
+import com.slack.circuit.foundation.CircuitContent
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -27,11 +28,9 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             VilketVaderTheme {
-                CompositionLocalProvider(
-                    LocalDateFormatter provides DateFormatterDefault()
-                ) {
+                CompositionLocalProvider(LocalDateFormatter provides DateFormatterDefault()) {
                     CircuitCompositionLocals(circuit = circuit) {
-                        MainDrawer()
+                        CircuitContent(screen = HomeScreen)
                     }
                 }
             }

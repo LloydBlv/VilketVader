@@ -1,4 +1,4 @@
-package com.example.weather
+package com.example.home.drawer
 
 data class UiLocation(
     val cityName: String,

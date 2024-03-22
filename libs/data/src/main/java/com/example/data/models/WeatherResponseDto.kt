@@ -36,6 +36,7 @@ fun WeatherResponseDto.toWeather(): Weather {
             ),
             country = sys?.country.orEmpty(),
             timezone = timezone ?: 0,
+            isSelected = false
         ),
         conditions = weather?.map {
             Condition(

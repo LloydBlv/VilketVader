@@ -26,6 +26,16 @@ object TestData {
         name = "stockholm",
         coordination = Coordination(59.3326f, 18.0649f),
         timezone = 3600,
-        country = "SE"
+        country = "SE",
+        isSelected = false
+    )
+
+    val ZURICH: Location = Location(
+        id = 2657896,
+        name = "zurich",
+        coordination = Coordination(47.3667f, 8.5500f),
+        timezone = 3600,
+        country = "CH",
+        isSelected = false
     )
 }

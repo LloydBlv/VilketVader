@@ -1,4 +1,4 @@
-package com.example.vilketvader.drawer
+package com.example.home.drawer
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -24,7 +24,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.example.weather.UiLocation
 import kotlinx.collections.immutable.ImmutableList
 
 @Composable

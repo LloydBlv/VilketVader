@@ -1,4 +1,4 @@
-package com.example.vilketvader.drawer
+package com.example.home.drawer
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Card
@@ -7,7 +7,6 @@ import androidx.compose.material3.DismissibleDrawerSheet
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import com.example.weather.UiLocation
 import kotlinx.collections.immutable.ImmutableList
 
 @Composable

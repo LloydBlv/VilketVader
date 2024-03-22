@@ -14,6 +14,7 @@ data class LocationEntity (
     @ColumnInfo("latitude") val latitude: Float,
     @ColumnInfo("longitude") val longitude: Float,
     @ColumnInfo("timezone") val timezone: Int,
+    @ColumnInfo("selected") val selected: Boolean,
 )
 
 fun Location.toEntity() = LocationEntity(
@@ -22,7 +23,8 @@ fun Location.toEntity() = LocationEntity(
     country = country,
     latitude = coordination.latitude,
     longitude = coordination.longitude,
-    timezone = timezone
+    timezone = timezone,
+    selected = isSelected
 )
 
 internal fun LocationEntity.toDomain(): Location {
@@ -31,6 +33,7 @@ internal fun LocationEntity.toDomain(): Location {
         name = name,
         country = country,
         coordination = Coordination(latitude, longitude),
-        timezone = timezone
+        timezone = timezone,
+        isSelected = selected
     )
 }

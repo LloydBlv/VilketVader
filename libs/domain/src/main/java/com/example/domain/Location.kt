@@ -5,5 +5,6 @@ data class Location(
     val name: String,
     val coordination: Coordination,
     val timezone: Int,
-    val country: String
+    val country: String,
+    val isSelected: Boolean
 )

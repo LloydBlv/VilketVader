@@ -6,6 +6,7 @@ import com.example.domain.Weather
 import de.jensklingenberg.ktorfit.Ktorfit
 import de.jensklingenberg.ktorfit.http.GET
 import de.jensklingenberg.ktorfit.http.Query
+import javax.inject.Inject
 
 
 enum class WeatherUnit(val value: String) {
@@ -23,8 +24,8 @@ internal interface WeatherApi {
     ): WeatherResponseDto
 }
 
-class WeatherApiClientDefault(
-    ktorfit: Ktorfit = getKtorfit()
+class WeatherApiClientDefault @Inject constructor(
+    ktorfit: Ktorfit
 ) : WeatherApiClient {
     private val weatherApi = ktorfit.create<WeatherApi>()
 

@@ -3,7 +3,13 @@ plugins {
     id("com.vilketvader.android.application.compose")
     id("com.vilketvader.kotlin.android")
     id("com.vilketvader.hilt")
+    alias(libs.plugins.kotlin.parcelize)
 }
+
+ksp {
+    arg("circuit.codegen.mode", "hilt")
+}
+
 
 android {
     namespace = "com.example.vilketvader"
@@ -24,8 +30,19 @@ android {
 }
 
 dependencies {
-    implementation(projects.libs.data)
+    runtimeOnly(projects.libs.data)
     implementation(projects.libs.domain)
+    
+    implementation(projects.common.screens)
+    implementation(projects.ui.weather)
+
+    implementation(libs.circuit.foundation)
+    implementation(libs.circuit.runtime)
+    implementation(libs.circuit.foundation)
+
+    implementation(libs.kotlinx.serialization.json)
+
+
 
     implementation(libs.kotlinxDatetime)
     implementation(libs.kotlinxCollectionsImmutable)

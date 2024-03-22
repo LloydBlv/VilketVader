@@ -6,6 +6,10 @@ plugins {
     id("com.vilketvader.hilt")
 }
 
+ksp {
+    allWarningsAsErrors = true
+}
+
 android {
     namespace = "com.example.data"
     buildTypes {

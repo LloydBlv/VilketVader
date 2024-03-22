@@ -7,26 +7,32 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.core.splashscreen.SplashScreen
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import com.example.vilketvader.drawer.MainDrawer
 import com.example.vilketvader.ui.theme.VilketVaderTheme
+import com.slack.circuit.foundation.Circuit
+import com.slack.circuit.foundation.CircuitCompositionLocals
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 
-data class UiLocation(
-    val cityName: String,
-    val isSelected: Boolean = false
-)
-
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    @Inject
+    lateinit var circuit: Circuit
+
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen: SplashScreen = installSplashScreen()
         enableEdgeToEdge()
-
         super.onCreate(savedInstanceState)
         setContent {
             VilketVaderTheme {
                 CompositionLocalProvider(
                     LocalDateFormatter provides DateFormatterDefault()
                 ) {
-                    MainDrawer()
+                    CircuitCompositionLocals(circuit = circuit) {
+                        MainDrawer()
+                    }
                 }
             }
         }

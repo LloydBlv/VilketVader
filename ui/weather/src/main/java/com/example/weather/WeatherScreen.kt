@@ -1,9 +1,8 @@
-package com.example.vilketvader
+package com.example.weather
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -25,9 +24,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.produceState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -37,44 +33,23 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
-import com.example.data.WeatherApiClientDefault
-import com.example.data.repositories.WeatherRepositoryDefault
-import com.example.domain.Weather
-import com.example.vilketvader.ui.theme.VilketVaderTheme
+import com.example.screens.WeatherScreen
+import com.slack.circuit.codegen.annotations.CircuitInject
+import dagger.hilt.components.SingletonComponent
 import java.time.LocalTime
-import java.util.Locale
 
-
-data class WeatherState(
-    val isLoading: Boolean = false,
-    val weather: Weather? = null
-)
-
-@Composable
-private fun getWeather(location: UiLocation): State<WeatherState> {
-    return produceState(initialValue = WeatherState(isLoading = true), location) {
-        val client = WeatherApiClientDefault()
-        val weather = WeatherRepositoryDefault(client).getWeather(
-            location = location.cityName,
-            language = Locale.getDefault().language
-        )
-        value = WeatherState(weather = weather)
-    }
-
-}
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
+@CircuitInject(WeatherScreen::class, SingletonComponent::class)
 fun WeatherScreenUi(
+    state: WeatherUiState,
     modifier: Modifier = Modifier,
-    location: UiLocation,
-    paddingValues: PaddingValues = PaddingValues(0.dp)
 ) {
 
-    val state: WeatherState by getWeather(location)
     Scaffold(
         containerColor = Color.Transparent,
-        modifier = modifier.padding(paddingValues),
+        modifier = modifier,
     ) {
         LazyColumn(
             modifier = Modifier
@@ -111,7 +86,7 @@ fun WeatherScreenUi(
 }
 
 @Composable
-private fun PressureAndVisibilityCards(state: WeatherState) {
+private fun PressureAndVisibilityCards(state: WeatherUiState) {
     Row(modifier = Modifier.fillMaxWidth()) {
         WeatherInfoCard(
             modifier = Modifier.weight(1f),
@@ -134,7 +109,7 @@ private fun PressureAndVisibilityCards(state: WeatherState) {
 }
 
 @Composable
-private fun CloudCard(state: WeatherState) {
+private fun CloudCard(state: WeatherUiState) {
     Row(modifier = Modifier.fillMaxWidth()) {
         WeatherInfoCard(
             modifier = Modifier.weight(1f),
@@ -154,7 +129,7 @@ private fun CloudCard(state: WeatherState) {
 }
 
 @Composable
-private fun WindAndHumidityCard(state: WeatherState) {
+private fun WindAndHumidityCard(state: WeatherUiState) {
     Row(modifier = Modifier.fillMaxWidth()) {
         WeatherInfoCard(
             modifier = Modifier.weight(1f),
@@ -177,11 +152,11 @@ private fun WindAndHumidityCard(state: WeatherState) {
 }
 
 @Composable
-private fun TimeStampText(state: WeatherState, modifier: Modifier = Modifier) {
-    val formatter = LocalDateFormatter.current
+private fun TimeStampText(state: WeatherUiState, modifier: Modifier = Modifier) {
+//    val formatter = LocalDateFormatter.current
     Text(
         modifier = modifier,
-        text = state.weather?.timestamp?.let(formatter::formatWeekDayAndTime).orEmpty(),
+        text = "state.weather?.timestamp?.let(formatter::formatWeekDayAndTime).orEmpty()",
         color = Color.White.copy(alpha = 0.6f),
         style = MaterialTheme.typography.titleSmall
     )
@@ -189,7 +164,7 @@ private fun TimeStampText(state: WeatherState, modifier: Modifier = Modifier) {
 
 @Composable
 private fun MinMaxTemperature(
-    state: WeatherState,
+    state: WeatherUiState,
     modifier: Modifier = Modifier
 ) {
     Text(
@@ -201,7 +176,7 @@ private fun MinMaxTemperature(
 
 @Composable
 private fun CurrentTemperatureCard(
-    state: WeatherState,
+    state: WeatherUiState,
     modifier: Modifier = Modifier
 ) {
     Row(modifier = modifier) {
@@ -233,10 +208,10 @@ private fun CurrentTemperatureCard(
 
 @Composable
 fun WeatherInfoCard(
-    modifier: Modifier = Modifier,
     icon: ImageVector,
     fieldName: String,
-    fieldValue: String
+    fieldValue: String,
+    modifier: Modifier = Modifier
 ) {
     Card(
         modifier = modifier,
@@ -269,7 +244,7 @@ fun WeatherInfoCard(
 @Preview
 @Composable
 private fun WeatherScreenUiPreview() {
-    VilketVaderTheme {
-        WeatherScreenUi(location = UiLocation("Stockholm"))
-    }
+//    VilketVaderTheme {
+//        WeatherScreenUi(location = UiLocation("Stockholm"))
+//    }
 }

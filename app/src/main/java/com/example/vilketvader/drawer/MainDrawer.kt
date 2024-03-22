@@ -1,9 +1,11 @@
-package com.example.vilketvader
+package com.example.vilketvader.drawer
 
+import android.annotation.SuppressLint
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.DismissibleNavigationDrawer
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.Scaffold
@@ -17,6 +19,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import com.example.screens.WeatherScreen
+import com.example.weather.UiLocation
+import com.slack.circuit.foundation.CircuitContent
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.launch
 
@@ -94,7 +99,7 @@ internal fun MainDrawer() {
             content = {
                 MainContent(
                     selectedItem = selectedItem,
-                    onDrawerClicked = ::openDrawer
+                    onDrawerClicked = ::openDrawer,
                 )
             }
         )
@@ -102,10 +107,11 @@ internal fun MainDrawer() {
 
 }
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 private fun MainContent(
     selectedItem: UiLocation,
-    onDrawerClicked: () -> Unit
+    onDrawerClicked: () -> Unit,
 ) {
     Scaffold(
         containerColor = Color.Transparent,
@@ -116,14 +122,18 @@ private fun MainContent(
                 selectedCity = selectedItem,
                 onDrawerOpenClicked = onDrawerClicked
             )
-        },
-        content = {
-            WeatherScreenUi(
-                modifier = Modifier,
-                location = selectedItem,
-                paddingValues = it
-            )
         }
-    )
+    ) {
+        val weatherScreen = WeatherScreen(selectedItem.cityName)
+//        val backstack = rememberSaveableBackStack(root = weatherScreen)
+//        val navigator = rememberCircuitNavigator(backstack)
+        CircuitContent(screen = weatherScreen,
+            modifier = Modifier.fillMaxSize().padding(it))
+//        NavigableCircuitContent(
+//            navigator = navigator,
+//            backStack = backstack,
+//            modifier = Modifier.padding(it)
+//        )
+    }
 }
 

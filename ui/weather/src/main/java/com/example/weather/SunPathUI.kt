@@ -1,4 +1,4 @@
-package com.example.vilketvader
+package com.example.weather
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Arrangement

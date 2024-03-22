@@ -1,4 +1,4 @@
-package com.example.vilketvader
+package com.example.weather
 
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode

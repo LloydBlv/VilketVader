@@ -13,7 +13,6 @@ class HiltConventionPlugin : Plugin<Project> {
                 apply("dagger.hilt.android.plugin")
                 apply("com.google.devtools.ksp")
             }
-
             dependencies {
                 "implementation"(libs["hilt.android"])
                 "ksp"(libs["hilt.android.compiler"])

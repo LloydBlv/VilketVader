@@ -26,4 +26,8 @@ class LocationRepositoryDefault @Inject constructor(
     override suspend fun updateSelectedLocation(location: Location) {
         locationDao.insertOrUpdateLocationWithSelection(location.toEntity())
     }
+
+    override suspend fun updateSelectedLocation(id: Int) {
+        locationDao.updateSelectedLocation(id)
+    }
 }

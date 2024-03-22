@@ -11,7 +11,7 @@ class WeatherRepositoryFake : WeatherRepository {
         if (exception != null) {
             throw exception!!
         }
-        return TestData.getTestResponse().toWeather()
+        return TestData.getTestResponse(location).toWeather()
     }
 }
 

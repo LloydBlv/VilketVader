@@ -7,4 +7,4 @@ import kotlinx.parcelize.Parcelize
 data object HomeScreen : Screen
 
 @Parcelize
-data class WeatherScreen(val location: String) : Screen
+data object WeatherScreen : Screen

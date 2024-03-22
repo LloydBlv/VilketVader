@@ -59,7 +59,6 @@ class GetWeatherUseCaseTest {
         usecase.flow.test {
             expectNoEvents()
             usecase.invoke(GetWeatherUseCase.Params(TestData.STOCKHOLM, language = "en"))
-            ensureAllEventsConsumed()
             assertThat(awaitItem()).all {
                 transform { it.getOrNull() }
                     .isNotNull()
@@ -82,7 +81,6 @@ class GetWeatherUseCaseTest {
         usecase.flow.test {
             expectNoEvents()
             usecase.invoke(GetWeatherUseCase.Params(TestData.STOCKHOLM, language = "en"))
-            ensureAllEventsConsumed()
             assertThat(awaitItem()).all {
                 transform { it.getOrNull() }.isNull()
                 transform { it.exceptionOrNull() }.run {

@@ -13,10 +13,12 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import com.example.home.HomeUiState
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun MainTopAppBar(
-    selectedCity: UiLocation,
+    state: HomeUiState,
     onDrawerOpenClicked: () -> Unit
 ) {
     TopAppBar(
@@ -24,7 +26,7 @@ internal fun MainTopAppBar(
             containerColor = Color.Transparent,
             titleContentColor = Color.White
         ),
-        title = { TitleText(selectedCity, onDrawerOpenClicked) },
+        title = { TitleText(state, onDrawerOpenClicked) },
         navigationIcon = { NavigationIcon(onDrawerOpenClicked) })
 }
 
@@ -41,11 +43,12 @@ private fun NavigationIcon(onDrawerOpenClicked: () -> Unit) {
 
 @Composable
 private fun TitleText(
-    selectedCity: UiLocation,
+    state: HomeUiState,
     onDrawerOpenClicked: () -> Unit
 ) {
+    val uiLocation = state.locations.find { it.isSelected }
     Text(
-        text = selectedCity.cityName,
+        text = uiLocation?.cityName ?: "Loading",
         style = MaterialTheme.typography.headlineSmall.copy(color = Color.White),
         modifier = Modifier.clickable(onClick = onDrawerOpenClicked)
     )

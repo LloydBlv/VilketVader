@@ -9,7 +9,6 @@ import assertk.assertions.isTrue
 import assertk.assertions.prop
 import com.example.domain.GetSelectedLocationUseCase
 import com.example.domain.GetWeatherUseCase
-import com.example.screens.WeatherScreen
 import com.example.testing.FakeLocationRepository
 import com.example.testing.TestData
 import com.example.testing.WeatherRepositoryFake
@@ -34,7 +33,6 @@ class WeatherPresenterTest {
             WeatherPresenter(
                 getWeatherUseCase = usecase,
                 getSelectedLocationUseCase = selectedLocationUseCase,
-                screen = WeatherScreen("stockholm")
             )
         presenter.test {
             assertThat(awaitItem()).all {
@@ -65,7 +63,6 @@ class WeatherPresenterTest {
             WeatherPresenter(
                 getWeatherUseCase = usecase,
                 getSelectedLocationUseCase = selectedLocationUseCase,
-                screen = WeatherScreen("stockholm")
             )
         presenter.test {
             assertThat(awaitItem()).all {

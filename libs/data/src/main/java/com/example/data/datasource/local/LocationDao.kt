@@ -71,11 +71,17 @@ interface LocationDao {
             insertLocation(locationEntity.copy(selected = true))
             return
         }
-        if (getLocationCount() == 1) {
-            val existingLocation = getAnyLocation()!!
-            insertLocation(existingLocation.copy(selected = true))
+        if (getLocationCount() == 1 && getAnyLocation()?.id == locationEntity.id) {
+            insertLocation(locationEntity.copy(selected = true))
             return
         }
         insertLocation(locationEntity)
+    }
+
+    @Transaction
+    suspend fun updateSelectedLocation(id: Int) {
+        val location = getLocation(id) ?: return
+        deselectAllLocations()
+        insertLocation(location.copy(selected = true))
     }
 }

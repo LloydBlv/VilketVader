@@ -13,4 +13,8 @@ class FakeLocationRepository(val locations: MutableList<Location>) : LocationRep
             throw exception!!
         }
     }
+
+    override suspend fun updateSelectedLocation(id: Int) {
+        TODO("Not yet implemented")
+    }
 }

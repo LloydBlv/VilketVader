@@ -3,6 +3,7 @@ package com.example.data
 import androidx.room.Room
 import androidx.test.platform.app.InstrumentationRegistry
 import assertk.assertThat
+import assertk.assertions.hasSize
 import assertk.assertions.isEqualTo
 import assertk.assertions.isFalse
 import assertk.assertions.isNotNull
@@ -113,6 +114,15 @@ class LocationDatabaseTest {
         val stockholm2 = TestData.STOCKHOLM.toEntity().copy(selected = true)
         dao.insertOrUpdateLocationWithSelection(stockholm2)
         assertThat(dao.getSelectedLocation()).isEqualTo(stockholm2)
+    }
+    @Test
+    fun `two consecutive inserts results in 2 rows afterwards`() = runTest {
+        dao.insertOrUpdateLocationWithSelection(TestData.STOCKHOLM.toEntity().copy(selected = false))
+        dao.insertOrUpdateLocationWithSelection(TestData.ZURICH.toEntity().copy(selected = false))
+
+        assertThat(dao.getSelectedLocation()?.country).isEqualTo("SE")
+        assertThat(dao.getAllLocations()).hasSize(2)
+
     }
     @After
     fun tearDown() {

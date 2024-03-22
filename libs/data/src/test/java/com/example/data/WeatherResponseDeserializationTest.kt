@@ -5,7 +5,6 @@ import assertk.assertThat
 import assertk.assertions.isEqualTo
 import assertk.assertions.prop
 import com.example.data.models.WeatherResponseDto
-import kotlinx.serialization.json.Json
 import org.junit.Test
 
 class WeatherResponseDeserializationTest {

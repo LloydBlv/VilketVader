@@ -7,4 +7,5 @@ interface LocationRepository {
     fun observeSelectedLocation(): Flow<Location?>
 
     suspend fun updateSelectedLocation(location: Location)
+    suspend fun updateSelectedLocation(id: Int)
 }

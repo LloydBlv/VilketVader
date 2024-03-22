@@ -11,14 +11,11 @@ import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import com.example.home.HomeUiEvents
 import com.example.home.HomeUiState
 import com.example.screens.HomeScreen
 import com.example.screens.WeatherScreen
@@ -56,38 +53,13 @@ val sunnyColorsGradient = listOf(
 @Composable
 @CircuitInject(HomeScreen::class, SingletonComponent::class)
 fun HomeScreenUi(state: HomeUiState, modifier: Modifier = Modifier) {
-    val items = state.locations
+    val eventSink = state.evenSink
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
-    val items1 = persistentListOf(
-        UiLocation("Mongo", isSelected = true),
-        UiLocation("Kinlochleven", isSelected = false),
-        UiLocation("Stockholm", isSelected = false),
-        UiLocation("Amsterdam"),
-        UiLocation("Zurich"),
-        UiLocation("Accra"),
-        UiLocation("Gothenburg"),
-        UiLocation("London"),
-        UiLocation("Mountain View"),
-        UiLocation("Berlin"),
-        UiLocation("New York"),
-        UiLocation("Tehran"),
-        UiLocation("Abadan"),
-        UiLocation("Bijar"),
-        UiLocation("Malmö"),
-        UiLocation("Uppsala"),
-        UiLocation("Västerås"),
-        UiLocation("Örebro"),
-    )
-    var selectedItem: UiLocation by remember { mutableStateOf(items[0]) }
 
-    fun openDrawer() {
-        scope.launch { drawerState.open() }
-    }
+    fun openDrawer() { scope.launch { drawerState.open() } }
+    fun closeDrawer() { scope.launch { drawerState.close() } }
 
-    fun closeDrawer() {
-        scope.launch { drawerState.close() }
-    }
     BackHandler(enabled = drawerState.isOpen, onBack = ::openDrawer)
 
     Box {
@@ -98,17 +70,16 @@ fun HomeScreenUi(state: HomeUiState, modifier: Modifier = Modifier) {
             drawerState = drawerState,
             drawerContent = {
                 MainDrawerSheet(
-                    items = items,
-                    selectedItem = selectedItem,
+                    state = state,
                     onDrawerItemClicked = {
-                        selectedItem = it
+                        eventSink.invoke(HomeUiEvents.OnLocationSelected(it))
                         closeDrawer()
                     }
                 )
             },
             content = {
                 MainContent(
-                    selectedItem = selectedItem,
+                    state = state,
                     onDrawerClicked = ::openDrawer,
                 )
             }
@@ -120,7 +91,7 @@ fun HomeScreenUi(state: HomeUiState, modifier: Modifier = Modifier) {
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 private fun MainContent(
-    selectedItem: UiLocation,
+    state: HomeUiState,
     onDrawerClicked: () -> Unit,
 ) {
     Scaffold(
@@ -129,25 +100,15 @@ private fun MainContent(
         modifier = Modifier.fillMaxSize(),
         topBar = {
             MainTopAppBar(
-                selectedCity = selectedItem,
+                state = state,
                 onDrawerOpenClicked = onDrawerClicked
             )
         }
     ) {
-        val weatherScreen = WeatherScreen(selectedItem.cityName)
-//        val backstack = rememberSaveableBackStack(root = weatherScreen)
-//        val navigator = rememberCircuitNavigator(backstack)
         CircuitContent(
-            screen = weatherScreen,
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(it)
+            screen = WeatherScreen,
+            modifier = Modifier.fillMaxSize().padding(it)
         )
-//        NavigableCircuitContent(
-//            navigator = navigator,
-//            backStack = backstack,
-//            modifier = Modifier.padding(it)
-//        )
     }
 }
 

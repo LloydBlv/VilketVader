@@ -1,7 +1,6 @@
 package com.example.testing
 
 import com.example.data.datasource.local.LocalDataSource
-import com.example.data.models.toWeather
 import com.example.domain.Weather
 
 class FakeLocalDataSource: LocalDataSource {
@@ -10,7 +9,7 @@ class FakeLocalDataSource: LocalDataSource {
         if (exception != null) {
             throw exception!!
         }
-        return TestData.getTestResponse().toWeather()
+        return null
     }
 
     override suspend fun updateWeather(weather: Weather) {

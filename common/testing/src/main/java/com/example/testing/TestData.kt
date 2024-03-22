@@ -7,13 +7,20 @@ import kotlinx.serialization.json.Json
 import java.io.File
 
 object TestData {
-    fun getTestResponse(json: Json = Json { ignoreUnknownKeys = true }): WeatherResponseDto {
-        val weatherDto = json.decodeFromString<WeatherResponseDto>(getRawTestResponse())
+    fun getTestResponse(
+        location: Location = STOCKHOLM,
+        json: Json = Json { ignoreUnknownKeys = true }
+    ): WeatherResponseDto {
+        val weatherDto = json.decodeFromString<WeatherResponseDto>(getRawTestResponse(location))
         return weatherDto
     }
 
-    fun getRawTestResponse(): String {
-        val file = File("../../libs/data/src/test/resources/stockholm-weather-response.json")
+    fun getRawTestResponse(location: Location = STOCKHOLM): String {
+        val file = if (location.name == STOCKHOLM.name) {
+            File("../../libs/data/src/test/resources/stockholm-weather-response.json")
+        } else {
+            File("../../libs/data/src/test/resources/zurich-rainy-response.json")
+        }
         val rawJson =
             file.bufferedReader().use {
                 it.readText()
@@ -23,7 +30,7 @@ object TestData {
 
     val STOCKHOLM: Location = Location(
         id = 2673730,
-        name = "stockholm",
+        name = "Stockholm",
         coordination = Coordination(59.3326f, 18.0649f),
         timezone = 3600,
         country = "SE",
@@ -32,7 +39,7 @@ object TestData {
 
     val ZURICH: Location = Location(
         id = 2657896,
-        name = "zurich",
+        name = "Zurich",
         coordination = Coordination(47.3667f, 8.5500f),
         timezone = 3600,
         country = "CH",

@@ -13,9 +13,12 @@ class WeatherRepositoryDefault @Inject constructor(
     private val localDataSource: LocalDataSource
 ) : WeatherRepository {
     override suspend fun getWeather(location: Location, language: String): Weather {
-//        if (localDataSource.getWeather(location) != null) {
-//            return localDataSource.getWeather(location)!!
-//        }
-        return client.getWeather(location.name, language)
+        val cachedWeather = localDataSource.getWeather(location.id)
+        if (cachedWeather != null) {
+            return cachedWeather
+        }
+        val weather = client.getWeather(location.name.lowercase(), language)
+        localDataSource.updateWeather(weather)
+        return weather
     }
 }

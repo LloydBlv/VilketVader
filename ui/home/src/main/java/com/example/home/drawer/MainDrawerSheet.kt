@@ -7,12 +7,11 @@ import androidx.compose.material3.DismissibleDrawerSheet
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import kotlinx.collections.immutable.ImmutableList
+import com.example.home.HomeUiState
 
 @Composable
 internal fun MainDrawerSheet(
-    items: ImmutableList<UiLocation>,
-    selectedItem: UiLocation,
+    state: HomeUiState,
     onDrawerItemClicked: (UiLocation) -> Unit
 ) {
     DismissibleDrawerSheet(
@@ -27,8 +26,7 @@ internal fun MainDrawerSheet(
             )
         ) {
             DrawerLazyColumn(
-                items = items,
-                selectedItem = selectedItem,
+                state = state,
                 onDrawerItemClicked = onDrawerItemClicked
             )
         }

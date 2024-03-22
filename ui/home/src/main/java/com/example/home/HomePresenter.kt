@@ -1,52 +1,60 @@
 package com.example.home
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import com.example.domain.GetLocationsUseCase
+import com.example.domain.Location
+import com.example.domain.UpdateSelectedLocationUseCase
 import com.example.home.drawer.UiLocation
 import com.example.screens.HomeScreen
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.collectAsRetainedState
-import com.slack.circuit.runtime.CircuitUiState
-import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
-import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.components.SingletonComponent
-import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toPersistentList
-
-@Immutable
-data class HomeUiState(
-    val isLoading: Boolean,
-    val locations: ImmutableList<UiLocation>
-) : CircuitUiState
-
+import kotlinx.coroutines.launch
 
 class HomePresenter @AssistedInject constructor(
-    @Assisted private val navigator: Navigator,
-    private val getLocationsUseCase: GetLocationsUseCase
+    private val getLocationsUseCase: GetLocationsUseCase,
+    private val updateSelectedLocation: UpdateSelectedLocationUseCase
 ) : Presenter<HomeUiState> {
     @Composable
     override fun present(): HomeUiState {
+        val scope = rememberCoroutineScope()
         val locations by getLocationsUseCase.flow.collectAsRetainedState(initial = null)
         LaunchedEffect(key1 = Unit) {
             getLocationsUseCase.invoke(GetLocationsUseCase.Params(false))
         }
+        fun eventSink(event: HomeUiEvents) {
+            when (event) {
+                is HomeUiEvents.OnLocationSelected -> {
+                    scope.launch {
+                        val params = UpdateSelectedLocationUseCase.Params(event.location.id)
+                        updateSelectedLocation.invoke(params)
+                    }
+                }
+            }
+        }
         return HomeUiState(
             isLoading = locations == null,
-            locations = locations?.getOrNull().orEmpty().map {
-                UiLocation(cityName = it.name, isSelected = it.isSelected)
-            }.toPersistentList()
+            locations = locations?.getOrNull()
+                .orEmpty().map(Location::toUiLocation)
+                .toPersistentList(),
+            evenSink = ::eventSink
         )
     }
+}
+
+private fun Location.toUiLocation(): UiLocation {
+    return UiLocation(cityName = name, isSelected = isSelected, id = id)
 }
 
 @CircuitInject(HomeScreen::class, SingletonComponent::class)
 @AssistedFactory
 interface Factory {
-    fun create(navigator: Navigator): HomePresenter
+    fun create(): HomePresenter
 }

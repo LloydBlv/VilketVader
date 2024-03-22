@@ -11,12 +11,10 @@ interface LocalDataSource {
 }
 
 class LocalDataSourceDefault @Inject constructor(
-    private val weatherDao: WeatherDao,
-    private val locationDao: LocationDao
+    private val weatherDao: WeatherDao
 ) : LocalDataSource {
     override suspend fun getWeather(id: Int) = weatherDao.getWeather(id)?.toDomain()
     override suspend fun updateWeather(weather: Weather) {
-        locationDao.insertLocation(weather.location.toEntity())
         weatherDao.insertWeather(weather.toEntity())
     }
 }

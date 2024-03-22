@@ -24,12 +24,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import kotlinx.collections.immutable.ImmutableList
+import com.example.home.HomeUiState
 
 @Composable
 internal fun DrawerLazyColumn(
-    items: ImmutableList<UiLocation>,
-    selectedItem: UiLocation,
+    state: HomeUiState,
     onDrawerItemClicked: (UiLocation) -> Unit
 ) {
     LazyColumn(
@@ -38,20 +37,18 @@ internal fun DrawerLazyColumn(
     ) {
         drawerTopAppBar()
         drawerItems(
-            items = items,
-            selectedItem = selectedItem,
+            state = state,
             onDrawerItemClicked = onDrawerItemClicked
         )
     }
 }
 
 private fun LazyListScope.drawerItems(
-    items: ImmutableList<UiLocation>,
-    selectedItem: UiLocation,
+    state: HomeUiState,
     onDrawerItemClicked: (UiLocation) -> Unit
 ) {
-    items(items) { item ->
-        val isSelected = item == selectedItem
+    items(state.locations) { item ->
+        val isSelected = item.isSelected
         NavigationDrawerItem(
             colors = NavigationDrawerItemDefaults.colors(
                 unselectedContainerColor = Color.Transparent,

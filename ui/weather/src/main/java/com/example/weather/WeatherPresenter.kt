@@ -10,14 +10,12 @@ import com.example.screens.WeatherScreen
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.collectAsRetainedState
 import com.slack.circuit.runtime.presenter.Presenter
-import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.components.SingletonComponent
 import java.util.Locale
 
 class WeatherPresenter @AssistedInject constructor(
-    @Assisted private val screen: WeatherScreen,
     private val getWeatherUseCase: GetWeatherUseCase,
     private val getSelectedLocationUseCase: GetSelectedLocationUseCase,
 ) : Presenter<WeatherUiState> {
@@ -50,5 +48,5 @@ class WeatherPresenter @AssistedInject constructor(
 @CircuitInject(WeatherScreen::class, SingletonComponent::class)
 @AssistedFactory
 interface Factory {
-    fun create(screen: WeatherScreen): WeatherPresenter
+    fun create(): WeatherPresenter
 }

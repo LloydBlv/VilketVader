@@ -1,4 +1,4 @@
-package di
+package com.example.vilketvader.di
 
 import com.slack.circuit.foundation.Circuit
 import com.slack.circuit.runtime.presenter.Presenter

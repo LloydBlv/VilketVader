@@ -40,7 +40,7 @@ object TestData {
     val ZURICH: Location = Location(
         id = 2657896,
         name = "Zurich",
-        coordination = Coordination(47.3667f, 8.5500f),
+        coordination = Coordination(47.3667f, 8.55f),
         timezone = 3600,
         country = "CH",
         isSelected = false

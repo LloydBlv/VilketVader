@@ -28,7 +28,7 @@ dependencies {
     testImplementation(projects.common.testing)
     implementation(libs.kotlinx.coroutines.jvm)
     implementation(libs.store)
-
+    implementation(libs.timber)
     testImplementation(libs.robolectric)
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)

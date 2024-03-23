@@ -18,6 +18,7 @@ coroutines = "1.8.0"
 appcompat = "1.6.1"
 material = "1.11.0"
 assertk = "0.28.0"
+timber = "5.0.1"
 turbine = "1.1.0"
 ktorfit = "1.12.0"
 ksp = "1.9.22-1.0.17"
@@ -59,6 +60,7 @@ kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serializa
 kotlinx-serialization-json-jvm = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json-jvm", version.ref = "kotlinxSerializationJsonJvm" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 assertk = { module = "com.willowtreeapps.assertk:assertk", version.ref = "assertk" }
+timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
 ktorfitLib = { module = "de.jensklingenberg.ktorfit:ktorfit-lib", version.ref = "ktorfit" }

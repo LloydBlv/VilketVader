@@ -17,7 +17,7 @@ internal fun getInitialLocations() = listOf(
         country = "SE",
         latitude = 59.3326f,
         longitude = 18.0649f,
-        timezone = 3601,
+        timezone = 3600,
         selected = true
     ),
 )

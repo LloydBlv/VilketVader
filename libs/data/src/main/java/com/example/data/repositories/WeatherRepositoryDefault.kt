@@ -1,5 +1,6 @@
 package com.example.data.repositories
 
+import android.util.Log
 import com.example.data.datasource.WeatherApiClient
 import com.example.data.datasource.local.LocalDataSource
 import com.example.domain.Location
@@ -14,6 +15,7 @@ class WeatherRepositoryDefault @Inject constructor(
 ) : WeatherRepository {
     override suspend fun getWeather(location: Location, language: String): Weather {
         val cachedWeather = localDataSource.getWeather(location.id)
+        Log.e("cachedWeather", cachedWeather.toString())
         if (cachedWeather != null) {
             return cachedWeather
         }

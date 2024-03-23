@@ -7,8 +7,7 @@ import assertk.assertions.isFalse
 import assertk.assertions.isNull
 import assertk.assertions.isTrue
 import assertk.assertions.prop
-import com.example.domain.GetSelectedLocationUseCase
-import com.example.domain.GetWeatherUseCase
+import com.example.domain.GetSelectedWeatherUseCase
 import com.example.testing.FakeLocationRepository
 import com.example.testing.TestData
 import com.example.testing.WeatherRepositoryFake
@@ -24,15 +23,18 @@ import org.robolectric.RobolectricTestRunner
 class WeatherPresenterTest {
     @Test
     fun `test presenter emits success state when usecase succeeds`() = runTest {
-        val usecase = GetWeatherUseCase(weatherRepository = WeatherRepositoryFake())
-
-        val selectedLocationUseCase = GetSelectedLocationUseCase(
-            locationRepository = FakeLocationRepository(mutableListOf(TestData.STOCKHOLM.copy(isSelected = true)))
-        )
         val presenter =
             WeatherPresenter(
-                getWeatherUseCase = usecase,
-                getSelectedLocationUseCase = selectedLocationUseCase,
+                getSelectedWeatherUseCase = GetSelectedWeatherUseCase(
+                    locationRepository = FakeLocationRepository(
+                        mutableListOf(
+                            TestData.STOCKHOLM.copy(
+                                isSelected = true
+                            )
+                        )
+                    ),
+                    weatherRepository = WeatherRepositoryFake()
+                )
             )
         presenter.test {
             assertThat(awaitItem()).all {
@@ -51,18 +53,14 @@ class WeatherPresenterTest {
 
     @Test
     fun `test presenter emits failed state when usecase fails`() = runTest {
-        val usecase = GetWeatherUseCase(
-            weatherRepository = WeatherRepositoryFake().apply {
-                exception = Exception("Test exception")
-            }
-        )
-        val selectedLocationUseCase = GetSelectedLocationUseCase(
-            locationRepository = FakeLocationRepository(mutableListOf(TestData.STOCKHOLM.copy(isSelected = true)))
-        )
         val presenter =
             WeatherPresenter(
-                getWeatherUseCase = usecase,
-                getSelectedLocationUseCase = selectedLocationUseCase,
+                getSelectedWeatherUseCase = GetSelectedWeatherUseCase(
+                    locationRepository = FakeLocationRepository(mutableListOf(TestData.STOCKHOLM.copy(isSelected = true))),
+                    weatherRepository = WeatherRepositoryFake().apply {
+                        exception = Exception("Test exception")
+                    }
+                )
             )
         presenter.test {
             assertThat(awaitItem()).all {

@@ -32,7 +32,7 @@ android {
 dependencies {
     runtimeOnly(projects.libs.data)
     implementation(projects.libs.domain)
-
+    implementation(libs.timber)
     implementation(projects.common.screens)
     implementation(projects.ui.weather)
     implementation(projects.ui.home)

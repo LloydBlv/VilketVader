@@ -3,9 +3,7 @@ package com.example.weather
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import com.example.domain.GetSelectedLocationUseCase
-import com.example.domain.GetWeatherUseCase
-import com.example.domain.Location
+import com.example.domain.GetSelectedWeatherUseCase
 import com.example.screens.WeatherScreen
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.collectAsRetainedState
@@ -13,34 +11,20 @@ import com.slack.circuit.runtime.presenter.Presenter
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.components.SingletonComponent
-import java.util.Locale
 
 class WeatherPresenter @AssistedInject constructor(
-    private val getWeatherUseCase: GetWeatherUseCase,
-    private val getSelectedLocationUseCase: GetSelectedLocationUseCase,
+    private val getSelectedWeatherUseCase: GetSelectedWeatherUseCase,
 ) : Presenter<WeatherUiState> {
     @Composable
     override fun present(): WeatherUiState {
-        val selectedLocation by getSelectedLocationUseCase.flow.collectAsRetainedState(initial = null)
-        val state by getWeatherUseCase.flow.collectAsRetainedState(initial = null)
+        val weather by getSelectedWeatherUseCase.flow.collectAsRetainedState(initial = null)
         LaunchedEffect(key1 = Unit) {
-            getSelectedLocationUseCase.invoke(GetSelectedLocationUseCase.Params(forceFresh = false))
-        }
-        LaunchedEffect(key1 = selectedLocation?.getOrNull()) {
-            selectedLocation?.getOrNull()?.let { location: Location ->
-                getWeatherUseCase.invoke(
-                    GetWeatherUseCase.Params(
-                        location = location,
-                        language = Locale.getDefault().language
-                    )
-                )
-            }
-
+            getSelectedWeatherUseCase.invoke(GetSelectedWeatherUseCase.Params(forceFresh = false))
         }
         return WeatherUiState(
-            isLoading = state == null,
-            weather = state?.getOrNull(),
-            failure = state?.exceptionOrNull()
+            isLoading = weather == null,
+            weather = weather?.getOrNull(),
+            failure = weather?.exceptionOrNull()
         )
     }
 }

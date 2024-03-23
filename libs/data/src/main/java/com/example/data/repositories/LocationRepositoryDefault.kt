@@ -8,6 +8,8 @@ import com.example.domain.Location
 import com.example.domain.LocationRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
+import timber.log.Timber
 import javax.inject.Inject
 
 class LocationRepositoryDefault @Inject constructor(
@@ -15,6 +17,9 @@ class LocationRepositoryDefault @Inject constructor(
 ) : LocationRepository {
     override fun observeLocations(): Flow<List<Location>> {
         return locationDao.observeAllLocations()
+            .onEach {
+                Timber.d("locations=%s", it)
+            }
             .map { it.map(LocationEntity::toDomain) }
     }
 

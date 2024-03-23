@@ -11,13 +11,15 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface WeatherDao {
-    @Query("SELECT * FROM weather where location_id = :id")
+    @Query("SELECT * FROM weather where location_id = :locationId")
     @Transaction
-    suspend fun getWeather(id: Int): WeatherAndLocation?
+    suspend fun getWeather(locationId: Int): WeatherAndLocation?
 
     @Query("SELECT * FROM weather")
     @Transaction
     suspend fun getAllWeathers(): List<WeatherAndLocation>
+    @Query("SELECT * FROM weather")
+    suspend fun getOnlyAllWeathers(): List<WeatherEntity>
 
     @Query("SELECT * FROM weather where location_id = :id")
     @Transaction

@@ -16,13 +16,14 @@ import com.example.domain.Weather
             entity = LocationEntity::class,
             parentColumns = ["id"],
             childColumns = ["location_id"],
-            onDelete = ForeignKey.CASCADE
+            onDelete = ForeignKey.NO_ACTION
         ),
     ],
-    indices = [Index(value = ["location_id"])]
+    indices = [Index(value = ["location_id"], unique = true)]
 )
 data class WeatherEntity(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
+
     @ColumnInfo("location_id") val locationId: Int,
 
     @Embedded(prefix = "condition_") val condition: ConditionEntity?,

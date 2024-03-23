@@ -25,7 +25,7 @@ class WeatherPresenter @AssistedInject constructor(
     @Composable
     override fun present(): WeatherUiState {
         val weather by observeSelectedWeather.flow.collectAsRetainedState(initial = WeatherResult.Loading)
-        Timber.d("weather=%s", weather)
+        Timber.d("observedWeather=%s", weather)
         val isRefreshing by refreshSelectedWeather.inProgress.collectAsRetainedState(initial = false)
         val scope = rememberCoroutineScope()
         LaunchedEffect(key1 = Unit) {
@@ -34,12 +34,14 @@ class WeatherPresenter @AssistedInject constructor(
         fun eventSink(event: WeatherEvent) {
             when (event) {
                 WeatherEvent.Refresh -> {
+                    Timber.d("going to refresh weather!")
                     scope.launch { refreshSelectedWeather.invoke() }
                 }
             }
         }
         return WeatherUiState(
-            isLoading = weather.isLoading || isRefreshing,
+            isLoading = weather.isLoading,
+            isRefreshing = isRefreshing,
             weather = weather.getOrNull(),
             failure = weather.exceptionOrNull(),
             eventSink = ::eventSink

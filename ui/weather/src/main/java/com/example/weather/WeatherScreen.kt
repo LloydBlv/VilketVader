@@ -41,6 +41,7 @@ import coil.compose.AsyncImage
 import com.example.screens.WeatherScreen
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.components.SingletonComponent
+import timber.log.Timber
 
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -58,7 +59,7 @@ fun WeatherScreenUi(
             BoxWithSwipeRefresh(
                 modifier = Modifier.fillMaxSize(),
                 onSwipe = { eventSink(WeatherEvent.Refresh) },
-                isRefreshing = state.isLoading,
+                isRefreshing = state.isRefreshing,
             ) {
                 WeatherScreenContent(state)
             }
@@ -69,6 +70,7 @@ fun WeatherScreenUi(
 
 @Composable
 private fun BoxScope.WeatherScreenContent(state: WeatherUiState, modifier: Modifier = Modifier) {
+    Timber.i("WeatherScreenContent: state=$state")
     AnimatedContent(targetState = state, modifier = modifier.fillMaxSize()) {
         when {
             it.weather != null -> {

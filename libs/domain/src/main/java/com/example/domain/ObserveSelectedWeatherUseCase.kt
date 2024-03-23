@@ -25,6 +25,7 @@ class ObserveSelectedWeatherUseCase @Inject constructor(
                     language = Locale.getDefault().language,
                     forceFresh = params.forceFresh.shouldRefresh
                 ).map {
+                    Logger.withTag("WeatherPresenter").i { "weather changed to $it" }
                     WeatherResult.success(it ?: Weather.EMPTY)
                 })
             }

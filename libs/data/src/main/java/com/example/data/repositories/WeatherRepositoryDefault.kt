@@ -51,6 +51,7 @@ class WeatherRepositoryDefault @Inject constructor(
     }
 
     override suspend fun refresh(location: Location, language: String) {
+        Timber.d("going to request fresh weather for location=%s, language=%s", location, language)
         weatherStore.fresh(key = WeatherLoadParams(location, language))
     }
 

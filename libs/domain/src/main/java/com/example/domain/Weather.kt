@@ -12,7 +12,7 @@ data class Weather(
     val timestamp: Long,
     val sunriseTimeMillis: Long,
     val sunsetTimeMillis: Long,
-    val icon: String = ""
+    val icon: Icon = Icon("")
 ) {
     fun isRainy() = conditions.any { it.type == Condition.Type.RAIN }
     companion object {
@@ -28,7 +28,6 @@ data class Weather(
             timestamp = 0,
             sunriseTimeMillis = 0,
             sunsetTimeMillis = 0,
-            icon = ""
         )
     }
 }

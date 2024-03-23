@@ -77,7 +77,7 @@ private fun BoxScope.WeatherScreenContent(state: WeatherUiState, modifier: Modif
 
         is WeatherUiState.Failure -> {
             Text(
-                text = "Failed to load weather data",
+                text = state.error?.localizedMessage ?: "Failed to load weather data",
                 style = MaterialTheme.typography.titleLarge,
                 modifier = Modifier
                     .padding(16.dp)
@@ -224,7 +224,7 @@ private fun CurrentTemperatureCard(
     Row(modifier = modifier) {
         Column {
             Text(
-                text = "${state.weather?.temperature?.current}°",
+                text = "${state.weather.temperature?.current}°",
                 style = MaterialTheme.typography.displayLarge.copy(fontSize = 67.sp)
             )
             Spacer(modifier = Modifier.height(10.dp))
@@ -242,7 +242,7 @@ private fun CurrentTemperatureCard(
         }
         AsyncImage(
             modifier = Modifier.size(120.dp),
-            model = "https://openweathermap.org/img/wn/${state.weather?.icon}@2x.png",
+            model = state.weather.icon,
             contentDescription = null
         )
     }

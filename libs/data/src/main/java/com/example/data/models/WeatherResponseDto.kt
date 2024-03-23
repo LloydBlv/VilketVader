@@ -3,6 +3,7 @@ package com.example.data.models
 
 import com.example.domain.Condition
 import com.example.domain.Coordination
+import com.example.domain.Icon
 import com.example.domain.Location
 import com.example.domain.Temperature
 import com.example.domain.Weather
@@ -62,7 +63,7 @@ fun WeatherResponseDto.toWeather(): Weather {
             degree = wind?.deg ?: 0
         ),
         timestamp = dt?.toLong() ?: 0L,
-        icon = weather?.firstOrNull()?.icon.orEmpty()
+        icon = Icon(weather?.firstOrNull()?.icon.orEmpty())
     )
 
 }

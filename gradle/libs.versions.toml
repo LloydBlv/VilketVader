@@ -35,6 +35,7 @@ composeLinkChecks = "1.3.1"
 hilt = "2.51"
 anvil = "2.4.9"
 playServicesContextmanager = "9.4.0"
+coreKtxVersion = "1.12.0"
 
 [libraries]
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomRuntime" }
@@ -107,6 +108,7 @@ circuit-foundation = { module = "com.slack.circuit:circuit-foundation", version.
 circuit-test = { module = "com.slack.circuit:circuit-test", version.ref = "circuit" }
 circuit-backstack = { module = "com.slack.circuit:circuit-backstack", version.ref = "circuit" }
 play-services-contextmanager = { group = "com.google.android.gms", name = "play-services-contextmanager", version.ref = "playServicesContextmanager" }
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtxVersion" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -6,6 +6,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import com.example.domain.Icon
 import com.example.domain.Weather
 
 
@@ -52,7 +53,7 @@ fun Weather.toEntity(): WeatherEntity {
         timestamp = timestamp,
         sunriseTimeMillis = sunriseTimeMillis,
         sunsetTimeMillis = sunsetTimeMillis,
-        icon = icon,
+        icon = icon.type,
     )
 }
 
@@ -70,7 +71,7 @@ fun WeatherAndLocation.toDomain(): Weather {
             timestamp = timestamp,
             sunriseTimeMillis = sunriseTimeMillis,
             sunsetTimeMillis = sunsetTimeMillis,
-            icon = icon,
+            icon = Icon(type = icon),
             location = location.toDomain()
         )
     }

@@ -17,7 +17,7 @@ interface LocationDao {
 
 
     @Query("SELECT * FROM location WHERE selected = 1")
-    fun getSelectedLocation(): LocationEntity?
+    suspend fun getSelectedLocation(): LocationEntity?
 
     @Query("SELECT COUNT(*) FROM location")
     suspend fun getLocationCount(): Int

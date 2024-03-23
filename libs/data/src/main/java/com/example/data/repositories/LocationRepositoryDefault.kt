@@ -23,6 +23,10 @@ class LocationRepositoryDefault @Inject constructor(
             .map { it.map(LocationEntity::toDomain) }
     }
 
+    override suspend fun getSelectedLocation(): Location? {
+        return locationDao.getSelectedLocation()?.toDomain()
+    }
+
     override fun observeSelectedLocation(): Flow<Location?> {
         return locationDao.observeSelectedLocation()
             .map { it?.toDomain() }

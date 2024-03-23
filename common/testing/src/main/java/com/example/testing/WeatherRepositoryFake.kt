@@ -8,7 +8,10 @@ import com.example.domain.WeatherRepository
 class WeatherRepositoryFake(
 ) : WeatherRepository {
     var exception: Throwable? = null
-    override suspend fun getWeather(location: Location, language: String): Weather {
+    override suspend fun getWeather(
+        location: Location, language: String,
+        forceFresh: Boolean
+    ): Weather {
         if (exception != null) {
             throw exception!!
         }

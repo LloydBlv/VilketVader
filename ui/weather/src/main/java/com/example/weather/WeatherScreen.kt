@@ -2,6 +2,7 @@ package com.example.weather
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -19,15 +20,20 @@ import androidx.compose.material.icons.filled.WbCloudy
 import androidx.compose.material.icons.filled.WindPower
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.pulltorefresh.PullToRefreshContainer
+import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -45,33 +51,74 @@ fun WeatherScreenUi(
     state: WeatherUiState,
     modifier: Modifier = Modifier,
 ) {
-
+    val eventSink = state.eventSink
     Scaffold(
         containerColor = Color.Transparent,
         modifier = modifier,
-    ) {
-        LazyColumn(
-            modifier = Modifier
-                .padding(8.dp)
-        ) {
-            item { CurrentTemperatureCard(state, Modifier.padding(8.dp)) }
-            item { Spacer(modifier = Modifier.height(40.dp)) }
-            item { MinMaxTemperature(state, Modifier.padding(8.dp)) }
-            item { TimeStampText(state, Modifier.padding(8.dp)) }
-            item { Spacer(modifier = Modifier.height(10.dp)) }
-            item { WindAndHumidityCard(state) }
-            item { Spacer(modifier = Modifier.height(10.dp)) }
-            item { PressureAndVisibilityCards(state) }
-            item { Spacer(modifier = Modifier.height(10.dp)) }
-            item { CloudCard(state) }
-            item { Spacer(modifier = Modifier.height(10.dp)) }
-        }
-        if (state.weather?.isRainy() == true) {
-            RainAnimationScreen()
-        }
+        content = {
+            BoxWithSwipeRefresh(
+                onSwipe = { eventSink(WeatherEvent.Refresh) },
+                isRefreshing = state.isLoading,
+            ) {
+                WeatherScreenContent(state)
+            }
+        },
+    )
 
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun BoxWithSwipeRefresh(
+    onSwipe: () -> Unit,
+    isRefreshing: Boolean,
+    modifier: Modifier = Modifier,
+    content: @Composable BoxScope.() -> Unit
+) {
+    val state = rememberPullToRefreshState()
+
+    if (state.isRefreshing) {
+        LaunchedEffect(Unit) {
+            onSwipe()
+        }
     }
 
+    if (!isRefreshing) {
+        LaunchedEffect(Unit) {
+            state.endRefresh()
+        }
+    }
+
+    Box(modifier = modifier.nestedScroll(state.nestedScrollConnection)) {
+        content()
+        PullToRefreshContainer(
+            modifier = Modifier.align(Alignment.TopCenter),
+            state = state,
+        )
+    }
+}
+
+@Composable
+private fun WeatherScreenContent(state: WeatherUiState) {
+    LazyColumn(
+        modifier = Modifier
+            .padding(8.dp)
+    ) {
+        item { CurrentTemperatureCard(state, Modifier.padding(8.dp)) }
+        item { Spacer(modifier = Modifier.height(40.dp)) }
+        item { MinMaxTemperature(state, Modifier.padding(8.dp)) }
+        item { TimeStampText(state, Modifier.padding(8.dp)) }
+        item { Spacer(modifier = Modifier.height(10.dp)) }
+        item { WindAndHumidityCard(state) }
+        item { Spacer(modifier = Modifier.height(10.dp)) }
+        item { PressureAndVisibilityCards(state) }
+        item { Spacer(modifier = Modifier.height(10.dp)) }
+        item { CloudCard(state) }
+        item { Spacer(modifier = Modifier.height(10.dp)) }
+    }
+    if (state.weather?.isRainy() == true) {
+        RainAnimationScreen()
+    }
 }
 
 @Composable
@@ -142,10 +189,10 @@ private fun WindAndHumidityCard(state: WeatherUiState) {
 
 @Composable
 private fun TimeStampText(state: WeatherUiState, modifier: Modifier = Modifier) {
-//    val formatter = LocalDateFormatter.current
+    val formatter = LocalDateFormatter.current
     Text(
         modifier = modifier,
-        text = "state.weather?.timestamp?.let(formatter::formatWeekDayAndTime).orEmpty()",
+        text = state.weather?.timestamp?.let(formatter::formatWeekDayAndTime).orEmpty(),
         color = Color.White.copy(alpha = 0.6f),
         style = MaterialTheme.typography.titleSmall
     )

@@ -2,22 +2,22 @@ package com.example.domain
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import java.util.Locale
 import javax.inject.Inject
 
-class GetSelectedWeatherUseCase @Inject constructor(
+class ObserveSelectedWeatherUseCase @Inject constructor(
     private val locationRepository: LocationRepository,
     private val weatherRepository: WeatherRepository
-) : SubjectInteractor<GetSelectedWeatherUseCase.Params, Result<Weather>>() {
+) : SubjectInteractor<ObserveSelectedWeatherUseCase.Params, Result<Weather>>() {
     data class Params(val forceFresh: ForceFresh = ForceFresh.idle())
 
     override fun createObservable(params: Params): Flow<Result<Weather>> {
         return locationRepository.observeSelectedLocation()
-            .map {
+            .flatMapLatest {
                 if (it != null) {
-                    weatherRepository.getWeather(
-                        forceFresh = params.forceFresh.shouldRefresh,
+                    weatherRepository.observeWeather(
                         location = it,
                         language = Locale.getDefault().language
                     )
@@ -26,7 +26,7 @@ class GetSelectedWeatherUseCase @Inject constructor(
                 }
             }
             .map {
-                Result.success(it)
+                Result.success(it ?: Weather.EMPTY)
             }
             .catch { emit(Result.failure(it)) }
     }

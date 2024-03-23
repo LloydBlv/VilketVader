@@ -1,12 +1,15 @@
 package com.example.data.datasource.local
 
 import com.example.domain.Weather
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import timber.log.Timber
 import javax.inject.Inject
 
 
 interface LocalDataSource {
     suspend fun getWeather(id: Int): Weather?
+    fun observeWeather(id: Int): Flow<Weather?>
 
     suspend fun updateWeather(weather: Weather)
 }
@@ -33,5 +36,10 @@ class LocalDataSourceDefault @Inject constructor(
         weatherDao.getAllWeathers().forEach {
             Timber.tag("after-insert-updateWeather").e("allWeathers=%s", it)
         }
+    }
+
+    override fun observeWeather(id: Int): Flow<Weather?> {
+        return weatherDao.observeWeather(id)
+            .map { it?.toDomain() }
     }
 }

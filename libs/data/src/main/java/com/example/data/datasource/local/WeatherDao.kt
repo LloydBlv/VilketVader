@@ -23,7 +23,7 @@ interface WeatherDao {
 
     @Query("SELECT * FROM weather where location_id = :id")
     @Transaction
-    fun observeWeather(id: Int): Flow<WeatherAndLocation>
+    fun observeWeather(id: Int): Flow<WeatherAndLocation?>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertWeather(weather: WeatherEntity)

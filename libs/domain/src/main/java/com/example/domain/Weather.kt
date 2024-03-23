@@ -15,5 +15,21 @@ data class Weather(
     val icon: String = ""
 ) {
     fun isRainy() = conditions.any { it.type == Condition.Type.RAIN }
+    companion object {
+        val EMPTY = Weather(
+            location = Location.EMPTY,
+            temperature = Temperature.EMPTY,
+            conditions = emptyList(),
+            wind = Wind.EMPTY,
+            pressure = 0,
+            humidity = 0,
+            visibility = 0,
+            clouds = 0,
+            timestamp = 0,
+            sunriseTimeMillis = 0,
+            sunsetTimeMillis = 0,
+            icon = ""
+        )
+    }
 }
 

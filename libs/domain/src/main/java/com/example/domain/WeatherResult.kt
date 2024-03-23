@@ -6,7 +6,7 @@ sealed interface WeatherResult<out T> {
     data class Success<T>(val data: T) : WeatherResult<T>
     data class Failure(val throwable: Throwable?) : WeatherResult<Nothing>
 
-    val isSuccess: Boolean get() = this !is Failure
+    val isSuccess: Boolean get() = this is Success
 
     /**
      * Returns `true` if this instance represents a failed outcome.

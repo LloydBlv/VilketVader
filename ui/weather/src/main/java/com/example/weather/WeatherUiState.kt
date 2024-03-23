@@ -3,13 +3,25 @@ package com.example.weather
 import com.example.domain.Weather
 import com.slack.circuit.runtime.CircuitUiState
 
-data class WeatherUiState(
-    val isLoading: Boolean,
-    val isRefreshing: Boolean,
-    val weather: Weather? = null,
-    val failure: Throwable? = null,
-    val eventSink: (WeatherEvent) -> Unit = { }
-): CircuitUiState
+sealed interface WeatherUiState : CircuitUiState {
+    val eventSink: (WeatherEvent) -> Unit
+
+    data class Success(
+        val weather: Weather,
+        val isRefreshing: Boolean,
+        override val eventSink: (WeatherEvent) -> Unit
+    ) : WeatherUiState
+
+    data class Failure(
+        val error: Throwable?,
+        override val eventSink: (WeatherEvent) -> Unit
+    ) : WeatherUiState
+
+    data object Loading : WeatherUiState {
+        override val eventSink: (WeatherEvent) -> Unit = {}
+    }
+
+}
 
 
 sealed interface WeatherEvent {

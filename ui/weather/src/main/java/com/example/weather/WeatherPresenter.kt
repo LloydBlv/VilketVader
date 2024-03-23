@@ -39,13 +39,19 @@ class WeatherPresenter @AssistedInject constructor(
                 }
             }
         }
-        return WeatherUiState(
-            isLoading = weather.isLoading,
-            isRefreshing = isRefreshing,
-            weather = weather.getOrNull(),
-            failure = weather.exceptionOrNull(),
-            eventSink = ::eventSink
-        ).also {
+        return when {
+            weather.isSuccess -> return WeatherUiState.Success(
+                weather.getOrNull()!!,
+                isRefreshing,
+                ::eventSink
+            )
+
+            weather.isFailure -> return WeatherUiState.Failure(
+                weather.exceptionOrNull(),
+                ::eventSink
+            )
+            else -> WeatherUiState.Loading
+        }.also {
             Timber.d("WeatherPresenter: present() -> $it")
         }
     }

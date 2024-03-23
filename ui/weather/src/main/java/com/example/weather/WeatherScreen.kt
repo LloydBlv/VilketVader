@@ -1,7 +1,6 @@
 package com.example.weather
 
 import android.annotation.SuppressLint
-import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
@@ -59,7 +58,7 @@ fun WeatherScreenUi(
             BoxWithSwipeRefresh(
                 modifier = Modifier.fillMaxSize(),
                 onSwipe = { eventSink(WeatherEvent.Refresh) },
-                isRefreshing = state.isRefreshing,
+                isRefreshing = (state as? WeatherUiState.Success)?.isRefreshing == true,
             ) {
                 WeatherScreenContent(state)
             }
@@ -71,35 +70,33 @@ fun WeatherScreenUi(
 @Composable
 private fun BoxScope.WeatherScreenContent(state: WeatherUiState, modifier: Modifier = Modifier) {
     Timber.i("WeatherScreenContent: state=$state")
-    AnimatedContent(targetState = state, modifier = modifier.fillMaxSize()) {
-        when {
-            it.weather != null -> {
-                WeatherListUi(it, modifier = Modifier.fillMaxSize())
-            }
+    when (state) {
+        is WeatherUiState.Success -> {
+            WeatherListUi(state, modifier = Modifier.fillMaxSize())
+        }
 
-            it.isLoading -> {
-                Column(
-                    modifier = Modifier.align(Alignment.Center),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    CircularProgressIndicator(modifier = Modifier.size(32.dp))
-                    Spacer(modifier = Modifier.height(10.dp))
-                    Text(
-                        text = "Loading...",
-                        style = MaterialTheme.typography.titleLarge,
-                        modifier = Modifier.padding(16.dp)
-                    )
-                }
-            }
+        is WeatherUiState.Failure -> {
+            Text(
+                text = "Failed to load weather data",
+                style = MaterialTheme.typography.titleLarge,
+                modifier = Modifier
+                    .padding(16.dp)
+                    .align(Alignment.Center)
+            )
+        }
 
-            it.failure != null -> {
+        WeatherUiState.Loading -> {
+            Column(
+                modifier = Modifier.align(Alignment.Center),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                CircularProgressIndicator(modifier = Modifier.size(32.dp))
+                Spacer(modifier = Modifier.height(10.dp))
                 Text(
-                    text = "Failed to load weather data",
+                    text = "Loading...",
                     style = MaterialTheme.typography.titleLarge,
-                    modifier = Modifier
-                        .padding(16.dp)
-                        .align(Alignment.Center)
+                    modifier = Modifier.padding(16.dp)
                 )
             }
         }
@@ -108,7 +105,7 @@ private fun BoxScope.WeatherScreenContent(state: WeatherUiState, modifier: Modif
 }
 
 @Composable
-private fun WeatherListUi(state: WeatherUiState, modifier: Modifier = Modifier) {
+private fun WeatherListUi(state: WeatherUiState.Success, modifier: Modifier = Modifier) {
     LazyColumn(
         modifier = modifier
             .padding(8.dp)
@@ -125,13 +122,13 @@ private fun WeatherListUi(state: WeatherUiState, modifier: Modifier = Modifier) 
         item { CloudCard(state) }
         item { Spacer(modifier = Modifier.height(10.dp)) }
     }
-    if (state.weather?.isRainy() == true) {
+    if (state.weather.isRainy()) {
         RainAnimationScreen()
     }
 }
 
 @Composable
-private fun PressureAndVisibilityCards(state: WeatherUiState) {
+private fun PressureAndVisibilityCards(state: WeatherUiState.Success) {
     Row(modifier = Modifier.fillMaxWidth()) {
         WeatherInfoCard(
             modifier = Modifier.weight(1f),
@@ -154,7 +151,7 @@ private fun PressureAndVisibilityCards(state: WeatherUiState) {
 }
 
 @Composable
-private fun CloudCard(state: WeatherUiState) {
+private fun CloudCard(state: WeatherUiState.Success) {
     Row(modifier = Modifier.fillMaxWidth()) {
         WeatherInfoCard(
             modifier = Modifier.weight(1f),
@@ -174,7 +171,7 @@ private fun CloudCard(state: WeatherUiState) {
 }
 
 @Composable
-private fun WindAndHumidityCard(state: WeatherUiState) {
+private fun WindAndHumidityCard(state: WeatherUiState.Success) {
     Row(modifier = Modifier.fillMaxWidth()) {
         WeatherInfoCard(
             modifier = Modifier.weight(1f),
@@ -197,7 +194,7 @@ private fun WindAndHumidityCard(state: WeatherUiState) {
 }
 
 @Composable
-private fun TimeStampText(state: WeatherUiState, modifier: Modifier = Modifier) {
+private fun TimeStampText(state: WeatherUiState.Success, modifier: Modifier = Modifier) {
     val formatter = LocalDateFormatter.current
     Text(
         modifier = modifier,
@@ -209,7 +206,7 @@ private fun TimeStampText(state: WeatherUiState, modifier: Modifier = Modifier) 
 
 @Composable
 private fun MinMaxTemperature(
-    state: WeatherUiState,
+    state: WeatherUiState.Success,
     modifier: Modifier = Modifier
 ) {
     Text(
@@ -221,7 +218,7 @@ private fun MinMaxTemperature(
 
 @Composable
 private fun CurrentTemperatureCard(
-    state: WeatherUiState,
+    state: WeatherUiState.Success,
     modifier: Modifier = Modifier
 ) {
     Row(modifier = modifier) {

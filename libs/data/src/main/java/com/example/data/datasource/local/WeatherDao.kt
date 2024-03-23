@@ -1,7 +1,6 @@
 package com.example.data.datasource.local
 
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -28,8 +27,8 @@ interface WeatherDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertWeather(weather: WeatherEntity)
 
-    @Delete
-    suspend fun deleteWeather(weather: WeatherEntity)
+    @Query("DELETE FROM weather where location_id = :locationId")
+    suspend fun deleteWeather(locationId: Int)
 
     @Query("DELETE FROM weather")
     suspend fun deleteAll()

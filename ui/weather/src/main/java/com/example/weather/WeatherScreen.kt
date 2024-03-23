@@ -1,11 +1,14 @@
 package com.example.weather
 
 import android.annotation.SuppressLint
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -20,20 +23,16 @@ import androidx.compose.material.icons.filled.WbCloudy
 import androidx.compose.material.icons.filled.WindPower
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.pulltorefresh.PullToRefreshContainer
-import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -57,6 +56,7 @@ fun WeatherScreenUi(
         modifier = modifier,
         content = {
             BoxWithSwipeRefresh(
+                modifier = Modifier.fillMaxSize(),
                 onSwipe = { eventSink(WeatherEvent.Refresh) },
                 isRefreshing = state.isLoading,
             ) {
@@ -67,41 +67,48 @@ fun WeatherScreenUi(
 
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BoxWithSwipeRefresh(
-    onSwipe: () -> Unit,
-    isRefreshing: Boolean,
-    modifier: Modifier = Modifier,
-    content: @Composable BoxScope.() -> Unit
-) {
-    val state = rememberPullToRefreshState()
+private fun BoxScope.WeatherScreenContent(state: WeatherUiState, modifier: Modifier = Modifier) {
+    AnimatedContent(targetState = state, modifier = modifier.fillMaxSize()) {
+        when {
+            it.weather != null -> {
+                WeatherListUi(it, modifier = Modifier.fillMaxSize())
+            }
 
-    if (state.isRefreshing) {
-        LaunchedEffect(Unit) {
-            onSwipe()
+            it.isLoading -> {
+                Column(
+                    modifier = Modifier.align(Alignment.Center),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    CircularProgressIndicator(modifier = Modifier.size(32.dp))
+                    Spacer(modifier = Modifier.height(10.dp))
+                    Text(
+                        text = "Loading...",
+                        style = MaterialTheme.typography.titleLarge,
+                        modifier = Modifier.padding(16.dp)
+                    )
+                }
+            }
+
+            it.failure != null -> {
+                Text(
+                    text = "Failed to load weather data",
+                    style = MaterialTheme.typography.titleLarge,
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .align(Alignment.Center)
+                )
+            }
         }
-    }
 
-    if (!isRefreshing) {
-        LaunchedEffect(Unit) {
-            state.endRefresh()
-        }
-    }
-
-    Box(modifier = modifier.nestedScroll(state.nestedScrollConnection)) {
-        content()
-        PullToRefreshContainer(
-            modifier = Modifier.align(Alignment.TopCenter),
-            state = state,
-        )
     }
 }
 
 @Composable
-private fun WeatherScreenContent(state: WeatherUiState) {
+private fun WeatherListUi(state: WeatherUiState, modifier: Modifier = Modifier) {
     LazyColumn(
-        modifier = Modifier
+        modifier = modifier
             .padding(8.dp)
     ) {
         item { CurrentTemperatureCard(state, Modifier.padding(8.dp)) }

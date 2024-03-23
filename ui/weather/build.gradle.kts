@@ -35,6 +35,7 @@ dependencies {
     testImplementation(libs.circuit.test)
     api(libs.circuit.codegen.annotations)
     ksp(libs.circuit.codegen)
+    implementation(libs.timber)
     implementation(libs.composeCoil)
 
     implementation(libs.androidx.ui)

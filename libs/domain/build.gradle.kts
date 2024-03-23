@@ -6,5 +6,5 @@ kotlin { jvmToolchain(17) }
 dependencies {
     implementation(libs.kotlinx.coroutines.jvm)
     implementation(libs.javax.inject)
-
+    implementation(libs.kermit)
 }

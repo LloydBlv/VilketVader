@@ -6,6 +6,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import com.example.domain.ObserveSelectedWeatherUseCase
 import com.example.domain.RefreshSelectedWeatherUseCase
+import com.example.domain.WeatherResult
 import com.example.domain.invoke
 import com.example.screens.WeatherScreen
 import com.slack.circuit.codegen.annotations.CircuitInject
@@ -15,6 +16,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class WeatherPresenter @AssistedInject constructor(
     private val observeSelectedWeather: ObserveSelectedWeatherUseCase,
@@ -22,7 +24,8 @@ class WeatherPresenter @AssistedInject constructor(
 ) : Presenter<WeatherUiState> {
     @Composable
     override fun present(): WeatherUiState {
-        val weather by observeSelectedWeather.flow.collectAsRetainedState(initial = null)
+        val weather by observeSelectedWeather.flow.collectAsRetainedState(initial = WeatherResult.Loading)
+        Timber.d("weather=%s", weather)
         val isRefreshing by refreshSelectedWeather.inProgress.collectAsRetainedState(initial = false)
         val scope = rememberCoroutineScope()
         LaunchedEffect(key1 = Unit) {
@@ -36,11 +39,13 @@ class WeatherPresenter @AssistedInject constructor(
             }
         }
         return WeatherUiState(
-            isLoading = weather == null || isRefreshing,
-            weather = weather?.getOrNull(),
-            failure = weather?.exceptionOrNull(),
+            isLoading = weather.isLoading || isRefreshing,
+            weather = weather.getOrNull(),
+            failure = weather.exceptionOrNull(),
             eventSink = ::eventSink
-        )
+        ).also {
+            Timber.d("WeatherPresenter: present() -> $it")
+        }
     }
 }
 

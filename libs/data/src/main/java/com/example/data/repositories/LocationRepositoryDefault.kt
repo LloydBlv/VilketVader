@@ -7,6 +7,7 @@ import com.example.data.datasource.local.toEntity
 import com.example.domain.Location
 import com.example.domain.LocationRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import timber.log.Timber
@@ -27,9 +28,10 @@ class LocationRepositoryDefault @Inject constructor(
         return locationDao.getSelectedLocation()?.toDomain()
     }
 
-    override fun observeSelectedLocation(): Flow<Location?> {
+    override fun observeSelectedLocation(): Flow<Location> {
         return locationDao.observeSelectedLocation()
-            .map { it?.toDomain() }
+            .filterNotNull()
+            .map(LocationEntity::toDomain)
     }
 
     override suspend fun updateSelectedLocation(location: Location) {

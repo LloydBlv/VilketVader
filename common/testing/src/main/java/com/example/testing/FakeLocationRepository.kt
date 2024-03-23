@@ -17,4 +17,8 @@ class FakeLocationRepository(val locations: MutableList<Location>) : LocationRep
     override suspend fun updateSelectedLocation(id: Int) {
         TODO("Not yet implemented")
     }
+
+    override suspend fun getSelectedLocation(): Location? {
+        TODO("Not yet implemented")
+    }
 }

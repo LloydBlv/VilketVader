@@ -13,5 +13,8 @@ interface WeatherRepository {
     fun observeWeather(
         location: Location,
         language: String,
+        forceFresh: Boolean,
     ): Flow<Weather?>
+
+    suspend fun refresh(location: Location, language: String)
 }

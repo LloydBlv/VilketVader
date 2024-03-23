@@ -4,7 +4,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface LocationRepository {
     fun observeLocations(): Flow<List<Location>>
-    fun observeSelectedLocation(): Flow<Location?>
+    fun observeSelectedLocation(): Flow<Location>
     suspend fun getSelectedLocation(): Location?
 
     suspend fun updateSelectedLocation(location: Location)

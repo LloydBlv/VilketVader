@@ -36,6 +36,7 @@ dependencies {
     kspTest(libs.androidx.room.compiler)
 
     implementation(libs.ktorfitLib)
+    implementation(libs.kotlinxDatetime)
     implementation(libs.kermit)
     implementation(libs.ktorClientOkHttp)
     implementation(libs.okHttpLoggingInterceptor)

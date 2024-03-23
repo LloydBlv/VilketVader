@@ -10,7 +10,7 @@ class RefreshSelectedWeatherUseCase @Inject constructor(
     override suspend fun doWork(params: Unit) {
         val selectedLocation = locationRepository.getSelectedLocation()
         if (selectedLocation != null) {
-            weatherRepository.getWeather(selectedLocation, Locale.getDefault().language, forceFresh = true)
+            weatherRepository.refresh(selectedLocation, Locale.getDefault().language)
         }
     }
 }

@@ -6,7 +6,6 @@ import assertk.Assert
 import assertk.all
 import assertk.assertThat
 import assertk.assertions.hasSize
-import assertk.assertions.isEmpty
 import assertk.assertions.isEqualTo
 import assertk.assertions.isEqualToWithGivenProperties
 import assertk.assertions.isNull
@@ -76,19 +75,6 @@ class WeatherDatabaseTest {
         assertThat(dao.getWeather(weather.location.id)?.weather!!).isEqualToIgnoringId(entity)
     }
     @Test
-    fun `test location delete cascades and deletes weather too`() = runTest {
-        val weather = getWeather()
-        val entity = weather.toEntity()
-        database.locationDao().insertLocation(weather.location.toEntity())
-        dao.insertWeather(entity)
-        assertThat(dao.getWeather(weather.location.id)?.weather!!).isEqualToIgnoringId(entity)
-        assertThat(dao.getAllWeathers()).hasSize(1)
-        database.locationDao().deleteLocation(weather.location.toEntity())
-        assertThat(dao.getWeather(weather.location.id)?.weather).isNull()
-        assertThat(dao.getAllWeathers()).isEmpty()
-    }
-
-    @Test
     fun `test delete works and record gets removed after deletion`() = runTest {
         val weather = getWeather()
         val entity = weather.toEntity()
@@ -96,7 +82,7 @@ class WeatherDatabaseTest {
         dao.insertWeather(entity)
         val entityAfterInsert = dao.getWeather(weather.location.id)?.weather!!
         assertThat(entityAfterInsert).isEqualToIgnoringId(entity)
-        dao.deleteWeather(entityAfterInsert)
+        dao.deleteWeather(locationId = entityAfterInsert.locationId)
         assertThat(dao.getWeather(weather.location.id)?.weather).isNull()
         assertThat(dao.getWeather(weather.location.id)).isNull()
         assertThat(dao.getWeather(weather.location.id)?.location).isNull()

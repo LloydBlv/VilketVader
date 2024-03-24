@@ -1,13 +1,11 @@
 package com.example.weather
 
-import assertk.all
 import assertk.assertThat
 import assertk.assertions.isEqualTo
-import assertk.assertions.isFalse
-import assertk.assertions.isNull
-import assertk.assertions.isTrue
-import assertk.assertions.prop
-import com.example.domain.GetSelectedWeatherUseCase
+import assertk.assertions.isInstanceOf
+import assertk.assertions.isNotNull
+import com.example.domain.ObserveSelectedWeatherUseCase
+import com.example.domain.RefreshSelectedWeatherUseCase
 import com.example.testing.FakeLocationRepository
 import com.example.testing.TestData
 import com.example.testing.WeatherRepositoryFake
@@ -23,56 +21,55 @@ import org.robolectric.RobolectricTestRunner
 class WeatherPresenterTest {
     @Test
     fun `test presenter emits success state when usecase succeeds`() = runTest {
+        val weatherRepository = WeatherRepositoryFake()
+        val locationRepository = FakeLocationRepository(
+            mutableListOf(TestData.STOCKHOLM.copy(isSelected = true))
+        )
         val presenter =
             WeatherPresenter(
-                getSelectedWeatherUseCase = GetSelectedWeatherUseCase(
-                    locationRepository = FakeLocationRepository(
-                        mutableListOf(
-                            TestData.STOCKHOLM.copy(
-                                isSelected = true
-                            )
-                        )
-                    ),
-                    weatherRepository = WeatherRepositoryFake()
+                observeSelectedWeather = ObserveSelectedWeatherUseCase(
+                    locationRepository = locationRepository,
+                    weatherRepository = weatherRepository
+                ),
+                refreshSelectedWeather = RefreshSelectedWeatherUseCase(
+                    weatherRepository = weatherRepository,
+                    locationRepository = locationRepository
                 )
             )
         presenter.test {
-            assertThat(awaitItem()).all {
-                prop(WeatherUiState::isLoading).isTrue()
-                prop(WeatherUiState::weather).isNull()
-                prop(WeatherUiState::failure).isNull()
-            }
-            assertThat(awaitItem()).all {
-                prop(WeatherUiState::isLoading).isFalse()
-                transform { it.weather!! }.assertTestWeather()
-                prop(WeatherUiState::failure).isNull()
-            }
+            assertThat(awaitItem()).isInstanceOf(WeatherUiState.Loading::class.java)
+            assertThat(awaitItem()).isInstanceOf(WeatherUiState.Success::class.java)
+                .transform { it.weather }
+                .assertTestWeather()
             ensureAllEventsConsumed()
         }
     }
 
     @Test
     fun `test presenter emits failed state when usecase fails`() = runTest {
+        val weatherRepository = WeatherRepositoryFake().apply {
+            exception = Exception("Test exception")
+        }
+        val locationRepository = FakeLocationRepository(
+            mutableListOf(TestData.STOCKHOLM.copy(isSelected = true))
+        )
         val presenter =
             WeatherPresenter(
-                getSelectedWeatherUseCase = GetSelectedWeatherUseCase(
-                    locationRepository = FakeLocationRepository(mutableListOf(TestData.STOCKHOLM.copy(isSelected = true))),
-                    weatherRepository = WeatherRepositoryFake().apply {
-                        exception = Exception("Test exception")
-                    }
+                observeSelectedWeather = ObserveSelectedWeatherUseCase(
+                    locationRepository = locationRepository,
+                    weatherRepository = weatherRepository
+                ),
+                refreshSelectedWeather = RefreshSelectedWeatherUseCase(
+                    weatherRepository = weatherRepository,
+                    locationRepository = locationRepository
                 )
             )
         presenter.test {
-            assertThat(awaitItem()).all {
-                prop(WeatherUiState::isLoading).isTrue()
-                prop(WeatherUiState::weather).isNull()
-                prop(WeatherUiState::failure).isNull()
-            }
-            assertThat(awaitItem()).all {
-                prop(WeatherUiState::isLoading).isFalse()
-                prop(WeatherUiState::weather).isNull()
-                transform { it.failure!!.message }.isEqualTo("Test exception")
-            }
+            assertThat(awaitItem()).isInstanceOf(WeatherUiState.Loading::class.java)
+            assertThat(awaitItem()).isInstanceOf(WeatherUiState.Failure::class.java)
+                .transform { it.error!!.message }
+                .isNotNull()
+                .isEqualTo("Test exception")
             ensureAllEventsConsumed()
         }
     }

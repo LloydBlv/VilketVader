@@ -14,6 +14,7 @@ import com.example.domain.GetWeatherUseCase
 import com.example.testing.FakeLocalDataSource
 import com.example.testing.TestData
 import com.example.testing.assertTestWeather
+import com.example.testing.createFakeWeatherStore
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.mock.MockEngine
 import io.ktor.client.engine.mock.MockRequestHandleScope
@@ -98,12 +99,18 @@ class GetWeatherUseCaseTest {
     ): WeatherRepositoryDefault {
         val engine = createdEngine { response.invoke(this, it) }
 
-        val client = WeatherApiClientDefault(
-            ktorfit = NetModule.provideKtorfit(
-                createMockedClient(engine)
-            )
+//        val client = WeatherApiClientDefault(
+//            ktorfit = NetModule.provideKtorfit(
+//                createMockedClient(engine)
+//            )
+//        )
+        val repository = WeatherRepositoryDefault(
+            client = WeatherApiClientDefault(
+                ktorfit = dagger.Lazy { NetModule.provideKtorfit(createMockedClient(engine)) }
+            ),
+            localDataSource = FakeLocalDataSource(),
+            weatherStore = createFakeWeatherStore()
         )
-        val repository = WeatherRepositoryDefault(client = client, FakeLocalDataSource())
         return repository
     }
 

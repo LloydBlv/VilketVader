@@ -1,33 +1,24 @@
 package com.example.domain
 
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.map
 import java.util.Locale
 import javax.inject.Inject
 
 class GetSelectedWeatherUseCase @Inject constructor(
     private val locationRepository: LocationRepository,
     private val weatherRepository: WeatherRepository
-) : SubjectInteractor<GetSelectedWeatherUseCase.Params, Result<Weather>>() {
+) : Interactor<GetSelectedWeatherUseCase.Params, Weather>() {
     data class Params(val forceFresh: ForceFresh = ForceFresh.idle())
 
-    override fun createObservable(params: Params): Flow<Result<Weather>> {
-        return locationRepository.observeSelectedLocation()
-            .map {
-                if (it != null) {
-                    weatherRepository.getWeather(
-                        forceFresh = params.forceFresh.shouldRefresh,
-                        location = it,
-                        language = Locale.getDefault().language
-                    )
-                } else {
-                    throw NoLocationSelectedException()
-                }
-            }
-            .map {
-                Result.success(it)
-            }
-            .catch { emit(Result.failure(it)) }
+    override suspend fun doWork(params: Params): Weather {
+        val location = locationRepository.getSelectedLocation()
+        return if (location != null) {
+            weatherRepository.getWeather(
+                forceFresh = params.forceFresh.shouldRefresh,
+                location = location,
+                language = Locale.getDefault().language
+            )
+        } else {
+            throw NoLocationSelectedException()
+        }
     }
 }

@@ -39,6 +39,7 @@ dependencies {
     implementation(projects.common.imageLoading)
     runtimeOnly(projects.libs.data)
     implementation(libs.androidx.material3)
+    implementation(libs.androidx.ui.icons)
 
     implementation(libs.play.services.wearable)
     implementation(platform(libs.androidx.compose.bom))

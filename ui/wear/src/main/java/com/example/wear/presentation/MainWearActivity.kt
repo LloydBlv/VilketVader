@@ -11,6 +11,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
@@ -22,13 +23,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.wear.compose.material.ExperimentalWearMaterialApi
+import androidx.wear.compose.material.FractionalThreshold
 import androidx.wear.compose.material.MaterialTheme
 import androidx.wear.compose.material.Text
 import androidx.wear.compose.material.TimeText
+import androidx.wear.compose.material.rememberSwipeableState
+import androidx.wear.compose.material.swipeable
 import com.example.domain.ObserveSelectedWeatherUseCase
 import com.example.domain.Weather
 import com.example.domain.WeatherResult
 import com.example.wear.WeatherInfo
+import com.example.wear.WeatherInfo1
 import com.example.wear.presentation.theme.VilketVaderTheme
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -76,7 +82,7 @@ class MainWearActivity : ComponentActivity() {
         Box(modifier = modifier.fillMaxSize()) {
             when(state) {
                 is WeatherResult.Success -> {
-                    WeatherInfo(weather = (state as WeatherResult.Success<Weather>).data)
+                    SwipeableViews(modifier = Modifier.fillMaxSize(), weather = (state as WeatherResult.Success<Weather>).data)
                 }
                 is WeatherResult.Failure -> {
                     Text(
@@ -96,6 +102,29 @@ class MainWearActivity : ComponentActivity() {
         }
 
 
+    }
+
+    @OptIn(ExperimentalWearMaterialApi::class)
+    @Composable
+    fun SwipeableViews(weather: Weather, modifier: Modifier = Modifier) {
+        val swipeableState = rememberSwipeableState(initialValue = 0)
+        val anchors = mapOf(0f to 0, 1f to -1) // Maps swipe progress to a state
+
+        Box(
+            modifier = modifier
+                .swipeable(
+                    state = swipeableState,
+                    anchors = anchors,
+                    orientation = Orientation.Horizontal,
+                    thresholds = { _, _ -> FractionalThreshold(0.5f) }
+                )
+        ) {
+            when (swipeableState.currentValue) {
+                0 -> WeatherInfo1(weather)
+                -1 -> WeatherInfo(weather)
+                // Add more cases if you have more views
+            }
+        }
     }
 }
 

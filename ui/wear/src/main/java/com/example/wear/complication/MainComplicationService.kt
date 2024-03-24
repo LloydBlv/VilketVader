@@ -1,12 +1,21 @@
 package com.example.wear.complication
 
+import android.app.PendingIntent
+import android.content.Intent
+import android.graphics.drawable.Icon
 import androidx.wear.watchface.complications.data.ComplicationData
 import androidx.wear.watchface.complications.data.ComplicationType
 import androidx.wear.watchface.complications.data.PlainComplicationText
 import androidx.wear.watchface.complications.data.ShortTextComplicationData
+import androidx.wear.watchface.complications.data.SmallImage
+import androidx.wear.watchface.complications.data.SmallImageType
 import androidx.wear.watchface.complications.datasource.ComplicationRequest
 import androidx.wear.watchface.complications.datasource.SuspendingComplicationDataSourceService
-import java.util.Calendar
+import com.example.domain.GetSelectedWeatherUseCase
+import com.example.domain.Weather
+import com.example.wear.R
+import com.example.wear.di.getSelectedWeatherUseCase
+import com.example.wear.presentation.MainWearActivity
 
 /**
  * Skeleton for complication data source that returns short text.
@@ -21,21 +30,30 @@ class MainComplicationService : SuspendingComplicationDataSourceService() {
     }
 
     override suspend fun onComplicationRequest(request: ComplicationRequest): ComplicationData {
-        return when (Calendar.getInstance().get(Calendar.DAY_OF_WEEK)) {
-            Calendar.SUNDAY -> createComplicationData("Sun", "Sunday")
-            Calendar.MONDAY -> createComplicationData("Mon", "Monday")
-            Calendar.TUESDAY -> createComplicationData("Tue", "Tuesday")
-            Calendar.WEDNESDAY -> createComplicationData("Wed", "Wednesday")
-            Calendar.THURSDAY -> createComplicationData("Thu", "Thursday")
-            Calendar.FRIDAY -> createComplicationData("Fri!", "Friday!")
-            Calendar.SATURDAY -> createComplicationData("Sat", "Saturday")
-            else -> throw IllegalArgumentException("too many days")
-        }
+        val result: Result<Weather> = getSelectedWeatherUseCase(applicationContext).invoke(GetSelectedWeatherUseCase.Params())
+        val weather = result.getOrThrow()
+        return createComplicationData(text = "${weather.temperature.current}°", contentDescription = "Temperature")
     }
 
-    private fun createComplicationData(text: String, contentDescription: String) =
-        ShortTextComplicationData.Builder(
+    private fun createComplicationData(
+        text: String,
+        contentDescription: String
+    ): ShortTextComplicationData {
+        val intent = Intent(applicationContext, MainWearActivity::class.java)
+        val pendingIntent = PendingIntent.getActivity(
+            applicationContext,
+            0,
+            intent,
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+        )
+        return ShortTextComplicationData.Builder(
             text = PlainComplicationText.Builder(text).build(),
             contentDescription = PlainComplicationText.Builder(contentDescription).build()
-        ).build()
+        ).setSmallImage(SmallImage.Builder(
+            image = Icon.createWithResource(applicationContext, R.mipmap.ic_launcher),
+            type = SmallImageType.PHOTO
+        ).build())
+            .setTapAction(pendingIntent)
+            .build()
+    }
 }

@@ -1,4 +1,4 @@
-package com.example.vilketvader
+package com.example.imageloading
 
 import coil.map.Mapper
 import coil.request.Options

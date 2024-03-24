@@ -35,6 +35,7 @@ dependencies {
     implementation(projects.libs.domain)
     implementation(libs.timber)
     implementation(projects.common.screens)
+    implementation(projects.common.imageLoading)
     implementation(projects.ui.weather)
     implementation(projects.ui.home)
     implementation(projects.ui.widget)

@@ -1,21 +1,16 @@
 package com.example.vilketvader
 
 import android.app.Application
-import coil.ImageLoader
-import coil.ImageLoaderFactory
+import android.content.Context
+import com.example.imageloading.WeatherImageLoaderFactory
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 
 
 @HiltAndroidApp
-class VilketVaderApplication : Application(), ImageLoaderFactory {
-    override fun newImageLoader(): ImageLoader {
-        return ImageLoader.Builder(this@VilketVaderApplication)
-            .crossfade(true)
-            .components {
-                add(WeatherIconMapper())
-            }
-            .build()
+class VilketVaderApplication : Application(), WeatherImageLoaderFactory {
+    override fun getContext(): Context {
+        return this@VilketVaderApplication
     }
 
     override fun onCreate() {

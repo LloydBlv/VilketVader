@@ -29,6 +29,8 @@ class MainComplicationService : SuspendingComplicationDataSourceService() {
         return createComplicationData("Mon", "Monday")
     }
 
+
+
     override suspend fun onComplicationRequest(request: ComplicationRequest): ComplicationData {
         val result: Result<Weather> = getSelectedWeatherUseCase(applicationContext).invoke(GetSelectedWeatherUseCase.Params())
         val weather = result.getOrThrow()

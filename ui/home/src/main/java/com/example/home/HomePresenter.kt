@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
-import com.example.domain.GetLocationsUseCase
+import com.example.domain.ObserveLocationsUseCase
 import com.example.domain.Location
 import com.example.domain.UpdateSelectedLocationUseCase
 import com.example.home.drawer.UiLocation
@@ -19,7 +19,7 @@ import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.launch
 
 class HomePresenter @AssistedInject constructor(
-    private val getLocationsUseCase: GetLocationsUseCase,
+    private val getLocationsUseCase: ObserveLocationsUseCase,
     private val updateSelectedLocation: UpdateSelectedLocationUseCase
 ) : Presenter<HomeUiState> {
     @Composable
@@ -27,7 +27,7 @@ class HomePresenter @AssistedInject constructor(
         val scope = rememberCoroutineScope()
         val locations by getLocationsUseCase.flow.collectAsRetainedState(initial = null)
         LaunchedEffect(key1 = Unit) {
-            getLocationsUseCase.invoke(GetLocationsUseCase.Params(false))
+            getLocationsUseCase.invoke(ObserveLocationsUseCase.Params(false))
         }
         fun eventSink(event: HomeUiEvents) {
             when (event) {

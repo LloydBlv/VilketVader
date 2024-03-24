@@ -5,7 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.runtime.Composable
@@ -13,10 +13,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.wear.compose.foundation.lazy.AutoCenteringParams
 import androidx.wear.compose.foundation.lazy.ScalingLazyColumn
+import androidx.wear.compose.foundation.lazy.ScalingLazyListState
 import androidx.wear.compose.material.Text
 import coil.compose.AsyncImage
 import com.example.domain.Icon
@@ -24,30 +26,37 @@ import com.example.domain.Weather
 
 
 @Composable
-internal fun WeatherInfo(weather: Weather, modifier: Modifier = Modifier) {
+internal fun WeatherInfo(
+    weather: Weather,
+    listState: ScalingLazyListState,
+    modifier: Modifier = Modifier
+) {
+    val contentModifier = Modifier
+        .fillMaxWidth()
+        .padding(bottom = 8.dp)
     ScalingLazyColumn(
+        state = listState,
         modifier = modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
-        autoCentering = AutoCenteringParams(0, 0)
+        autoCentering = AutoCenteringParams(itemIndex = 0),
     ) {
-        item { LocationName(weather) }
-        item { WeatherIcon(icon = weather.icon) }
-        item { Spacer(modifier = Modifier.height(8.dp)) }
+        item { LocationName(weather, contentModifier) }
+        item { WeatherIcon(icon = weather.icon, contentModifier) }
+        item { Spacer(modifier = contentModifier) }
 
-        item { CurrentTemperature(weather) }
+        item { CurrentTemperature(weather, contentModifier) }
 
-        item { Condition(weather) }
+        item { Condition(weather, contentModifier) }
 
-        item { Spacer(modifier = Modifier.height(8.dp)) }
+        item { Spacer(modifier = contentModifier) }
 
-        item { MinMaxTemperatures(weather) }
+        item { MinMaxTemperatures(weather, contentModifier) }
 
-        item { FeelsLikeTemp(weather) }
+        item { FeelsLikeTemp(weather, contentModifier) }
 
-        item { TimestampText() }
+        item { TimestampText(modifier = contentModifier) }
     }
 }
+
 @Composable
 internal fun WeatherInfo1(weather: Weather, modifier: Modifier = Modifier) {
     Column(
@@ -96,61 +105,62 @@ fun WeatherIcon(icon: Icon, modifier: Modifier = Modifier) {
 }
 
 @Composable
-private fun TimestampText() {
+private fun TimestampText(modifier: Modifier = Modifier) {
     Text(
         text = "tors, 09:23",
         fontSize = 12.sp,
         fontWeight = FontWeight.Thin,
-        modifier = Modifier.wrapContentWidth()
+        modifier = modifier.wrapContentWidth()
     )
 }
 
 @Composable
-private fun FeelsLikeTemp(weather: Weather) {
+private fun FeelsLikeTemp(weather: Weather, modifier: Modifier = Modifier) {
     Text(
         text = "Känns som ${weather.temperature.feelsLike}°",
         fontSize = 14.sp,
         fontWeight = FontWeight.Normal,
-        modifier = Modifier.wrapContentWidth()
+        modifier = modifier.wrapContentWidth()
     )
 }
 
 @Composable
-private fun MinMaxTemperatures(weather: Weather) {
+private fun MinMaxTemperatures(weather: Weather, modifier: Modifier = Modifier) {
     Text(
         text = "${weather.temperature.max}° / ${weather.temperature.min}°",
         fontSize = 14.sp,
         fontWeight = FontWeight.Normal,
-        modifier = Modifier.wrapContentWidth()
+        modifier = modifier.wrapContentWidth()
     )
 }
 
 @Composable
-private fun Condition(weather: Weather) {
+private fun Condition(weather: Weather, modifier: Modifier = Modifier) {
     Text(
         text = weather.conditions.firstOrNull()?.name.orEmpty(),
         fontSize = 16.sp,
         fontWeight = FontWeight.Normal,
-        modifier = Modifier.wrapContentWidth()
+        modifier = modifier.wrapContentWidth()
     )
 }
 
 @Composable
-private fun CurrentTemperature(weather: Weather) {
+private fun CurrentTemperature(weather: Weather, modifier: Modifier = Modifier) {
     Text(
         text = "${weather.temperature.current}°",
-        fontSize = 30.sp,
+        fontSize = 32.sp,
         fontWeight = FontWeight.Light,
-        modifier = Modifier.wrapContentWidth()
+        modifier = modifier.wrapContentWidth()
     )
 }
 
 @Composable
-private fun LocationName(weather: Weather) {
+private fun LocationName(weather: Weather, modifier: Modifier = Modifier) {
     Text(
         text = weather.location.name,
-        fontSize = 16.sp,
+        fontSize = 32.sp,
+        textAlign = TextAlign.Center,
         fontWeight = FontWeight.Bold,
-        modifier = Modifier.wrapContentWidth()
+        modifier = modifier.wrapContentWidth()
     )
 }

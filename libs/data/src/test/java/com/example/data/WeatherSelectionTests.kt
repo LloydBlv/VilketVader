@@ -17,7 +17,7 @@ import com.example.data.datasource.local.getInitialLocations
 import com.example.data.datasource.local.toDomain
 import com.example.data.repositories.LocationRepositoryDefault
 import com.example.data.repositories.WeatherRepositoryDefault
-import com.example.domain.GetLocationsUseCase
+import com.example.domain.ObserveLocationsUseCase
 import com.example.domain.LocationRepository
 import com.example.domain.UpdateSelectedLocationUseCase
 import com.example.domain.WeatherRepository
@@ -61,9 +61,9 @@ class WeatherSelectionTests {
 
     @Test
     fun `test selecting location`() = runTest {
-        val getLocationsUseCase = GetLocationsUseCase(locationRepository)
+        val getLocationsUseCase = ObserveLocationsUseCase(locationRepository)
         getLocationsUseCase.flow.test {
-            getLocationsUseCase.invoke(GetLocationsUseCase.Params(true))
+            getLocationsUseCase.invoke(ObserveLocationsUseCase.Params(true))
             assertThat(awaitItem().getOrNull()!!).all {
                 hasSize(2)
                 isEqualTo(getInitialLocations().map { it.toDomain() })

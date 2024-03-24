@@ -1,8 +1,10 @@
 plugins {
     id("com.vilketvader.android.application")
     id("com.vilketvader.android.application.compose")
+    id("com.vilketvader.circuit.application")
     id("com.vilketvader.kotlin.android")
     id("com.vilketvader.hilt")
+    alias(libs.plugins.kotlin.parcelize)
 }
 
 android {

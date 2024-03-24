@@ -24,6 +24,7 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/common" />
             <option value="$PROJECT_DIR$/common/core" />
+            <option value="$PROJECT_DIR$/common/image-loading" />
             <option value="$PROJECT_DIR$/common/screens" />
             <option value="$PROJECT_DIR$/common/testing" />
             <option value="$PROJECT_DIR$/gradle/build-logic" />
@@ -33,6 +34,7 @@
             <option value="$PROJECT_DIR$/libs/domain" />
             <option value="$PROJECT_DIR$/ui" />
             <option value="$PROJECT_DIR$/ui/home" />
+            <option value="$PROJECT_DIR$/ui/wear" />
             <option value="$PROJECT_DIR$/ui/weather" />
             <option value="$PROJECT_DIR$/ui/widget" />
           </set>

@@ -3,11 +3,8 @@ plugins {
     id("com.vilketvader.android.application.compose")
     id("com.vilketvader.kotlin.android")
     id("com.vilketvader.hilt")
+    id("com.vilketvader.circuit.application")
     alias(libs.plugins.kotlin.parcelize)
-}
-
-ksp {
-    arg("circuit.codegen.mode", "hilt")
 }
 
 
@@ -39,10 +36,6 @@ dependencies {
     implementation(projects.ui.weather)
     implementation(projects.ui.home)
     implementation(projects.ui.widget)
-
-    implementation(libs.circuit.foundation)
-    implementation(libs.circuit.runtime)
-    implementation(libs.circuit.foundation)
 
     implementation(libs.kotlinx.serialization.json)
 

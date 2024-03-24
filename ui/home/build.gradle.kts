@@ -3,10 +3,7 @@ plugins {
     id("com.vilketvader.android.library")
     id("com.vilketvader.hilt")
     id("com.vilketvader.android.library.compose")
-}
-
-ksp {
-    arg("circuit.codegen.mode", "hilt")
+    id("com.vilketvader.circuit")
 }
 
 
@@ -26,19 +23,9 @@ android {
 dependencies {
 
     implementation(projects.libs.domain)
-
     implementation(projects.common.screens)
+    implementation(projects.common.imageLoading)
 
-
-    implementation(libs.circuit.runtime.presenter)
-    implementation(libs.circuit.retained)
-    implementation(libs.circuit.foundation)
-    testImplementation(libs.circuit.test)
-    implementation(libs.circuit.runtime.ui)
-    testImplementation(libs.circuit.test)
-    api(libs.circuit.codegen.annotations)
-    ksp(libs.circuit.codegen)
-    implementation(libs.composeCoil)
 
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.icons)

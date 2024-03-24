@@ -30,6 +30,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.androidx.glance.appwidget)
     runtimeOnly(projects.libs.data)
     implementation(projects.libs.domain)
     implementation(libs.timber)

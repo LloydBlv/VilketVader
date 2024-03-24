@@ -10,9 +10,9 @@ android.namespace = "com.example.widget"
 dependencies {
     implementation(projects.libs.domain)
     implementation(libs.composeCoil)
-    
+
     implementation("androidx.glance:glance-material3:1.0.0")
-    implementation("androidx.glance:glance-appwidget:1.0.0")
+    implementation(libs.androidx.glance.appwidget)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)

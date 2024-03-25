@@ -23,7 +23,6 @@ class WeatherUiScreenshotTest {
     val composeTestRule = createComposeRule()
 
 
-
     @get:Rule
     val roborazziRule = RoborazziRule(
         composeRule = composeTestRule,
@@ -32,6 +31,7 @@ class WeatherUiScreenshotTest {
             outputDirectoryPath = "src/androidUnitTest/snapshots/images",
         ),
     )
+
     @Test
     @Category(ScreenshotTesting::class)
     fun weatherScreenLoadingStateTest() {
@@ -40,6 +40,16 @@ class WeatherUiScreenshotTest {
             WeatherScreenUi(state = WeatherUiState.Loading)
         }
         composeTestRule.mainClock.advanceTimeBy(2.seconds.inWholeMilliseconds)
+        composeTestRule.onRoot()
+            .captureRoboImage()
+    }
+
+    @Test
+    @Category(ScreenshotTesting::class)
+    fun weatherScreenFailedStateTest() {
+        composeTestRule.setContent {
+            WeatherScreenUi(state = WeatherUiState.Failure(error = Throwable("Network error"), {}))
+        }
         composeTestRule.onRoot()
             .captureRoboImage()
     }

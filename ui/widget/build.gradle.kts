@@ -5,7 +5,13 @@ plugins {
     id("com.vilketvader.android.library.compose")
 }
 
-android.namespace = "com.example.widget"
+android {
+    namespace = "com.example.widget"
+
+    lint {
+        baseline = file("lint-baseline.xml")
+    }
+}
 
 dependencies {
     implementation(projects.libs.domain)

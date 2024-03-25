@@ -65,6 +65,6 @@ private fun tileLayout(context: Context): LayoutElementBuilders.LayoutElement {
     showBackground = true,
 )
 @Composable
-fun TilePreview() {
+internal fun TilePreview() {
     LayoutRootPreview(root = tileLayout(LocalContext.current))
 }

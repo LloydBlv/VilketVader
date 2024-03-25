@@ -67,22 +67,13 @@ private fun LocationsLazyList(
         modifier = modifier.fillMaxSize(),
     ) {
         items(state.locations) { location ->
-            LocationItem(
+            LocationCard(
                 modifier = contentModifier,
                 location = location,
                 onClick = { eventSink(LocationsScreen.Events.OnLocationClicked(location)) },
             )
         }
     }
-}
-
-@Composable
-fun LocationItem(location: Location, onClick: () -> Unit, modifier: Modifier) {
-    LocationCard(
-        modifier = modifier,
-        location = location,
-        onClick = onClick,
-    )
 }
 
 @Composable

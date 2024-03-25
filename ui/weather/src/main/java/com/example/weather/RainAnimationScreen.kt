@@ -17,7 +17,7 @@ import androidx.compose.ui.platform.LocalDensity
 import kotlin.time.Duration.Companion.seconds
 
 @Composable
-fun RainAnimationScreen() {
+fun RainAnimationScreen(modifier: Modifier = Modifier) {
     val infiniteTransition = rememberInfiniteTransition()
     val raindropY = infiniteTransition.animateFloat(
         initialValue = 0f,
@@ -33,7 +33,7 @@ fun RainAnimationScreen() {
     // Generate a list of raindrops with random starting points
     val raindrops = remember { List(100) { Raindrop(randomX(density)) } }
 
-    Canvas(modifier = Modifier.fillMaxSize()) {
+    Canvas(modifier = modifier.fillMaxSize()) {
         val canvasHeight = size.height
 
         raindrops.forEach { raindrop ->

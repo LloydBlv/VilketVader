@@ -24,32 +24,38 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import java.time.Duration
-import java.time.LocalTime
 import kotlin.math.PI
 import kotlin.math.cos
+import kotlinx.datetime.Instant
 
 @Composable
-fun SunriseSunsetUI() {
+fun SunriseSunsetUI(modifier: Modifier = Modifier) {
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Canvas(modifier = Modifier.fillMaxWidth().aspectRatio(1.0f)) {
+        Canvas(
+            modifier = Modifier
+                .fillMaxWidth()
+                .aspectRatio(1.0f),
+        ) {
             val canvasWidth = size.width
-            val canvasHeight = size.height / 2 // Half the height because we only need the top semicircle
+            val canvasHeight =
+                size.height / 2 // Half the height because we only need the top semicircle
 
             // The stroke for the path should be solid with the right color and width
-            val stroke = Stroke(width = 4.dp.toPx(), pathEffect = PathEffect.cornerPathEffect(4.dp.toPx()))
+            val stroke =
+                Stroke(width = 4.dp.toPx(), pathEffect = PathEffect.cornerPathEffect(4.dp.toPx()))
 
             // Start and end points of the arc
             val startPoint = Offset(0f, canvasHeight)
             val endPoint = Offset(canvasWidth, canvasHeight)
 
             // Control points for the Bezier curve, adjusted to create a semicircle
-            val controlOffset = canvasWidth * 0.5f // Adjust this value as needed to perfect the curve
+            val controlOffset =
+                canvasWidth * 0.5f // Adjust this value as needed to perfect the curve
             val controlPoint1 = Offset(controlOffset, 0f)
             val controlPoint2 = Offset(canvasWidth - controlOffset, 0f)
 
@@ -95,7 +101,12 @@ fun SunriseSunsetUI() {
 }
 
 @Composable
-fun SunPathUI(sunriseTime: LocalTime, sunsetTime: LocalTime, currentTime: LocalTime) {
+fun SunPathUI(
+    sunriseTime: Instant,
+    sunsetTime: Instant,
+    currentTime: Instant,
+    modifier: Modifier = Modifier,
+) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -110,9 +121,9 @@ fun SunPathUI(sunriseTime: LocalTime, sunsetTime: LocalTime, currentTime: LocalT
 }
 
 @Composable
-fun SunPath() {
+fun SunPath(modifier: Modifier = Modifier) {
     Canvas(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .aspectRatio(16 / 9f),
     ) {
@@ -124,18 +135,22 @@ fun SunPath() {
                 forceMoveTo = false,
             )
         }
-        drawPath(path = path, brush = SolidColor(Color.LightGray), style = Stroke(width = 4.dp.toPx()))
+        drawPath(
+            path = path,
+            brush = SolidColor(Color.LightGray),
+            style = Stroke(width = 4.dp.toPx()),
+        )
     }
 }
 
 @Composable
-fun SunIndicator(position: Float) {
+fun SunIndicator(position: Float, modifier: Modifier = Modifier) {
     // Assuming the sun's path is a semicircle from sunrise (0) to sunset (1)
     val arcRadius = 100.dp.value // This should be the same as the height of the SunPath Canvas
     val sunDiameter = 30.dp
 
     Canvas(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .height((arcRadius * 2).dp),
     ) {
@@ -146,26 +161,29 @@ fun SunIndicator(position: Float) {
         drawCircle(
             color = Color.Yellow,
             radius = sunDiameter.toPx() / 2,
-            center = androidx.compose.ui.geometry.Offset(x, y),
+            center = Offset(x, y),
         )
     }
 }
 
 @Composable
-fun BoxScope.SunTimeLabel(time: String, isSunrise: Boolean) {
+fun BoxScope.SunTimeLabel(time: String, isSunrise: Boolean, modifier: Modifier = Modifier) {
     Column(
-        modifier = Modifier
+        modifier = modifier
             .align(if (isSunrise) Alignment.TopStart else Alignment.TopEnd)
             .padding(top = 220.dp),
     ) {
         Text(text = if (isSunrise) "U" else "N", fontSize = 12.sp)
         Spacer(modifier = Modifier.height(4.dp))
-        Text(text = "", fontSize = 16.sp, color = Color.DarkGray)
+        Text(text = time, fontSize = 16.sp, color = Color.DarkGray)
     }
 }
 
-fun calculateSunPosition(sunrise: LocalTime, sunset: LocalTime, current: LocalTime): Float {
-    val dayDuration = Duration.between(sunrise, sunset).toMinutes().toFloat()
-    val timeSinceSunrise = Duration.between(sunrise, current).toMinutes().toFloat()
+fun calculateSunPosition(sunrise: Instant, sunset: Instant, current: Instant): Float {
+    // Calculate the duration of the day and the time since sunrise in minutes
+    val dayDuration = (sunset - sunrise).inWholeMinutes.toFloat()
+    val timeSinceSunrise = (current - sunrise).inWholeMinutes.toFloat()
+
+    // Calculate the position of the sun as a fraction of the day's length, clamping the result between 0 and 1
     return (timeSinceSunrise / dayDuration).coerceIn(0f, 1f)
 }

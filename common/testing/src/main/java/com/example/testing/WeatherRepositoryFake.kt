@@ -5,6 +5,7 @@ import com.example.domain.Location
 import com.example.domain.Weather
 import com.example.domain.WeatherRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 
 class WeatherRepositoryFake() : WeatherRepository {
     var exception: Throwable? = null
@@ -24,10 +25,11 @@ class WeatherRepositoryFake() : WeatherRepository {
         language: String,
         forceFresh: Boolean,
     ): Flow<Weather?> {
-        TODO("Not yet implemented")
+        return flow {
+            emit(getWeather(location, language, forceFresh))
+        }
     }
 
     override suspend fun refresh(location: Location, language: String) {
-        TODO("Not yet implemented")
     }
 }

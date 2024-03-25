@@ -27,6 +27,7 @@ dependencies {
     testImplementation(libs.kotlinx.coroutines.test)
 
     implementation(libs.kotlinxCollectionsImmutable)
+    implementation(libs.kotlinxDatetime)
 
     testImplementation(libs.robolectric)
     testImplementation(libs.assertk)

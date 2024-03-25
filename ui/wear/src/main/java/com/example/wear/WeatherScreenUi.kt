@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import androidx.wear.compose.foundation.lazy.ScalingLazyListState
 import androidx.wear.compose.foundation.lazy.rememberScalingLazyListState
@@ -21,7 +22,12 @@ import androidx.wear.compose.material.VignettePosition
 import androidx.wear.compose.material.rememberSwipeableState
 import androidx.wear.compose.material.scrollAway
 import androidx.wear.compose.material.swipeable
+import androidx.wear.tooling.preview.devices.WearDevices.LARGE_ROUND
+import com.example.domain.Condition
+import com.example.domain.Location
+import com.example.domain.Temperature
 import com.example.domain.Weather
+import com.example.wear.presentation.theme.VilketVaderTheme
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.components.SingletonComponent
 
@@ -70,9 +76,10 @@ private fun WeatherContent(
 
             state.failure != null -> {
                 Text(
-                    text = "Error",
+                    text = state.failure.localizedMessage ?: "Something went wrong",
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
+                    modifier = Modifier.align(Alignment.Center),
                 )
             }
 
@@ -111,5 +118,69 @@ fun SwipeableViews(
             0 -> WeatherInfo(weather = weather, listState = listState)
             else -> WeatherInfo1(weather)
         }
+    }
+}
+
+@Preview(
+    device = LARGE_ROUND,
+    showSystemUi = true,
+    backgroundColor = 0xff000000,
+    showBackground = true,
+)
+@Composable
+internal fun LoadingPreview() {
+    VilketVaderTheme {
+        WeatherScreenUi(
+            state = WeatherScreen.UiState(
+                isLoading = true,
+                weather = null,
+                eventSink = {},
+            ),
+        )
+    }
+}
+
+@Preview(
+    device = LARGE_ROUND,
+    showSystemUi = true,
+    backgroundColor = 0xff000000,
+    showBackground = true,
+)
+@Composable
+internal fun FailurePreview() {
+    VilketVaderTheme {
+        WeatherScreenUi(
+            state = WeatherScreen.UiState(
+                isLoading = false,
+                weather = null,
+                failure = Throwable("Something went wrong"),
+                eventSink = {},
+            ),
+        )
+    }
+}
+
+@Preview(
+    device = LARGE_ROUND,
+    showSystemUi = true,
+    backgroundColor = 0xff000000,
+    showBackground = true,
+)
+@Composable
+internal fun SuccessPreview() {
+    VilketVaderTheme {
+        WeatherScreenUi(
+            modifier = Modifier.fillMaxSize(),
+            state = WeatherScreen.UiState(
+                isLoading = false,
+                weather = Weather.EMPTY.copy(
+                    location = Location.EMPTY.copy(name = "Stockholm"),
+                    temperature = Temperature.EMPTY.copy(current = 16f, feelsLike = 14f, min = 10f, max = 20f),
+                    conditions = listOf(Condition("Sunny", "very sunny", Condition.Type.CLEAR)),
+
+                ),
+                eventSink = {},
+            ),
+        )
     }
 }

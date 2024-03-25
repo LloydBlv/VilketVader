@@ -4,6 +4,8 @@ plugins {
     id("com.vilketvader.hilt")
     id("com.vilketvader.android.library.compose")
     id("com.vilketvader.circuit")
+    id("com.vilketvader.roborazzi")
+
 }
 
 android.namespace = "com.example.weather"
@@ -14,6 +16,8 @@ dependencies {
     implementation(projects.common.screens)
     implementation(projects.common.imageLoading)
     implementation(libs.timber)
+
+    testImplementation(libs.androidx.ui.test.junit4)
 
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.icons)
@@ -31,6 +35,8 @@ dependencies {
     testImplementation(libs.assertk)
     testImplementation(projects.common.testing)
     testImplementation(libs.junit)
+    debugImplementation(libs.androidx.ui.test.manifest)
+
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 }

@@ -10,6 +10,7 @@ plugins {
     alias(libs.plugins.spotless) apply false
     alias(libs.plugins.doctor)
     alias(libs.plugins.detekt) apply false
+    alias(libs.plugins.roborazzi) apply false
     alias(libs.plugins.android.library) apply false
     alias(libs.plugins.ktorfitGradlePlugin) apply false
     alias(libs.plugins.kspGradlePlugin) apply false

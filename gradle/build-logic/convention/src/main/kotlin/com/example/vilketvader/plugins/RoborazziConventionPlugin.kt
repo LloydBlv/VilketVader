@@ -17,7 +17,7 @@ class RoborazziConventionPlugin : Plugin<Project> {
                 testOptions.unitTests.all {
                     it.maxParallelForks = Runtime.getRuntime().availableProcessors()
                     it.useJUnit {
-                        if (project.hasProperty("screenshot") && project.property("screenshot") == "true") {
+                        if (project.hasProperty("screenshot")) {
                             project.logger.lifecycle("include only screenshot tests")
                             includeCategories("com.example.testing.ScreenshotTesting")
                         }
@@ -25,13 +25,13 @@ class RoborazziConventionPlugin : Plugin<Project> {
                 }
             }
             dependencies {
-                "implementation"(libs["androidx-espresso-core"])
-                "implementation"(libs["junit"])
-                "implementation"(libs["robolectric"])
-                "implementation"(libs["androidx-junit"])
-                "implementation"(libs["roborazzi"])
-                "implementation"(libs["roborazzi-compose"])
-                "ksp"(libs["hilt.android.compiler"])
+                "testImplementation"(libs["androidx-espresso-core"])
+                "testImplementation"(libs["junit"])
+                "testImplementation"(libs["robolectric"])
+                "testImplementation"(libs["androidx-junit"])
+                "testImplementation"(libs["roborazzi"])
+                "testImplementation"(libs["roborazzi-rule"])
+                "testImplementation"(libs["roborazzi-compose"])
             }
         }
     }

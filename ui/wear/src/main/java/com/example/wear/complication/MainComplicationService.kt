@@ -29,8 +29,6 @@ class MainComplicationService : SuspendingComplicationDataSourceService() {
         return createComplicationData("Mon", "Monday")
     }
 
-
-
     override suspend fun onComplicationRequest(request: ComplicationRequest): ComplicationData {
         val result: Result<Weather> = getSelectedWeatherUseCase(applicationContext).invoke(GetSelectedWeatherUseCase.Params())
         val weather = result.getOrThrow()
@@ -39,22 +37,24 @@ class MainComplicationService : SuspendingComplicationDataSourceService() {
 
     private fun createComplicationData(
         text: String,
-        contentDescription: String
+        contentDescription: String,
     ): ShortTextComplicationData {
         val intent = Intent(applicationContext, MainWearActivity::class.java)
         val pendingIntent = PendingIntent.getActivity(
             applicationContext,
             0,
             intent,
-            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT,
         )
         return ShortTextComplicationData.Builder(
             text = PlainComplicationText.Builder(text).build(),
-            contentDescription = PlainComplicationText.Builder(contentDescription).build()
-        ).setSmallImage(SmallImage.Builder(
-            image = Icon.createWithResource(applicationContext, R.mipmap.ic_launcher),
-            type = SmallImageType.PHOTO
-        ).build())
+            contentDescription = PlainComplicationText.Builder(contentDescription).build(),
+        ).setSmallImage(
+            SmallImage.Builder(
+                image = Icon.createWithResource(applicationContext, R.mipmap.ic_launcher),
+                type = SmallImageType.PHOTO,
+            ).build(),
+        )
             .setTapAction(pendingIntent)
             .build()
     }

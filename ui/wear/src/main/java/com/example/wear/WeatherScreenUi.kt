@@ -25,12 +25,11 @@ import com.example.domain.Weather
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.components.SingletonComponent
 
-
 @CircuitInject(WeatherScreen::class, SingletonComponent::class)
 @Composable
 fun WeatherScreenUi(
     state: WeatherScreen.UiState,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val listState = rememberScalingLazyListState()
 
@@ -40,23 +39,24 @@ fun WeatherScreenUi(
         timeText = { TimeText(modifier = Modifier.scrollAway(listState)) },
         positionIndicator = {
             PositionIndicator(
-                scalingLazyListState = listState
+                scalingLazyListState = listState,
             )
         },
         content = {
             WeatherContent(
-                modifier = Modifier.fillMaxSize(), state = state,
-                listState = listState
+                modifier = Modifier.fillMaxSize(),
+                state = state,
+                listState = listState,
             )
-        })
-
+        },
+    )
 }
 
 @Composable
 private fun WeatherContent(
     state: WeatherScreen.UiState,
     listState: ScalingLazyListState,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Box(modifier = modifier.fillMaxSize()) {
         when {
@@ -64,7 +64,7 @@ private fun WeatherContent(
                 SwipeableViews(
                     listState = listState,
                     modifier = Modifier.fillMaxSize(),
-                    weather = state.weather
+                    weather = state.weather,
                 )
             }
 
@@ -72,7 +72,7 @@ private fun WeatherContent(
                 Text(
                     text = "Error",
                     fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
                 )
             }
 
@@ -81,20 +81,19 @@ private fun WeatherContent(
                     text = "Loading...",
                     fontSize = 16.sp,
                     modifier = Modifier.align(Alignment.Center),
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
                 )
             }
         }
     }
 }
 
-
 @OptIn(ExperimentalWearMaterialApi::class)
 @Composable
 fun SwipeableViews(
     weather: Weather,
     listState: ScalingLazyListState,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val swipeableState = rememberSwipeableState(initialValue = 0)
     val anchors = mapOf(0f to 0, 1f to -1) // Maps swipe progress to a state
@@ -105,8 +104,8 @@ fun SwipeableViews(
                 state = swipeableState,
                 anchors = anchors,
                 orientation = Orientation.Horizontal,
-                thresholds = { _, _ -> FractionalThreshold(0.5f) }
-            )
+                thresholds = { _, _ -> FractionalThreshold(0.5f) },
+            ),
     ) {
         when (swipeableState.currentValue) {
             0 -> WeatherInfo(weather = weather, listState = listState)

@@ -5,7 +5,6 @@ plugins {
     id("com.vilketvader.android.library.compose")
     id("com.vilketvader.circuit")
     id("com.vilketvader.roborazzi")
-
 }
 
 android.namespace = "com.example.weather"
@@ -25,11 +24,9 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
 
-
     testImplementation(libs.kotlinx.coroutines.test)
 
     implementation(libs.kotlinxCollectionsImmutable)
-
 
     testImplementation(libs.robolectric)
     testImplementation(libs.assertk)

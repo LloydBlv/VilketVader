@@ -16,25 +16,24 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 
-
 @RunWith(RobolectricTestRunner::class)
 class WeatherPresenterTest {
     @Test
     fun `test presenter emits success state when usecase succeeds`() = runTest {
         val weatherRepository = WeatherRepositoryFake()
         val locationRepository = FakeLocationRepository(
-            mutableListOf(TestData.STOCKHOLM.copy(isSelected = true))
+            mutableListOf(TestData.STOCKHOLM.copy(isSelected = true)),
         )
         val presenter =
             WeatherPresenter(
                 observeSelectedWeather = ObserveSelectedWeatherUseCase(
                     locationRepository = locationRepository,
-                    weatherRepository = weatherRepository
+                    weatherRepository = weatherRepository,
                 ),
                 refreshSelectedWeather = RefreshSelectedWeatherUseCase(
                     weatherRepository = weatherRepository,
-                    locationRepository = locationRepository
-                )
+                    locationRepository = locationRepository,
+                ),
             )
         presenter.test {
             assertThat(awaitItem()).isInstanceOf(WeatherUiState.Loading::class.java)
@@ -51,18 +50,18 @@ class WeatherPresenterTest {
             exception = Exception("Test exception")
         }
         val locationRepository = FakeLocationRepository(
-            mutableListOf(TestData.STOCKHOLM.copy(isSelected = true))
+            mutableListOf(TestData.STOCKHOLM.copy(isSelected = true)),
         )
         val presenter =
             WeatherPresenter(
                 observeSelectedWeather = ObserveSelectedWeatherUseCase(
                     locationRepository = locationRepository,
-                    weatherRepository = weatherRepository
+                    weatherRepository = weatherRepository,
                 ),
                 refreshSelectedWeather = RefreshSelectedWeatherUseCase(
                     weatherRepository = weatherRepository,
-                    locationRepository = locationRepository
-                )
+                    locationRepository = locationRepository,
+                ),
             )
         presenter.test {
             assertThat(awaitItem()).isInstanceOf(WeatherUiState.Loading::class.java)

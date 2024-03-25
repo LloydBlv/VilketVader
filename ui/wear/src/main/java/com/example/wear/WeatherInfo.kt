@@ -24,12 +24,11 @@ import coil.compose.AsyncImage
 import com.example.domain.Icon
 import com.example.domain.Weather
 
-
 @Composable
 internal fun WeatherInfo(
     weather: Weather,
     listState: ScalingLazyListState,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val contentModifier = Modifier
         .fillMaxWidth()
@@ -62,7 +61,7 @@ internal fun WeatherInfo1(weather: Weather, modifier: Modifier = Modifier) {
     Column(
         modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         // Time
 //        TimeText(
@@ -76,12 +75,12 @@ internal fun WeatherInfo1(weather: Weather, modifier: Modifier = Modifier) {
             fontSize = 44.sp,
             color = Color.White,
             fontWeight = FontWeight.Normal,
-            modifier = Modifier.wrapContentWidth()
+            modifier = Modifier.wrapContentWidth(),
         )
 
         // RealFeel
         Row(
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             WeatherIcon(icon = weather.icon)
             Text(
@@ -89,7 +88,7 @@ internal fun WeatherInfo1(weather: Weather, modifier: Modifier = Modifier) {
                 color = Color.White,
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Light,
-                modifier = Modifier.padding(start = 2.dp)
+                modifier = Modifier.padding(start = 2.dp),
             )
         }
     }
@@ -100,7 +99,7 @@ fun WeatherIcon(icon: Icon, modifier: Modifier = Modifier) {
     AsyncImage(
         model = icon,
         contentDescription = "weather icon",
-        modifier = modifier.wrapContentWidth()
+        modifier = modifier.wrapContentWidth(),
     )
 }
 
@@ -110,7 +109,7 @@ private fun TimestampText(modifier: Modifier = Modifier) {
         text = "tors, 09:23",
         fontSize = 12.sp,
         fontWeight = FontWeight.Thin,
-        modifier = modifier.wrapContentWidth()
+        modifier = modifier.wrapContentWidth(),
     )
 }
 
@@ -120,7 +119,7 @@ private fun FeelsLikeTemp(weather: Weather, modifier: Modifier = Modifier) {
         text = "Känns som ${weather.temperature.feelsLike}°",
         fontSize = 14.sp,
         fontWeight = FontWeight.Normal,
-        modifier = modifier.wrapContentWidth()
+        modifier = modifier.wrapContentWidth(),
     )
 }
 
@@ -130,7 +129,7 @@ private fun MinMaxTemperatures(weather: Weather, modifier: Modifier = Modifier) 
         text = "${weather.temperature.max}° / ${weather.temperature.min}°",
         fontSize = 14.sp,
         fontWeight = FontWeight.Normal,
-        modifier = modifier.wrapContentWidth()
+        modifier = modifier.wrapContentWidth(),
     )
 }
 
@@ -140,7 +139,7 @@ private fun Condition(weather: Weather, modifier: Modifier = Modifier) {
         text = weather.conditions.firstOrNull()?.name.orEmpty(),
         fontSize = 16.sp,
         fontWeight = FontWeight.Normal,
-        modifier = modifier.wrapContentWidth()
+        modifier = modifier.wrapContentWidth(),
     )
 }
 
@@ -150,7 +149,7 @@ private fun CurrentTemperature(weather: Weather, modifier: Modifier = Modifier) 
         text = "${weather.temperature.current}°",
         fontSize = 32.sp,
         fontWeight = FontWeight.Light,
-        modifier = modifier.wrapContentWidth()
+        modifier = modifier.wrapContentWidth(),
     )
 }
 
@@ -161,6 +160,6 @@ private fun LocationName(weather: Weather, modifier: Modifier = Modifier) {
         fontSize = 32.sp,
         textAlign = TextAlign.Center,
         fontWeight = FontWeight.Bold,
-        modifier = modifier.wrapContentWidth()
+        modifier = modifier.wrapContentWidth(),
     )
 }

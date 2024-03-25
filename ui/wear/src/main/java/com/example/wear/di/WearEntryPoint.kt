@@ -17,7 +17,8 @@ interface WearEntryPoint {
 
 internal fun getSelectedWeatherUseCase(context: Context): GetSelectedWeatherUseCase {
     val hiltEntryPoint = EntryPointAccessors.fromApplication(
-        context, WearEntryPoint::class.java
+        context,
+        WearEntryPoint::class.java,
     )
     return hiltEntryPoint.getSelectedWeatherUseCase()
 }

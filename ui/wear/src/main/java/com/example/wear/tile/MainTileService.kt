@@ -29,18 +29,18 @@ private const val RESOURCES_VERSION = "0"
 class MainTileService : SuspendingTileService() {
 
     override suspend fun resourcesRequest(
-        requestParams: RequestBuilders.ResourcesRequest
+        requestParams: RequestBuilders.ResourcesRequest,
     ): ResourceBuilders.Resources {
         return ResourceBuilders.Resources.Builder().setVersion(RESOURCES_VERSION).build()
     }
 
     override suspend fun tileRequest(
-        requestParams: RequestBuilders.TileRequest
+        requestParams: RequestBuilders.TileRequest,
     ): TileBuilders.Tile {
         val singleTileTimeline = TimelineBuilders.Timeline.Builder().addTimelineEntry(
             TimelineBuilders.TimelineEntry.Builder().setLayout(
-                LayoutElementBuilders.Layout.Builder().setRoot(tileLayout(this)).build()
-            ).build()
+                LayoutElementBuilders.Layout.Builder().setRoot(tileLayout(this)).build(),
+            ).build(),
         ).build()
 
         return TileBuilders.Tile.Builder().setResourcesVersion(RESOURCES_VERSION)
@@ -54,7 +54,7 @@ private fun tileLayout(context: Context): LayoutElementBuilders.LayoutElement {
             Text.Builder(context, "Vilket väder?")
                 .setColor(argb(Colors.DEFAULT.onSurface))
                 .setTypography(Typography.TYPOGRAPHY_CAPTION1)
-                .build()
+                .build(),
         ).build()
 }
 
@@ -62,7 +62,7 @@ private fun tileLayout(context: Context): LayoutElementBuilders.LayoutElement {
     device = Devices.WEAR_OS_SMALL_ROUND,
     showSystemUi = true,
     backgroundColor = 0xff000000,
-    showBackground = true
+    showBackground = true,
 )
 @Composable
 fun TilePreview() {

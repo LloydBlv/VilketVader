@@ -24,8 +24,8 @@ fun RainAnimationScreen() {
         targetValue = 1f,
         animationSpec = infiniteRepeatable(
             animation = tween(durationMillis = 1.5.seconds.inWholeMilliseconds.toInt(), easing = LinearEasing),
-            repeatMode = RepeatMode.Restart
-        )
+            repeatMode = RepeatMode.Restart,
+        ),
     )
 
     val density = LocalDensity.current.density
@@ -47,7 +47,7 @@ fun RainAnimationScreen() {
                 color = Color.Cyan,
                 start = Offset(raindrop.x, y - raindrop.length),
                 end = Offset(raindrop.x, y),
-                strokeWidth = raindrop.strokeWidth
+                strokeWidth = raindrop.strokeWidth,
             )
         }
     }

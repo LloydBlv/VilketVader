@@ -24,13 +24,12 @@ import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.launch
 import kotlinx.parcelize.Parcelize
 
-
 @Parcelize
 data object LocationsScreen : Screen {
     data class UiState(
         val isLoading: Boolean,
         val locations: ImmutableList<Location>,
-        val eventSink: (Events) -> Unit
+        val eventSink: (Events) -> Unit,
     ) : CircuitUiState
 
     sealed interface Events : CircuitUiEvent {
@@ -41,7 +40,7 @@ data object LocationsScreen : Screen {
 class LocationsPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
     private val observeLocations: ObserveLocationsUseCase,
-    private val selectedLocationUseCase: UpdateSelectedLocationUseCase
+    private val selectedLocationUseCase: UpdateSelectedLocationUseCase,
 ) : Presenter<UiState> {
     @Composable
     override fun present(): UiState {
@@ -56,8 +55,8 @@ class LocationsPresenter @AssistedInject constructor(
                     scope.launch {
                         selectedLocationUseCase.invoke(
                             UpdateSelectedLocationUseCase.Params(
-                                events.location.id
-                            )
+                                events.location.id,
+                            ),
                         )
                     }
                     navigator.goTo(WeatherScreen)
@@ -67,7 +66,7 @@ class LocationsPresenter @AssistedInject constructor(
         return UiState(
             isLoading = locations == null,
             locations = locations?.getOrNull().orEmpty().toPersistentList(),
-            eventSink = ::eventSink
+            eventSink = ::eventSink,
         )
     }
 }

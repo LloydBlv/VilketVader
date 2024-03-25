@@ -35,11 +35,11 @@ fun SunriseSunsetUI() {
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Canvas(modifier = Modifier.fillMaxWidth().aspectRatio(1.0f)) {
             val canvasWidth = size.width
-            val canvasHeight = size.height / 2  // Half the height because we only need the top semicircle
+            val canvasHeight = size.height / 2 // Half the height because we only need the top semicircle
 
             // The stroke for the path should be solid with the right color and width
             val stroke = Stroke(width = 4.dp.toPx(), pathEffect = PathEffect.cornerPathEffect(4.dp.toPx()))
@@ -49,16 +49,19 @@ fun SunriseSunsetUI() {
             val endPoint = Offset(canvasWidth, canvasHeight)
 
             // Control points for the Bezier curve, adjusted to create a semicircle
-            val controlOffset = canvasWidth * 0.5f  // Adjust this value as needed to perfect the curve
+            val controlOffset = canvasWidth * 0.5f // Adjust this value as needed to perfect the curve
             val controlPoint1 = Offset(controlOffset, 0f)
             val controlPoint2 = Offset(canvasWidth - controlOffset, 0f)
 
             val path = Path().apply {
                 moveTo(startPoint.x, startPoint.y)
                 cubicTo(
-                    x1 = controlPoint1.x, y1 = controlPoint1.y,
-                    x2 = controlPoint2.x, y2 = controlPoint2.y,
-                    x3 = endPoint.x, y3 = endPoint.y
+                    x1 = controlPoint1.x,
+                    y1 = controlPoint1.y,
+                    x2 = controlPoint2.x,
+                    y2 = controlPoint2.y,
+                    x3 = endPoint.x,
+                    y3 = endPoint.y,
                 )
             }
 
@@ -71,13 +74,13 @@ fun SunriseSunsetUI() {
             drawCircle(
                 brush = SolidColor(Color.Yellow),
                 radius = sunRadius,
-                center = sunPosition
+                center = sunPosition,
             )
         }
         Spacer(Modifier.height(16.dp))
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
+            horizontalArrangement = Arrangement.SpaceBetween,
         ) {
             Column(horizontalAlignment = Alignment.Start) {
                 Text(text = "Soluppgång", fontSize = 16.sp, color = Color.Black)
@@ -90,11 +93,13 @@ fun SunriseSunsetUI() {
         }
     }
 }
+
 @Composable
 fun SunPathUI(sunriseTime: LocalTime, sunsetTime: LocalTime, currentTime: LocalTime) {
-    Box(modifier = Modifier
-        .fillMaxWidth()
-        .padding(32.dp)
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(32.dp),
     ) {
         val sunPosition = calculateSunPosition(sunriseTime, sunsetTime, currentTime)
         SunPath()
@@ -106,16 +111,17 @@ fun SunPathUI(sunriseTime: LocalTime, sunsetTime: LocalTime, currentTime: LocalT
 
 @Composable
 fun SunPath() {
-    Canvas(modifier = Modifier
-        .fillMaxWidth()
-        .aspectRatio(16/9f)
+    Canvas(
+        modifier = Modifier
+            .fillMaxWidth()
+            .aspectRatio(16 / 9f),
     ) {
         val path = Path().apply {
             arcTo(
                 rect = Rect(0f, 0f, size.width, size.height * 1.5f),
                 startAngleDegrees = 180f,
                 sweepAngleDegrees = 180f,
-                forceMoveTo = false
+                forceMoveTo = false,
             )
         }
         drawPath(path = path, brush = SolidColor(Color.LightGray), style = Stroke(width = 4.dp.toPx()))
@@ -128,9 +134,10 @@ fun SunIndicator(position: Float) {
     val arcRadius = 100.dp.value // This should be the same as the height of the SunPath Canvas
     val sunDiameter = 30.dp
 
-    Canvas(modifier = Modifier
-        .fillMaxWidth()
-        .height((arcRadius * 2).dp)
+    Canvas(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height((arcRadius * 2).dp),
     ) {
         val x = (size.width * position)
         val angle = PI * position
@@ -139,7 +146,7 @@ fun SunIndicator(position: Float) {
         drawCircle(
             color = Color.Yellow,
             radius = sunDiameter.toPx() / 2,
-            center = androidx.compose.ui.geometry.Offset(x, y)
+            center = androidx.compose.ui.geometry.Offset(x, y),
         )
     }
 }
@@ -149,7 +156,7 @@ fun BoxScope.SunTimeLabel(time: String, isSunrise: Boolean) {
     Column(
         modifier = Modifier
             .align(if (isSunrise) Alignment.TopStart else Alignment.TopEnd)
-            .padding(top = 220.dp)
+            .padding(top = 220.dp),
     ) {
         Text(text = if (isSunrise) "U" else "N", fontSize = 12.sp)
         Spacer(modifier = Modifier.height(4.dp))

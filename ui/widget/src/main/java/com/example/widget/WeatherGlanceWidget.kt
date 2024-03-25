@@ -30,7 +30,6 @@ import com.example.domain.Weather
 import com.example.domain.WeatherResult
 import kotlinx.coroutines.launch
 
-
 val LocalAppContextProvider = staticCompositionLocalOf<Context> {
     error("App context not provided")
 }
@@ -68,7 +67,6 @@ class WeatherGlanceWidget : GlanceAppWidget() {
 
         GlanceTheme {
             CompositionLocalProvider(LocalAppContextProvider provides appContext) {
-
                 WidgetContent(state, updateWeather)
             }
         }
@@ -100,9 +98,11 @@ class WeatherGlanceWidget : GlanceAppWidget() {
                 }
             }
 
-            is WeatherResult.Success ->  {
-                WeatherContent(weather = state.data,
-                    updateWeather = updateWeather)
+            is WeatherResult.Success -> {
+                WeatherContent(
+                    weather = state.data,
+                    updateWeather = updateWeather,
+                )
             }
         }
     }
@@ -115,10 +115,7 @@ class WeatherGlanceWidget : GlanceAppWidget() {
     @Composable
     private fun LoadingUi() {
         CircularProgressIndicator(
-            modifier = GlanceModifier.size(32.dp)
+            modifier = GlanceModifier.size(32.dp),
         )
     }
-
-
 }
-

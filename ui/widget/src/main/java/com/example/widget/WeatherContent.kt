@@ -18,7 +18,7 @@ import com.example.domain.Weather
 internal fun WeatherContent(weather: Weather, updateWeather: () -> Unit) {
     AppWidgetColumn(
         modifier = GlanceModifier
-            .clickable(updateWeather)
+            .clickable(updateWeather),
     ) {
         Text(
             text = weather.location.name,
@@ -30,7 +30,7 @@ internal fun WeatherContent(weather: Weather, updateWeather: () -> Unit) {
 
         // The temperature
         Text(
-            text = "${weather.temperature.current}°" ,
+            text = "${weather.temperature.current}°",
             style = TextStyle(
                 fontSize = 48.sp,
             ),
@@ -59,7 +59,7 @@ internal fun WeatherContent(weather: Weather, updateWeather: () -> Unit) {
 
         Text(
             text = "tors, 09:23",
-            style = TextStyle(fontSize = 12.sp)
+            style = TextStyle(fontSize = 12.sp),
         )
     }
 }

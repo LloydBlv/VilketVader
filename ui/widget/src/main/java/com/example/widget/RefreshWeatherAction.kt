@@ -6,20 +6,20 @@ import androidx.glance.action.ActionParameters
 import androidx.glance.appwidget.action.ActionCallback
 import androidx.glance.appwidget.updateAll
 
-class RefreshWeatherAction: ActionCallback {
+class RefreshWeatherAction : ActionCallback {
     override suspend fun onAction(
         context: Context,
         glanceId: GlanceId,
-        parameters: ActionParameters
+        parameters: ActionParameters,
     ) {
         getRefreshWeather(context).invoke(Unit)
     }
 }
-class UpdateWeatherAction: ActionCallback {
+class UpdateWeatherAction : ActionCallback {
     override suspend fun onAction(
         context: Context,
         glanceId: GlanceId,
-        parameters: ActionParameters
+        parameters: ActionParameters,
     ) {
         WeatherGlanceWidget().updateAll(context)
     }

@@ -27,18 +27,17 @@ import dagger.hilt.components.SingletonComponent
 @CircuitInject(LocationsScreen::class, SingletonComponent::class)
 fun LocationsListScreenUi(
     state: LocationsScreen.UiState,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val eventSink = state.eventSink
     val listState = rememberScalingLazyListState()
-
 
     Scaffold(
         vignette = { Vignette(vignettePosition = VignettePosition.TopAndBottom) },
         timeText = { TimeText(modifier = Modifier.scrollAway(listState)) },
         positionIndicator = {
             PositionIndicator(
-                scalingLazyListState = listState
+                scalingLazyListState = listState,
             )
         },
         content = {
@@ -46,11 +45,10 @@ fun LocationsListScreenUi(
                 lazyListState = listState,
                 modifier = modifier,
                 state = state,
-                eventSink = eventSink
+                eventSink = eventSink,
             )
-        }
+        },
     )
-
 }
 
 @Composable
@@ -58,22 +56,22 @@ private fun LocationsLazyList(
     state: LocationsScreen.UiState,
     eventSink: (LocationsScreen.Events) -> Unit,
     lazyListState: ScalingLazyListState,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
-
     val contentModifier = Modifier
         .fillMaxWidth()
         .padding(bottom = 8.dp)
     ScalingLazyColumn(
         state = lazyListState,
         autoCentering = AutoCenteringParams(itemIndex = 0),
-        modifier = modifier.fillMaxSize()
+        modifier = modifier.fillMaxSize(),
     ) {
         items(state.locations) { location ->
             LocationItem(
                 modifier = contentModifier,
                 location = location,
-                onClick = { eventSink(LocationsScreen.Events.OnLocationClicked(location)) })
+                onClick = { eventSink(LocationsScreen.Events.OnLocationClicked(location)) },
+            )
         }
     }
 }
@@ -83,7 +81,7 @@ fun LocationItem(location: Location, onClick: () -> Unit, modifier: Modifier) {
     LocationCard(
         modifier = modifier,
         location = location,
-        onClick = onClick
+        onClick = onClick,
     )
 }
 
@@ -91,7 +89,7 @@ fun LocationItem(location: Location, onClick: () -> Unit, modifier: Modifier) {
 fun LocationCard(
     location: Location,
     modifier: Modifier = Modifier,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     TitleCard(
         modifier = modifier,

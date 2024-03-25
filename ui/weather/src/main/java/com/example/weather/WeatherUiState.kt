@@ -9,20 +9,18 @@ sealed interface WeatherUiState : CircuitUiState {
     data class Success(
         val weather: Weather,
         val isRefreshing: Boolean,
-        override val eventSink: (WeatherEvent) -> Unit
+        override val eventSink: (WeatherEvent) -> Unit,
     ) : WeatherUiState
 
     data class Failure(
         val error: Throwable?,
-        override val eventSink: (WeatherEvent) -> Unit
+        override val eventSink: (WeatherEvent) -> Unit,
     ) : WeatherUiState
 
     data object Loading : WeatherUiState {
         override val eventSink: (WeatherEvent) -> Unit = {}
     }
-
 }
-
 
 sealed interface WeatherEvent {
     data object Refresh : WeatherEvent

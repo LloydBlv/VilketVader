@@ -20,7 +20,7 @@ import timber.log.Timber
 
 class WeatherPresenter @AssistedInject constructor(
     private val observeSelectedWeather: ObserveSelectedWeatherUseCase,
-    private val refreshSelectedWeather: RefreshSelectedWeatherUseCase
+    private val refreshSelectedWeather: RefreshSelectedWeatherUseCase,
 ) : Presenter<WeatherUiState> {
     @Composable
     override fun present(): WeatherUiState {
@@ -43,12 +43,12 @@ class WeatherPresenter @AssistedInject constructor(
             weather.isSuccess -> return WeatherUiState.Success(
                 weather.getOrNull()!!,
                 isRefreshing,
-                ::eventSink
+                ::eventSink,
             )
 
             weather.isFailure -> return WeatherUiState.Failure(
                 weather.exceptionOrNull(),
-                ::eventSink
+                ::eventSink,
             )
             else -> WeatherUiState.Loading
         }.also {

@@ -25,7 +25,7 @@ data object WeatherScreen : Screen {
         val isLoading: Boolean,
         val weather: Weather?,
         val failure: Throwable? = null,
-        val eventSink: (Events) -> Unit
+        val eventSink: (Events) -> Unit,
     ) : CircuitUiState
 
     sealed interface Events {
@@ -35,7 +35,7 @@ data object WeatherScreen : Screen {
 
 class WeatherPresenter @AssistedInject constructor(
     private val refreshSelectedWeatherUseCase: RefreshSelectedWeatherUseCase,
-    private val observeSelectedWeather: ObserveSelectedWeatherUseCase
+    private val observeSelectedWeather: ObserveSelectedWeatherUseCase,
 ) : Presenter<WeatherScreen.UiState> {
     @Composable
     override fun present(): WeatherScreen.UiState {
@@ -56,13 +56,13 @@ class WeatherPresenter @AssistedInject constructor(
         return WeatherScreen.UiState(
             isLoading = state == null,
             weather = state?.getOrNull(),
-            eventSink = ::eventSink
+            eventSink = ::eventSink,
         )
     }
+
     @CircuitInject(WeatherScreen::class, SingletonComponent::class)
     @AssistedFactory
     interface Factory {
         fun create(): WeatherPresenter
     }
 }
-

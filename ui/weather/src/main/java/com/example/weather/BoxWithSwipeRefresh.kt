@@ -17,7 +17,7 @@ fun BoxWithSwipeRefresh(
     onSwipe: () -> Unit,
     isRefreshing: Boolean,
     modifier: Modifier = Modifier,
-    content: @Composable BoxScope.() -> Unit
+    content: @Composable BoxScope.() -> Unit,
 ) {
     val state = rememberPullToRefreshState()
 

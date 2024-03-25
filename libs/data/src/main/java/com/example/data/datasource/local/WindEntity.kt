@@ -10,12 +10,12 @@ data class WindEntity(
 
 fun Wind.toEntity() = WindEntity(
     speed = speed,
-    degree = degree
+    degree = degree,
 )
 
 internal fun WindEntity.toDomain(): Wind {
     return Wind(
         speed = speed,
-        degree = degree
+        degree = degree,
     )
 }

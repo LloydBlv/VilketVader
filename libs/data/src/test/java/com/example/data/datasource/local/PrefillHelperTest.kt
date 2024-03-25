@@ -16,7 +16,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 
-
 @RunWith(RobolectricTestRunner::class)
 class PrefillHelperTest {
     private lateinit var database: WeatherDatabase
@@ -27,7 +26,7 @@ class PrefillHelperTest {
     fun setup() {
         database = Room.inMemoryDatabaseBuilder(
             InstrumentationRegistry.getInstrumentation().context,
-            WeatherDatabase::class.java
+            WeatherDatabase::class.java,
         )
             .allowMainThreadQueries()
             .build()
@@ -45,7 +44,7 @@ class PrefillHelperTest {
             latitude = 47.3667f,
             longitude = 8.5500f,
             timezone = 3600,
-            selected = true
+            selected = true,
         )
         val stockholm = LocationEntity(
             id = 2673730,
@@ -54,7 +53,7 @@ class PrefillHelperTest {
             latitude = 59.3326f,
             longitude = 18.0649f,
             timezone = 3600,
-            selected = false
+            selected = false,
         )
         val locations = listOf(zurich, stockholm)
         prefillHelper.prefill(locations)
@@ -72,7 +71,7 @@ class PrefillHelperTest {
             latitude = 47.3667f,
             longitude = 8.5500f,
             timezone = 3600,
-            selected = false
+            selected = false,
         )
         val stockholm = LocationEntity(
             id = 2673730,
@@ -81,7 +80,7 @@ class PrefillHelperTest {
             latitude = 59.3326f,
             longitude = 18.0649f,
             timezone = 3600,
-            selected = false
+            selected = false,
         )
         val locations = listOf(zurich, stockholm)
         prefillHelper.prefill(locations)
@@ -92,6 +91,7 @@ class PrefillHelperTest {
                 prop(LocationEntity::name).isEqualTo(zurich.name)
             }
     }
+
     @Test
     fun `prefill with second item as selected, stores correctly`() = runTest {
         val prefillHelper = PrefillHelper(dagger.Lazy<LocationDao> { locationDao })
@@ -102,7 +102,7 @@ class PrefillHelperTest {
             latitude = 47.3667f,
             longitude = 8.5500f,
             timezone = 3600,
-            selected = false
+            selected = false,
         )
         val stockholm = LocationEntity(
             id = 2673730,
@@ -111,7 +111,7 @@ class PrefillHelperTest {
             latitude = 59.3326f,
             longitude = 18.0649f,
             timezone = 3600,
-            selected = true
+            selected = true,
         )
         val locations = listOf(zurich, stockholm)
         prefillHelper.prefill(locations)
@@ -122,6 +122,7 @@ class PrefillHelperTest {
                 prop(LocationEntity::name).isEqualTo(stockholm.name)
             }
     }
+
     @Test
     fun `prefill with both items as selected, stores correctly`() = runTest {
         val prefillHelper = PrefillHelper(dagger.Lazy<LocationDao> { locationDao })
@@ -132,7 +133,7 @@ class PrefillHelperTest {
             latitude = 47.3667f,
             longitude = 8.5500f,
             timezone = 3600,
-            selected = true
+            selected = true,
         )
         val stockholm = LocationEntity(
             id = 2673730,
@@ -141,7 +142,7 @@ class PrefillHelperTest {
             latitude = 59.3326f,
             longitude = 18.0649f,
             timezone = 3600,
-            selected = true
+            selected = true,
         )
         val locations = listOf(zurich, stockholm)
         prefillHelper.prefill(locations)
@@ -152,6 +153,7 @@ class PrefillHelperTest {
                 prop(LocationEntity::name).isEqualTo(stockholm.name)
             }
     }
+
     @Test
     fun `prefill with no item different order as selected, stores correctly`() = runTest {
         val prefillHelper = PrefillHelper(dagger.Lazy<LocationDao> { locationDao })
@@ -162,7 +164,7 @@ class PrefillHelperTest {
             latitude = 47.3667f,
             longitude = 8.5500f,
             timezone = 3600,
-            selected = false
+            selected = false,
         )
         val stockholm = LocationEntity(
             id = 2673730,
@@ -171,7 +173,7 @@ class PrefillHelperTest {
             latitude = 59.3326f,
             longitude = 18.0649f,
             timezone = 3600,
-            selected = false
+            selected = false,
         )
         val locations = listOf(stockholm, zurich)
         prefillHelper.prefill(locations)
@@ -193,7 +195,7 @@ class PrefillHelperTest {
             latitude = 47.3667f,
             longitude = 8.5500f,
             timezone = 3600,
-            selected = false
+            selected = false,
         )
         val locations = listOf(zurich)
         prefillHelper.prefill(locations)

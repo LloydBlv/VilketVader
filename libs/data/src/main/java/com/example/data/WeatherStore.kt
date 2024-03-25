@@ -5,6 +5,8 @@ import com.example.data.datasource.local.LocalDataSource
 import com.example.data.datasource.local.WeatherDao
 import com.example.domain.Location
 import com.example.domain.Weather
+import javax.inject.Inject
+import kotlin.time.Duration.Companion.minutes
 import kotlinx.coroutines.Dispatchers
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
@@ -13,8 +15,6 @@ import org.mobilenativefoundation.store.store5.SourceOfTruth
 import org.mobilenativefoundation.store.store5.Store
 import org.mobilenativefoundation.store.store5.Validator
 import timber.log.Timber
-import javax.inject.Inject
-import kotlin.time.Duration.Companion.minutes
 
 data class WeatherLoadParams(
     val location: Location,
@@ -24,7 +24,7 @@ data class WeatherLoadParams(
 class WeatherStore @Inject constructor(
     apiClient: WeatherApiClient,
     dao: WeatherDao,
-    localDataSource: LocalDataSource
+    localDataSource: LocalDataSource,
 ) : Store<WeatherLoadParams, Weather> by storeBuilder(
     fetcher = Fetcher.of {
         apiClient.getWeather(it.location.name, it.language)
@@ -39,12 +39,12 @@ class WeatherStore @Inject constructor(
         delete = { params ->
             dao.deleteWeather(params.location.id)
         },
-        deleteAll = dao::deleteAll
+        deleteAll = dao::deleteAll,
     )
         .usingDispatchers(
             readDispatcher = Dispatchers.IO.limitedParallelism(1),
-            writeDispatcher = Dispatchers.IO.limitedParallelism(4)
-        )
+            writeDispatcher = Dispatchers.IO.limitedParallelism(4),
+        ),
 )
     .validator(
         Validator.by { result ->

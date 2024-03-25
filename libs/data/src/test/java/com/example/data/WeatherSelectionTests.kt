@@ -42,7 +42,7 @@ class WeatherSelectionTests {
     fun setup() {
         val database = Room.inMemoryDatabaseBuilder(
             InstrumentationRegistry.getInstrumentation().context,
-            WeatherDatabase::class.java
+            WeatherDatabase::class.java,
         )
             .allowMainThreadQueries()
             .build()
@@ -58,9 +58,9 @@ class WeatherSelectionTests {
             weatherStore = WeatherStore(
                 apiClient = WeatherClientFake(),
                 dao = weatherDao,
-                localDataSource = datasource
+                localDataSource = datasource,
 
-            )
+            ),
         )
     }
 
@@ -83,7 +83,7 @@ class WeatherSelectionTests {
             .isNotNull()
             .assertTestWeather()
         UpdateSelectedLocationUseCase(locationRepository).invoke(
-            params = UpdateSelectedLocationUseCase.Params(TestData.ZURICH.id)
+            params = UpdateSelectedLocationUseCase.Params(TestData.ZURICH.id),
         )
         assertThat(datasource.getWeather(TestData.STOCKHOLM.id))
             .isNotNull()
@@ -104,5 +104,4 @@ class WeatherSelectionTests {
         assertThat(datasource.getWeather(TestData.STOCKHOLM.id))
             .isNotNull()
     }
-
 }

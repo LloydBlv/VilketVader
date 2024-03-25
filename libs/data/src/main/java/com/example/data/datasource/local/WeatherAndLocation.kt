@@ -7,7 +7,7 @@ data class WeatherAndLocation(
     @Embedded val weather: WeatherEntity,
     @Relation(
         parentColumn = "location_id",
-        entityColumn = "id"
+        entityColumn = "id",
     )
-    val location: LocationEntity
+    val location: LocationEntity,
 )

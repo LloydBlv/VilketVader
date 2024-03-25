@@ -7,9 +7,9 @@ import assertk.assertions.isInstanceOf
 import com.example.testing.TestData
 import com.example.testing.WeatherRepositoryFake
 import com.example.testing.assertTestWeather
+import java.net.SocketTimeoutException
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
-import java.net.SocketTimeoutException
 
 class WeatherRepositoryTest {
     @Test
@@ -30,6 +30,4 @@ class WeatherRepositoryTest {
 
     private suspend fun getWeather(weatherRepository: WeatherRepositoryFake) =
         weatherRepository.getWeather(TestData.STOCKHOLM, language = "en")
-
-
 }

@@ -30,13 +30,12 @@ class LocationDatabaseTest {
     fun setup() {
         database = Room.inMemoryDatabaseBuilder(
             InstrumentationRegistry.getInstrumentation().context,
-            WeatherDatabase::class.java
+            WeatherDatabase::class.java,
         )
             .allowMainThreadQueries()
             .build()
         dao = database.locationDao()
     }
-
 
     @Test
     fun `test inserting location result in correct retrieve`() = runTest {
@@ -45,6 +44,7 @@ class LocationDatabaseTest {
         val result = dao.getLocation(TestData.STOCKHOLM.id)
         assertThat(result).isEqualTo(entity)
     }
+
     @Test
     fun `test inserting when selected location result in correct retrieve`() = runTest {
         val entity = TestData.STOCKHOLM.toEntity().copy(selected = true)
@@ -52,6 +52,7 @@ class LocationDatabaseTest {
         val result = dao.getLocation(TestData.STOCKHOLM.id)
         assertThat(result).isEqualTo(entity)
     }
+
     @Test
     fun `when selected item gets inserted its returned correctly`() = runTest {
         val entity = TestData.STOCKHOLM.toEntity().copy(selected = true)
@@ -59,6 +60,7 @@ class LocationDatabaseTest {
         val result = dao.getSelectedLocation()
         assertThat(result).isEqualTo(entity)
     }
+
     @Test
     fun `when another selected item gets inserted its returned correctly`() = runTest {
         val stockholm = TestData.STOCKHOLM.toEntity().copy(selected = true)
@@ -115,6 +117,7 @@ class LocationDatabaseTest {
         dao.insertOrUpdateLocationWithSelection(stockholm2)
         assertThat(dao.getSelectedLocation()).isEqualTo(stockholm2)
     }
+
     @Test
     fun `two consecutive inserts results in 2 rows afterwards`() = runTest {
         dao.insertOrUpdateLocationWithSelection(TestData.STOCKHOLM.toEntity().copy(selected = false))
@@ -122,8 +125,8 @@ class LocationDatabaseTest {
 
         assertThat(dao.getSelectedLocation()?.country).isEqualTo("SE")
         assertThat(dao.getAllLocations()).hasSize(2)
-
     }
+
     @After
     fun tearDown() {
         database.close()

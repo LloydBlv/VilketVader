@@ -29,23 +29,23 @@ import com.example.home.HomeUiState
 @Composable
 internal fun DrawerLazyColumn(
     state: HomeUiState,
-    onDrawerItemClicked: (UiLocation) -> Unit
+    onDrawerItemClicked: (UiLocation) -> Unit,
 ) {
     LazyColumn(
         modifier = Modifier.wrapContentHeight(),
-        contentPadding = PaddingValues(8.dp)
+        contentPadding = PaddingValues(8.dp),
     ) {
         drawerTopAppBar()
         drawerItems(
             state = state,
-            onDrawerItemClicked = onDrawerItemClicked
+            onDrawerItemClicked = onDrawerItemClicked,
         )
     }
 }
 
 private fun LazyListScope.drawerItems(
     state: HomeUiState,
-    onDrawerItemClicked: (UiLocation) -> Unit
+    onDrawerItemClicked: (UiLocation) -> Unit,
 ) {
     items(state.locations) { item ->
         val isSelected = item.isSelected
@@ -61,23 +61,22 @@ private fun LazyListScope.drawerItems(
                     {
                         Icon(
                             Icons.Default.LocationOn,
-                            contentDescription = null
+                            contentDescription = null,
                         )
                     }
                 },
             label = { DrawerLocationItem(item.cityName, isSelected) },
             selected = isSelected,
             onClick = { onDrawerItemClicked.invoke(item) },
-            modifier = Modifier.padding(horizontal = 4.dp)
+            modifier = Modifier.padding(horizontal = 4.dp),
         )
-
     }
 }
 
 @Composable
 private fun DrawerLocationItem(
     cityName: String,
-    isSelected: Boolean
+    isSelected: Boolean,
 ) {
     Text(
         cityName,
@@ -86,8 +85,8 @@ private fun DrawerLocationItem(
                 FontWeight.Bold
             } else {
                 FontWeight.Normal
-            }
-        )
+            },
+        ),
     )
 }
 
@@ -95,20 +94,20 @@ private fun LazyListScope.drawerTopAppBar() {
     item {
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.End
+            horizontalArrangement = Arrangement.End,
         ) {
             IconButton(onClick = { /*TODO*/ }) {
                 Icon(
                     imageVector = Icons.Default.Settings,
                     tint = Color.White.copy(alpha = 0.6f),
-                    contentDescription = "Settings"
+                    contentDescription = "Settings",
                 )
             }
             IconButton(onClick = { /*TODO*/ }) {
                 Icon(
                     imageVector = Icons.Default.Search,
                     tint = Color.White.copy(alpha = 0.6f),
-                    contentDescription = "Settings"
+                    contentDescription = "Settings",
                 )
             }
         }

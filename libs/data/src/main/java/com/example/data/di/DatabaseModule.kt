@@ -21,12 +21,12 @@ interface DatabaseModule {
         @Singleton
         fun provideDatabase(
             @ApplicationContext context: Context,
-            prefillDatabase: PrefillDatabase
+            prefillDatabase: PrefillDatabase,
         ): WeatherDatabase {
             return Room.databaseBuilder(
                 context,
                 WeatherDatabase::class.java,
-                "weather.db"
+                "weather.db",
             ).addCallback(prefillDatabase)
                 .build()
         }
@@ -41,5 +41,4 @@ interface DatabaseModule {
             return weatherDatabase.locationDao()
         }
     }
-
 }

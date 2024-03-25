@@ -11,7 +11,6 @@ import com.example.domain.Temperature
 import com.example.domain.Weather
 import com.example.domain.Wind
 
-
 fun Assert<Weather>.assertTestWeather() {
     assertLocation()
     assertConditions()

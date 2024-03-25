@@ -19,15 +19,16 @@ import com.example.home.HomeUiState
 @Composable
 internal fun MainTopAppBar(
     state: HomeUiState,
-    onDrawerOpenClicked: () -> Unit
+    onDrawerOpenClicked: () -> Unit,
 ) {
     TopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = Color.Transparent,
-            titleContentColor = Color.White
+            titleContentColor = Color.White,
         ),
         title = { TitleText(state, onDrawerOpenClicked) },
-        navigationIcon = { NavigationIcon(onDrawerOpenClicked) })
+        navigationIcon = { NavigationIcon(onDrawerOpenClicked) },
+    )
 }
 
 @Composable
@@ -36,7 +37,7 @@ private fun NavigationIcon(onDrawerOpenClicked: () -> Unit) {
         Icon(
             tint = Color.White,
             imageVector = Icons.Default.Menu,
-            contentDescription = null
+            contentDescription = null,
         )
     }
 }
@@ -44,12 +45,12 @@ private fun NavigationIcon(onDrawerOpenClicked: () -> Unit) {
 @Composable
 private fun TitleText(
     state: HomeUiState,
-    onDrawerOpenClicked: () -> Unit
+    onDrawerOpenClicked: () -> Unit,
 ) {
     val uiLocation = state.locations.find { it.isSelected }
     Text(
         text = uiLocation?.cityName ?: "Loading",
         style = MaterialTheme.typography.headlineSmall.copy(color = Color.White),
-        modifier = Modifier.clickable(onClick = onDrawerOpenClicked)
+        modifier = Modifier.clickable(onClick = onDrawerOpenClicked),
     )
 }

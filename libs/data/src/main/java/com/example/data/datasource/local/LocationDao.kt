@@ -8,13 +8,11 @@ import androidx.room.Query
 import androidx.room.Transaction
 import kotlinx.coroutines.flow.Flow
 
-
 @Dao
 interface LocationDao {
 
     @Query("UPDATE location SET selected = 0")
     suspend fun deselectAllLocations()
-
 
     @Query("SELECT * FROM location WHERE selected = 1")
     suspend fun getSelectedLocation(): LocationEntity?
@@ -48,6 +46,7 @@ interface LocationDao {
 
     @Query("SELECT * FROM location ORDER BY id LIMIT 1")
     suspend fun getAnyLocation(): LocationEntity?
+
     @Transaction
     suspend fun deleteLocationAndSelectNewIfNecessary(locationEntity: LocationEntity) {
         deleteLocation(locationEntity)
@@ -59,7 +58,6 @@ interface LocationDao {
         }
     }
 
-
     @Transaction
     suspend fun insertOrUpdateLocationWithSelection(locationEntity: LocationEntity) {
         if (locationEntity.selected) {
@@ -67,7 +65,7 @@ interface LocationDao {
             insertLocation(locationEntity)
             return
         }
-        if (getLocationCount() == 0){
+        if (getLocationCount() == 0) {
             insertLocation(locationEntity.copy(selected = true))
             return
         }

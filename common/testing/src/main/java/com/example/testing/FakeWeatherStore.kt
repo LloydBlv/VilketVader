@@ -8,11 +8,11 @@ import com.example.data.datasource.local.WeatherDao
 fun createFakeWeatherStore(
     dao: WeatherDao = FakeWeatherDao(),
     client: WeatherApiClient = WeatherClientFake(),
-    localDataSource: LocalDataSource = FakeLocalDataSource()
+    localDataSource: LocalDataSource = FakeLocalDataSource(),
 ): WeatherStore {
     return WeatherStore(
         apiClient = client,
         dao = dao,
-        localDataSource = localDataSource
+        localDataSource = localDataSource,
     )
 }

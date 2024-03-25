@@ -1,6 +1,5 @@
 package com.example.data.models
 
-
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -11,5 +10,5 @@ data class MainDto(
     @SerialName("pressure") val pressure: Int?,
     @SerialName("temp") val temp: Float?,
     @SerialName("temp_max") val tempMax: Float?,
-    @SerialName("temp_min") val tempMin: Float?
+    @SerialName("temp_min") val tempMin: Float?,
 )

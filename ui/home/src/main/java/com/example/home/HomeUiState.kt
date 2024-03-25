@@ -9,5 +9,5 @@ import kotlinx.collections.immutable.ImmutableList
 data class HomeUiState(
     val isLoading: Boolean,
     val locations: ImmutableList<UiLocation>,
-    val evenSink: (HomeUiEvents) -> Unit
+    val evenSink: (HomeUiEvents) -> Unit,
 ) : CircuitUiState

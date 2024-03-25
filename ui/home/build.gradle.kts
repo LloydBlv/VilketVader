@@ -6,7 +6,6 @@ plugins {
     id("com.vilketvader.circuit")
 }
 
-
 android {
     namespace = "com.example.home"
     buildTypes {
@@ -14,7 +13,7 @@ android {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
         }
     }
@@ -26,7 +25,6 @@ dependencies {
     implementation(projects.common.screens)
     implementation(projects.common.imageLoading)
 
-
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.icons)
     implementation(libs.androidx.ui.graphics)
@@ -37,7 +35,6 @@ dependencies {
     testImplementation(libs.kotlinx.coroutines.test)
 
     implementation(libs.kotlinxCollectionsImmutable)
-
 
     testImplementation(libs.robolectric)
     testImplementation(libs.assertk)

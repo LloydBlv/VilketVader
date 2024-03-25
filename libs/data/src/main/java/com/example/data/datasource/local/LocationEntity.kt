@@ -7,7 +7,7 @@ import com.example.domain.Coordination
 import com.example.domain.Location
 
 @Entity(tableName = "location")
-data class LocationEntity (
+data class LocationEntity(
     @PrimaryKey(autoGenerate = false) val id: Int,
     @ColumnInfo("name") val name: String,
     @ColumnInfo("country") val country: String,
@@ -24,7 +24,7 @@ fun Location.toEntity() = LocationEntity(
     latitude = coordination.latitude,
     longitude = coordination.longitude,
     timezone = timezone,
-    selected = isSelected
+    selected = isSelected,
 )
 
 internal fun LocationEntity.toDomain(): Location {
@@ -34,6 +34,6 @@ internal fun LocationEntity.toDomain(): Location {
         country = country,
         coordination = Coordination(latitude, longitude),
         timezone = timezone,
-        isSelected = selected
+        isSelected = selected,
     )
 }

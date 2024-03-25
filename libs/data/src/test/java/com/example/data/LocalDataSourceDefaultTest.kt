@@ -21,17 +21,17 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 
-
 @RunWith(RobolectricTestRunner::class)
 class LocalDataSourceDefaultTest {
     private lateinit var datasource: LocalDataSourceDefault
     private lateinit var locationDao: LocationDao
     private lateinit var weatherDao: WeatherDao
+
     @Before
     fun setup() {
         val database = Room.inMemoryDatabaseBuilder(
             InstrumentationRegistry.getInstrumentation().context,
-            WeatherDatabase::class.java
+            WeatherDatabase::class.java,
         )
             .allowMainThreadQueries()
             .build()
@@ -64,7 +64,6 @@ class LocalDataSourceDefaultTest {
         assertThat(datasource.getWeather(stockholm.location.id)).all {
             isNotNull()
                 .isEqualTo(stockholm.copy(location = stockholm.location.copy(isSelected = true)))
-
         }
 
         datasource.updateWeather(zurich)
@@ -75,7 +74,6 @@ class LocalDataSourceDefaultTest {
         assertThat(datasource.getWeather(stockholm.location.id)).all {
             isNotNull()
                 .isEqualTo(stockholm.copy(location = stockholm.location.copy(isSelected = true)))
-
         }
         assertThat(weatherDao.getAllWeathers()).hasSize(2)
     }

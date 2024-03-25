@@ -28,7 +28,7 @@ class LocationRepositoryTest {
     fun setup() {
         val database = Room.inMemoryDatabaseBuilder(
             InstrumentationRegistry.getInstrumentation().context,
-            WeatherDatabase::class.java
+            WeatherDatabase::class.java,
         )
             .allowMainThreadQueries()
             .build()
@@ -68,6 +68,7 @@ class LocationRepositoryTest {
             ensureAllEventsConsumed()
         }
     }
+
     @Test
     fun `when locations are empty, first item will be selected`() = runTest {
         val location = TestData.STOCKHOLM.copy(isSelected = true)
@@ -77,6 +78,7 @@ class LocationRepositoryTest {
             ensureAllEventsConsumed()
         }
     }
+
     @Test
     fun `when theres one location, its not possible to mark it unselected`() = runTest {
         val location = TestData.STOCKHOLM.copy(isSelected = true)
@@ -88,5 +90,4 @@ class LocationRepositoryTest {
             ensureAllEventsConsumed()
         }
     }
-
 }

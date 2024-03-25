@@ -12,7 +12,7 @@ import com.example.home.HomeUiState
 @Composable
 internal fun MainDrawerSheet(
     state: HomeUiState,
-    onDrawerItemClicked: (UiLocation) -> Unit
+    onDrawerItemClicked: (UiLocation) -> Unit,
 ) {
     DismissibleDrawerSheet(
         drawerContainerColor = Color.Transparent,
@@ -21,17 +21,14 @@ internal fun MainDrawerSheet(
             modifier = Modifier.fillMaxSize(),
             colors = CardDefaults.elevatedCardColors(
                 containerColor = Color.White.copy(
-                    0.1f
-                )
-            )
+                    0.1f,
+                ),
+            ),
         ) {
             DrawerLazyColumn(
                 state = state,
-                onDrawerItemClicked = onDrawerItemClicked
+                onDrawerItemClicked = onDrawerItemClicked,
             )
         }
-
-
     }
 }
-

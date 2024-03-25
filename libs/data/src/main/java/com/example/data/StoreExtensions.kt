@@ -16,7 +16,6 @@ inline fun <Key : Any, Local : Any, Output : Any> storeBuilder(
     sourceOfTruth: SourceOfTruth<Key, Local, Output>,
 ): StoreBuilder<Key, Output> = StoreBuilder.from(fetcher, sourceOfTruth)
 
-
 fun <Key : Any, Local : Any, Output : Any> SourceOfTruth<Key, Local, Output>.usingDispatchers(
     readDispatcher: CoroutineDispatcher,
     writeDispatcher: CoroutineDispatcher,

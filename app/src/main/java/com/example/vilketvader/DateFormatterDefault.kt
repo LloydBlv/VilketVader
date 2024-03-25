@@ -1,12 +1,12 @@
 package com.example.vilketvader
 
 import com.example.domain.DateFormatter
-import kotlinx.datetime.Instant
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
+import kotlinx.datetime.Instant
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 
 class DateFormatterDefault : DateFormatter {
     override fun formatWeekDayAndTime(timestamp: Long): String {

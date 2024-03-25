@@ -9,7 +9,6 @@ import androidx.room.PrimaryKey
 import com.example.domain.Icon
 import com.example.domain.Weather
 
-
 @Entity(
     tableName = "weather",
     foreignKeys = [
@@ -17,10 +16,10 @@ import com.example.domain.Weather
             entity = LocationEntity::class,
             parentColumns = ["id"],
             childColumns = ["location_id"],
-            onDelete = ForeignKey.NO_ACTION
+            onDelete = ForeignKey.NO_ACTION,
         ),
     ],
-    indices = [Index(value = ["location_id"], unique = true)]
+    indices = [Index(value = ["location_id"], unique = true)],
 )
 data class WeatherEntity(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
@@ -37,7 +36,7 @@ data class WeatherEntity(
     @ColumnInfo("timestamp") val timestamp: Long,
     @ColumnInfo("sunrise_ms") val sunriseTimeMillis: Long,
     @ColumnInfo("sunset_ms") val sunsetTimeMillis: Long,
-    @ColumnInfo("icon") val icon: String
+    @ColumnInfo("icon") val icon: String,
 )
 
 fun Weather.toEntity(): WeatherEntity {
@@ -57,7 +56,6 @@ fun Weather.toEntity(): WeatherEntity {
     )
 }
 
-
 fun WeatherAndLocation.toDomain(): Weather {
     with(weather) {
         return Weather(
@@ -72,14 +70,7 @@ fun WeatherAndLocation.toDomain(): Weather {
             sunriseTimeMillis = sunriseTimeMillis,
             sunsetTimeMillis = sunsetTimeMillis,
             icon = Icon(type = icon),
-            location = location.toDomain()
+            location = location.toDomain(),
         )
     }
 }
-
-
-
-
-
-
-

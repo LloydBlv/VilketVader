@@ -6,12 +6,12 @@ import com.example.domain.Weather
 import com.example.domain.WeatherRepository
 import kotlinx.coroutines.flow.Flow
 
-class WeatherRepositoryFake(
-) : WeatherRepository {
+class WeatherRepositoryFake() : WeatherRepository {
     var exception: Throwable? = null
     override suspend fun getWeather(
-        location: Location, language: String,
-        forceFresh: Boolean
+        location: Location,
+        language: String,
+        forceFresh: Boolean,
     ): Weather {
         if (exception != null) {
             throw exception!!
@@ -22,7 +22,7 @@ class WeatherRepositoryFake(
     override fun observeWeather(
         location: Location,
         language: String,
-        forceFresh: Boolean
+        forceFresh: Boolean,
     ): Flow<Weather?> {
         TODO("Not yet implemented")
     }
@@ -31,4 +31,3 @@ class WeatherRepositoryFake(
         TODO("Not yet implemented")
     }
 }
-

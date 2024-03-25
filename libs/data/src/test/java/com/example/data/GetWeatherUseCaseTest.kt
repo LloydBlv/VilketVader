@@ -35,7 +35,7 @@ import org.junit.Test
 
 class GetWeatherUseCaseTest {
     private fun createdEngine(
-        response: MockRequestHandleScope.(HttpRequestData) -> HttpResponseData
+        response: MockRequestHandleScope.(HttpRequestData) -> HttpResponseData,
     ): MockEngine {
         return MockEngine {
             assertThat(it.url.toString())
@@ -52,10 +52,11 @@ class GetWeatherUseCaseTest {
                     content = TestData.getRawTestResponse(),
                     headers = headersOf(
                         HttpHeaders.ContentType,
-                        ContentType.Application.Json.toString()
-                    )
+                        ContentType.Application.Json.toString(),
+                    ),
                 )
-            })
+            },
+        )
         val usecase = GetWeatherUseCase(repository)
         usecase.flow.test {
             expectNoEvents()
@@ -75,9 +76,10 @@ class GetWeatherUseCaseTest {
             response = {
                 respond(
                     content = "",
-                    status = HttpStatusCode.NotFound
+                    status = HttpStatusCode.NotFound,
                 )
-            })
+            },
+        )
         val usecase = GetWeatherUseCase(repository)
         usecase.flow.test {
             expectNoEvents()
@@ -88,14 +90,13 @@ class GetWeatherUseCaseTest {
                     instanceOf(ClientRequestException::class)
                     transform { it as ClientRequestException }
                         .transform { it.response.status }.isEqualTo(HttpStatusCode.NotFound)
-
                 }
             }
         }
     }
 
     private fun createWeatherRepository(
-        response: MockRequestHandleScope.(HttpRequestData) -> HttpResponseData
+        response: MockRequestHandleScope.(HttpRequestData) -> HttpResponseData,
     ): WeatherRepositoryDefault {
         val engine = createdEngine { response.invoke(this, it) }
 
@@ -106,10 +107,10 @@ class GetWeatherUseCaseTest {
 //        )
         val repository = WeatherRepositoryDefault(
             client = WeatherApiClientDefault(
-                ktorfit = dagger.Lazy { NetModule.provideKtorfit(createMockedClient(engine)) }
+                ktorfit = dagger.Lazy { NetModule.provideKtorfit(createMockedClient(engine)) },
             ),
             localDataSource = FakeLocalDataSource(),
-            weatherStore = createFakeWeatherStore()
+            weatherStore = createFakeWeatherStore(),
         )
         return repository
     }
@@ -128,5 +129,4 @@ class GetWeatherUseCaseTest {
             }
         }
     }
-
 }

@@ -13,20 +13,18 @@ import io.ktor.client.HttpClient
 import io.ktor.client.engine.okhttp.OkHttp
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.serialization.kotlinx.json.json
+import javax.inject.Singleton
 import kotlinx.serialization.json.Json
 import okhttp3.logging.HttpLoggingInterceptor
-import javax.inject.Singleton
-
 
 @Module
 @InstallIn(SingletonComponent::class)
 object NetModule {
 
-
     @Provides
     @Singleton
     fun provideKtorfit(
-        httpClient: HttpClient
+        httpClient: HttpClient,
     ): Ktorfit {
         return Ktorfit
             .Builder()
@@ -46,7 +44,7 @@ object NetModule {
                 config {
                     addInterceptor(
                         HttpLoggingInterceptor()
-                            .setLevel(HttpLoggingInterceptor.Level.BODY)
+                            .setLevel(HttpLoggingInterceptor.Level.BODY),
                     )
                         .addInterceptor(ChuckerInterceptor(context))
                         .addInterceptor(AuthInterceptor())
@@ -58,7 +56,6 @@ object NetModule {
         }
         return httpClient
     }
-
 
     @Provides
     @Singleton

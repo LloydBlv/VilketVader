@@ -6,7 +6,6 @@ import com.example.imageloading.WeatherImageLoaderFactory
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 
-
 @HiltAndroidApp
 class VilketVaderApplication : Application(), WeatherImageLoaderFactory {
     override fun getContext(): Context {

@@ -1,11 +1,10 @@
 package com.example.data.datasource.local
 
 import com.example.domain.Weather
+import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import timber.log.Timber
-import javax.inject.Inject
-
 
 interface LocalDataSource {
     suspend fun getWeather(id: Int): Weather?
@@ -15,7 +14,7 @@ interface LocalDataSource {
 }
 
 class LocalDataSourceDefault @Inject constructor(
-    private val weatherDao: WeatherDao
+    private val weatherDao: WeatherDao,
 ) : LocalDataSource {
     override suspend fun getWeather(id: Int): Weather? {
         val weatherAndLocation = weatherDao.getWeather(locationId = id)

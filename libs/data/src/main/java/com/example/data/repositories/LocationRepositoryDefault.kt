@@ -6,15 +6,15 @@ import com.example.data.datasource.local.toDomain
 import com.example.data.datasource.local.toEntity
 import com.example.domain.Location
 import com.example.domain.LocationRepository
+import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import timber.log.Timber
-import javax.inject.Inject
 
 class LocationRepositoryDefault @Inject constructor(
-    private val locationDao: LocationDao
+    private val locationDao: LocationDao,
 ) : LocationRepository {
     override fun observeLocations(): Flow<List<Location>> {
         return locationDao.observeAllLocations()

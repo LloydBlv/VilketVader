@@ -14,7 +14,7 @@ fun Temperature.toEntity() = TemperatureEntity(
     current = current,
     feelsLike = feelsLike,
     min = min,
-    max = max
+    max = max,
 )
 
 internal fun TemperatureEntity.toDomain(): Temperature {
@@ -22,6 +22,6 @@ internal fun TemperatureEntity.toDomain(): Temperature {
         current = current,
         min = min,
         max = max,
-        feelsLike = feelsLike
+        feelsLike = feelsLike,
     )
 }

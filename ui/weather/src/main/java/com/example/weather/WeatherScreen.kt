@@ -42,7 +42,6 @@ import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.components.SingletonComponent
 import timber.log.Timber
 
-
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 @CircuitInject(WeatherScreen::class, SingletonComponent::class)
@@ -64,7 +63,6 @@ fun WeatherScreenUi(
             }
         },
     )
-
 }
 
 @Composable
@@ -81,7 +79,7 @@ private fun BoxScope.WeatherScreenContent(state: WeatherUiState, modifier: Modif
                 style = MaterialTheme.typography.titleLarge,
                 modifier = Modifier
                     .padding(16.dp)
-                    .align(Alignment.Center)
+                    .align(Alignment.Center),
             )
         }
 
@@ -89,18 +87,17 @@ private fun BoxScope.WeatherScreenContent(state: WeatherUiState, modifier: Modif
             Column(
                 modifier = Modifier.align(Alignment.Center),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
+                verticalArrangement = Arrangement.Center,
             ) {
                 CircularProgressIndicator(modifier = Modifier.size(32.dp))
                 Spacer(modifier = Modifier.height(10.dp))
                 Text(
                     text = "Loading...",
                     style = MaterialTheme.typography.titleLarge,
-                    modifier = Modifier.padding(16.dp)
+                    modifier = Modifier.padding(16.dp),
                 )
             }
         }
-
     }
 }
 
@@ -108,7 +105,7 @@ private fun BoxScope.WeatherScreenContent(state: WeatherUiState, modifier: Modif
 private fun WeatherListUi(state: WeatherUiState.Success, modifier: Modifier = Modifier) {
     LazyColumn(
         modifier = modifier
-            .padding(8.dp)
+            .padding(8.dp),
     ) {
         item { CurrentTemperatureCard(state, Modifier.padding(8.dp)) }
         item { Spacer(modifier = Modifier.height(40.dp)) }
@@ -134,18 +131,18 @@ private fun PressureAndVisibilityCards(state: WeatherUiState.Success) {
             modifier = Modifier.weight(1f),
             icon = Icons.Default.Compress,
             fieldName = "Pressure",
-            fieldValue = "${state.weather?.pressure} hg"
+            fieldValue = "${state.weather?.pressure} hg",
         )
         Spacer(
             modifier = Modifier
                 .height(5.dp)
-                .weight(0.05f)
+                .weight(0.05f),
         )
         WeatherInfoCard(
             modifier = Modifier.weight(1f),
             icon = Icons.Default.ViewCozy,
             fieldName = "Visibility",
-            fieldValue = "${state.weather?.visibility}m"
+            fieldValue = "${state.weather?.visibility}m",
         )
     }
 }
@@ -157,15 +154,14 @@ private fun CloudCard(state: WeatherUiState.Success) {
             modifier = Modifier.weight(1f),
             icon = Icons.Default.WbCloudy,
             fieldName = "Clouds",
-            fieldValue = "${state.weather?.clouds}%"
+            fieldValue = "${state.weather?.clouds}%",
         )
         Spacer(
             modifier = Modifier
                 .height(5.dp)
-                .weight(0.05f)
+                .weight(0.05f),
         )
         Box(modifier = Modifier.weight(1f)) {
-
         }
     }
 }
@@ -177,18 +173,18 @@ private fun WindAndHumidityCard(state: WeatherUiState.Success) {
             modifier = Modifier.weight(1f),
             icon = Icons.Default.WindPower,
             fieldName = "Wind",
-            fieldValue = "${state.weather?.wind?.speed} m/s"
+            fieldValue = "${state.weather?.wind?.speed} m/s",
         )
         Spacer(
             modifier = Modifier
                 .height(10.dp)
-                .weight(0.05f)
+                .weight(0.05f),
         )
         WeatherInfoCard(
             modifier = Modifier.weight(1f),
             icon = Icons.Default.WaterDrop,
             fieldName = "Humidity",
-            fieldValue = "${state.weather?.humidity}%"
+            fieldValue = "${state.weather?.humidity}%",
         )
     }
 }
@@ -200,50 +196,49 @@ private fun TimeStampText(state: WeatherUiState.Success, modifier: Modifier = Mo
         modifier = modifier,
         text = state.weather?.timestamp?.let(formatter::formatWeekDayAndTime).orEmpty(),
         color = Color.White.copy(alpha = 0.6f),
-        style = MaterialTheme.typography.titleSmall
+        style = MaterialTheme.typography.titleSmall,
     )
 }
 
 @Composable
 private fun MinMaxTemperature(
     state: WeatherUiState.Success,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Text(
         modifier = modifier,
         text = "${state.weather?.temperature?.max}° / ${state.weather?.temperature?.min}° feels like ${state.weather?.temperature?.feelsLike}°",
-        style = MaterialTheme.typography.titleLarge
+        style = MaterialTheme.typography.titleLarge,
     )
 }
 
 @Composable
 private fun CurrentTemperatureCard(
     state: WeatherUiState.Success,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Row(modifier = modifier) {
         Column {
             Text(
                 text = "${state.weather.temperature?.current}°",
-                style = MaterialTheme.typography.displayLarge.copy(fontSize = 67.sp)
+                style = MaterialTheme.typography.displayLarge.copy(fontSize = 67.sp),
             )
             Spacer(modifier = Modifier.height(10.dp))
 
             Text(
                 text = "${state.weather?.conditions?.firstOrNull()?.name}",
-                style = MaterialTheme.typography.titleLarge
+                style = MaterialTheme.typography.titleLarge,
             )
             Text(
                 text = "${state.weather?.conditions?.firstOrNull()?.description}",
                 style = MaterialTheme.typography.titleSmall,
-                color = Color.White.copy(alpha = 0.6f)
+                color = Color.White.copy(alpha = 0.6f),
             )
-
         }
         AsyncImage(
             modifier = Modifier.size(120.dp),
             model = state.weather.icon,
-            contentDescription = null
+            contentDescription = null,
         )
     }
 }
@@ -253,31 +248,33 @@ fun WeatherInfoCard(
     icon: ImageVector,
     fieldName: String,
     fieldValue: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Card(
         modifier = modifier,
         colors = CardDefaults.elevatedCardColors(
-            containerColor = Color.DarkGray.copy(alpha = 0.15f)
-        )
+            containerColor = Color.DarkGray.copy(alpha = 0.15f),
+        ),
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(15.dp)
+                .padding(15.dp),
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Icon(icon, contentDescription = null, tint = Color.White.copy(alpha = 0.6f))
                 Spacer(modifier = Modifier.width(10.dp))
                 Text(
-                    text = fieldName, style = MaterialTheme.typography.titleSmall,
-                    color = Color.White.copy(alpha = 0.6f)
+                    text = fieldName,
+                    style = MaterialTheme.typography.titleSmall,
+                    color = Color.White.copy(alpha = 0.6f),
                 )
             }
             Spacer(modifier = Modifier.height(5.dp))
             Text(
-                text = fieldValue, style = MaterialTheme.typography.headlineSmall,
-                fontWeight = FontWeight.Bold
+                text = fieldValue,
+                style = MaterialTheme.typography.headlineSmall,
+                fontWeight = FontWeight.Bold,
             )
         }
     }

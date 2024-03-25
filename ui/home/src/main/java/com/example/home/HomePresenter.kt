@@ -4,8 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
-import com.example.domain.ObserveLocationsUseCase
 import com.example.domain.Location
+import com.example.domain.ObserveLocationsUseCase
 import com.example.domain.UpdateSelectedLocationUseCase
 import com.example.home.drawer.UiLocation
 import com.example.screens.HomeScreen
@@ -20,7 +20,7 @@ import kotlinx.coroutines.launch
 
 class HomePresenter @AssistedInject constructor(
     private val getLocationsUseCase: ObserveLocationsUseCase,
-    private val updateSelectedLocation: UpdateSelectedLocationUseCase
+    private val updateSelectedLocation: UpdateSelectedLocationUseCase,
 ) : Presenter<HomeUiState> {
     @Composable
     override fun present(): HomeUiState {
@@ -44,7 +44,7 @@ class HomePresenter @AssistedInject constructor(
             locations = locations?.getOrNull()
                 .orEmpty().map(Location::toUiLocation)
                 .toPersistentList(),
-            evenSink = ::eventSink
+            evenSink = ::eventSink,
         )
     }
 }

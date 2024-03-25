@@ -7,7 +7,6 @@ plugins {
     alias(libs.plugins.kotlin.parcelize)
 }
 
-
 android {
     namespace = "com.example.vilketvader"
     buildTypes {
@@ -15,7 +14,7 @@ android {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
         }
     }
@@ -38,8 +37,6 @@ dependencies {
     implementation(projects.ui.widget)
 
     implementation(libs.kotlinx.serialization.json)
-
-
 
     implementation(libs.kotlinxDatetime)
     implementation(libs.kotlinxCollectionsImmutable)

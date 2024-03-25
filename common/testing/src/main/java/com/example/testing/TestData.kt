@@ -3,13 +3,13 @@ package com.example.testing
 import com.example.data.models.WeatherResponseDto
 import com.example.domain.Coordination
 import com.example.domain.Location
-import kotlinx.serialization.json.Json
 import java.io.File
+import kotlinx.serialization.json.Json
 
 object TestData {
     fun getTestResponse(
         location: Location = STOCKHOLM,
-        json: Json = Json { ignoreUnknownKeys = true }
+        json: Json = Json { ignoreUnknownKeys = true },
     ): WeatherResponseDto {
         val weatherDto = json.decodeFromString<WeatherResponseDto>(getRawTestResponse(location))
         return weatherDto
@@ -34,7 +34,7 @@ object TestData {
         coordination = Coordination(59.3326f, 18.0649f),
         timezone = 3600,
         country = "SE",
-        isSelected = false
+        isSelected = false,
     )
 
     val ZURICH: Location = Location(
@@ -43,6 +43,6 @@ object TestData {
         coordination = Coordination(47.3667f, 8.55f),
         timezone = 3600,
         country = "CH",
-        isSelected = false
+        isSelected = false,
     )
 }

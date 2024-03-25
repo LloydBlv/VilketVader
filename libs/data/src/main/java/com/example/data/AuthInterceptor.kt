@@ -10,9 +10,9 @@ class AuthInterceptor : Interceptor {
                 .url(
                     chain.request().url.newBuilder()
                         .addQueryParameter("appid", "f4238f75fa90d8b266553868b6f669c1")
-                        .build()
+                        .build(),
                 )
-                .build()
+                .build(),
         )
     }
 }

@@ -5,7 +5,7 @@ import javax.inject.Singleton
 
 @Singleton
 class PrefillHelper @Inject constructor(
-    private val locationsDao: dagger.Lazy<LocationDao>
+    private val locationsDao: dagger.Lazy<LocationDao>,
 ) {
     suspend fun prefill(locations: List<LocationEntity>) {
         val dao = locationsDao.get()

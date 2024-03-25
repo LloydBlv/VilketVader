@@ -1,6 +1,5 @@
 package com.example.data.models
 
-
 import com.example.domain.Condition
 import com.example.domain.Coordination
 import com.example.domain.Icon
@@ -23,7 +22,7 @@ data class WeatherResponseDto(
     @SerialName("timezone") val timezone: Int?,
     @SerialName("visibility") val visibility: Long?,
     @SerialName("weather") val weather: List<WeatherDto?>?,
-    @SerialName("wind") val wind: WindDto?
+    @SerialName("wind") val wind: WindDto?,
 )
 
 fun WeatherResponseDto.toWeather(): Weather {
@@ -33,17 +32,17 @@ fun WeatherResponseDto.toWeather(): Weather {
             name = name.orEmpty(),
             coordination = Coordination(
                 latitude = coord?.lat ?: 0.0f,
-                longitude = coord?.lon ?: 0.0f
+                longitude = coord?.lon ?: 0.0f,
             ),
             country = sys?.country.orEmpty(),
             timezone = timezone ?: 0,
-            isSelected = false
+            isSelected = false,
         ),
         conditions = weather?.map {
             Condition(
                 name = it?.main.orEmpty(),
                 description = it?.description.orEmpty(),
-                type = Condition.Type.from(it?.id ?: 0)
+                type = Condition.Type.from(it?.id ?: 0),
             )
         } ?: emptyList(),
         temperature = Temperature(
@@ -60,10 +59,9 @@ fun WeatherResponseDto.toWeather(): Weather {
         sunsetTimeMillis = sys?.sunsetTimeMillis ?: 0L,
         wind = Wind(
             speed = wind?.speed ?: 0.0f,
-            degree = wind?.deg ?: 0
+            degree = wind?.deg ?: 0,
         ),
         timestamp = dt?.toLong() ?: 0L,
-        icon = Icon(weather?.firstOrNull()?.icon.orEmpty())
+        icon = Icon(weather?.firstOrNull()?.icon.orEmpty()),
     )
-
 }

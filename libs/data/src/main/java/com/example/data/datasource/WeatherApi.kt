@@ -6,15 +6,14 @@ import com.example.domain.Weather
 import de.jensklingenberg.ktorfit.Ktorfit
 import de.jensklingenberg.ktorfit.http.GET
 import de.jensklingenberg.ktorfit.http.Query
-import kotlinx.coroutines.delay
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.seconds
-
+import kotlinx.coroutines.delay
 
 enum class WeatherUnit(val value: String) {
     METRIC("metric"),
     IMPERIAL("imperial"),
-    STANDARD("standard")
+    STANDARD("standard"),
 }
 
 internal interface WeatherApi {
@@ -27,7 +26,7 @@ internal interface WeatherApi {
 }
 
 class WeatherApiClientDefault @Inject constructor(
-    ktorfit: dagger.Lazy<Ktorfit>
+    ktorfit: dagger.Lazy<Ktorfit>,
 ) : WeatherApiClient {
     private val weatherApi = ktorfit.get().create<WeatherApi>()
     override suspend fun getWeather(cityName: String, language: String): Weather {
@@ -35,7 +34,7 @@ class WeatherApiClientDefault @Inject constructor(
         return weatherApi.getWeather(
             cityName = cityName,
             weatherUnit = WeatherUnit.METRIC.value,
-            language = language
+            language = language,
         ).toWeather()
     }
 }

@@ -22,9 +22,7 @@ import com.example.screens.WeatherScreen
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.foundation.CircuitContent
 import dagger.hilt.components.SingletonComponent
-import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.launch
-
 
 val beforeSunrise = listOf(
     Color(0xFF85bce5),
@@ -34,7 +32,7 @@ val beforeSunrise = listOf(
     Color(0xFF8cb9d0),
     Color(0xFF8cb9d0),
     Color(0xFFa6af9e),
-    Color(0xFFb8a76f)
+    Color(0xFFb8a76f),
 )
 
 val sunnyColorsGradient = listOf(
@@ -57,8 +55,12 @@ fun HomeScreenUi(state: HomeUiState, modifier: Modifier = Modifier) {
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
 
-    fun openDrawer() { scope.launch { drawerState.open() } }
-    fun closeDrawer() { scope.launch { drawerState.close() } }
+    fun openDrawer() {
+        scope.launch { drawerState.open() }
+    }
+    fun closeDrawer() {
+        scope.launch { drawerState.close() }
+    }
 
     BackHandler(enabled = drawerState.isOpen, onBack = ::openDrawer)
 
@@ -74,7 +76,7 @@ fun HomeScreenUi(state: HomeUiState, modifier: Modifier = Modifier) {
                     onDrawerItemClicked = {
                         eventSink.invoke(HomeUiEvents.OnLocationSelected(it))
                         closeDrawer()
-                    }
+                    },
                 )
             },
             content = {
@@ -82,10 +84,9 @@ fun HomeScreenUi(state: HomeUiState, modifier: Modifier = Modifier) {
                     state = state,
                     onDrawerClicked = ::openDrawer,
                 )
-            }
+            },
         )
     }
-
 }
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -101,14 +102,13 @@ private fun MainContent(
         topBar = {
             MainTopAppBar(
                 state = state,
-                onDrawerOpenClicked = onDrawerClicked
+                onDrawerOpenClicked = onDrawerClicked,
             )
-        }
+        },
     ) {
         CircuitContent(
             screen = WeatherScreen,
-            modifier = Modifier.fillMaxSize().padding(it)
+            modifier = Modifier.fillMaxSize().padding(it),
         )
     }
 }
-

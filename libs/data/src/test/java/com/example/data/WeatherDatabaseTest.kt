@@ -18,14 +18,13 @@ import com.example.data.datasource.local.toDomain
 import com.example.data.datasource.local.toEntity
 import com.example.testing.TestData
 import com.example.testing.WeatherRepositoryFake
+import kotlin.reflect.KProperty1
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
-import kotlin.reflect.KProperty1
-
 
 @RunWith(RobolectricTestRunner::class)
 class WeatherDatabaseTest {
@@ -36,7 +35,7 @@ class WeatherDatabaseTest {
     fun setup() {
         database = Room.inMemoryDatabaseBuilder(
             InstrumentationRegistry.getInstrumentation().context,
-            WeatherDatabase::class.java
+            WeatherDatabase::class.java,
         )
             .allowMainThreadQueries()
             .build()
@@ -52,7 +51,6 @@ class WeatherDatabaseTest {
         val result: WeatherEntity = dao.getWeather(weather.location.id)?.weather!!
         assertThat(result).isEqualToIgnoringId(weather.toEntity())
     }
-
 
     @Test
     fun `test inserting weather result in correct domain returned after mapping`() = runTest {
@@ -74,6 +72,7 @@ class WeatherDatabaseTest {
         dao.insertWeather(weather.toEntity())
         assertThat(dao.getWeather(weather.location.id)?.weather!!).isEqualToIgnoringId(entity)
     }
+
     @Test
     fun `test delete works and record gets removed after deletion`() = runTest {
         val weather = getWeather()
@@ -132,7 +131,7 @@ private fun Assert<WeatherEntity>.isEqualToIgnoringId(other: WeatherEntity) {
 
 private fun <T : Any> Assert<T>.isEqualToIgnoringFields(
     other: T,
-    vararg properties: KProperty1<T, Any?>
+    vararg properties: KProperty1<T, Any?>,
 ) {
     all {
         other::class.members
@@ -141,7 +140,7 @@ private fun <T : Any> Assert<T>.isEqualToIgnoringFields(
             .forEach { prop: KProperty1<T, Any?> ->
                 transform(
                     name = appendName(prop.name, separator = "."),
-                    transform = prop::get
+                    transform = prop::get,
                 )
                     .isEqualTo(prop.get(other))
             }

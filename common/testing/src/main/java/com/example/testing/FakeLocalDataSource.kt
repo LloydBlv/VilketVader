@@ -4,7 +4,7 @@ import com.example.data.datasource.local.LocalDataSource
 import com.example.domain.Weather
 import kotlinx.coroutines.flow.Flow
 
-class FakeLocalDataSource: LocalDataSource {
+class FakeLocalDataSource : LocalDataSource {
     var exception: Throwable? = null
     override suspend fun getWeather(id: Int): Weather? {
         if (exception != null) {

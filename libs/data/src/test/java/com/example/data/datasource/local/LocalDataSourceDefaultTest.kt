@@ -27,7 +27,7 @@ class LocalDataSourceDefaultTest {
     fun setup() {
         database = Room.inMemoryDatabaseBuilder(
             InstrumentationRegistry.getInstrumentation().context,
-            WeatherDatabase::class.java
+            WeatherDatabase::class.java,
         )
             .allowMainThreadQueries()
             .build()
@@ -38,11 +38,12 @@ class LocalDataSourceDefaultTest {
     @Test
     fun `assert initially local data source returns null`() = runTest {
         val datasource = LocalDataSourceDefault(
-            weatherDao = weatherDao
+            weatherDao = weatherDao,
         )
         assertThat(datasource.getWeather(TestData.STOCKHOLM.id)).isNull()
         assertThat(datasource.getWeather(TestData.ZURICH.id)).isNull()
     }
+
     @Test
     fun `after update, the cache returns correct data`() = runTest {
         val repository = WeatherRepositoryFake()
@@ -53,13 +54,14 @@ class LocalDataSourceDefaultTest {
         assertThat(stockholmWeather).assertTestWeather()
 
         val datasource = LocalDataSourceDefault(
-            weatherDao = weatherDao
+            weatherDao = weatherDao,
         )
         assertThat(datasource.getWeather(locationStockholm.id)).isNull()
         datasource.updateWeather(stockholmWeather)
         assertThat(datasource.getWeather(locationStockholm.id)).isNotNull()
             .assertTestWeather()
     }
+
     @Test
     fun `after two updates, the cache returns correct data`() = runTest {
         val repository = WeatherRepositoryFake()
@@ -73,7 +75,7 @@ class LocalDataSourceDefaultTest {
         val zurichWeather = repository.getWeather(zurich, language = "en")
 
         val datasource = LocalDataSourceDefault(
-            weatherDao = weatherDao
+            weatherDao = weatherDao,
         )
         assertThat(datasource.getWeather(stockholm.id)).isNull()
         datasource.updateWeather(stockholmWeather)

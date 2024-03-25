@@ -7,7 +7,6 @@ import androidx.room.Query
 import androidx.room.Transaction
 import kotlinx.coroutines.flow.Flow
 
-
 @Dao
 interface WeatherDao {
     @Query("SELECT * FROM weather where location_id = :locationId")
@@ -17,6 +16,7 @@ interface WeatherDao {
     @Query("SELECT * FROM weather")
     @Transaction
     suspend fun getAllWeathers(): List<WeatherAndLocation>
+
     @Query("SELECT * FROM weather")
     suspend fun getOnlyAllWeathers(): List<WeatherEntity>
 

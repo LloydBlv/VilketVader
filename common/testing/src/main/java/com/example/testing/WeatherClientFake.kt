@@ -14,7 +14,6 @@ class WeatherClientFake : WeatherApiClient {
         val location = when (cityName.lowercase()) {
             "stockholm" -> TestData.STOCKHOLM
             else -> TestData.ZURICH
-
         }
         return TestData.getTestResponse(location).toWeather()
     }

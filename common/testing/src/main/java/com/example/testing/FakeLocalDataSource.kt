@@ -1,7 +1,7 @@
 package com.example.testing
 
 import com.example.data.datasource.local.LocalDataSource
-import com.example.domain.Weather
+import com.example.domain.models.Weather
 import kotlinx.coroutines.flow.Flow
 
 class FakeLocalDataSource : LocalDataSource {

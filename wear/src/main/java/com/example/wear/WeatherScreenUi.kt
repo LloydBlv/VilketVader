@@ -23,10 +23,10 @@ import androidx.wear.compose.material.rememberSwipeableState
 import androidx.wear.compose.material.scrollAway
 import androidx.wear.compose.material.swipeable
 import androidx.wear.tooling.preview.devices.WearDevices.LARGE_ROUND
-import com.example.domain.Condition
-import com.example.domain.Location
-import com.example.domain.Temperature
-import com.example.domain.Weather
+import com.example.domain.models.Condition
+import com.example.domain.models.Location
+import com.example.domain.models.Temperature
+import com.example.domain.models.Weather
 import com.example.wear.presentation.theme.VilketVaderTheme
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.components.SingletonComponent

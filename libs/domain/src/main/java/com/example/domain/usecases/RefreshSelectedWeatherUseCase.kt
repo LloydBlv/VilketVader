@@ -1,5 +1,8 @@
-package com.example.domain
+package com.example.domain.usecases
 
+import com.example.domain.repositories.LocationRepository
+import com.example.domain.repositories.WeatherRepository
+import com.example.domain.utils.Interactor
 import java.util.Locale
 import javax.inject.Inject
 

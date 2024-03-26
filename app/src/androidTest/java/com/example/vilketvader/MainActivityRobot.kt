@@ -8,7 +8,7 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.test.platform.app.InstrumentationRegistry
-import com.example.domain.Weather
+import com.example.domain.models.Weather
 import com.example.weather.R
 import javax.inject.Inject
 

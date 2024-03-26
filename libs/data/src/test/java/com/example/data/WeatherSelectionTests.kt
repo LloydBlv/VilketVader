@@ -15,10 +15,11 @@ import com.example.data.datasource.local.WeatherDatabase
 import com.example.data.datasource.local.getInitialLocations
 import com.example.data.repositories.LocationRepositoryDefault
 import com.example.data.repositories.WeatherRepositoryDefault
-import com.example.domain.LocationRepository
-import com.example.domain.ObserveLocationsUseCase
-import com.example.domain.UpdateSelectedLocationUseCase
-import com.example.domain.WeatherRepository
+import com.example.domain.repositories.LocationRepository
+import com.example.domain.repositories.WeatherRepository
+import com.example.domain.usecases.ObserveLocationsUseCase
+import com.example.domain.usecases.UpdateSelectedLocationUseCase
+import com.example.testing.MainDispatcherRule
 import com.example.testing.TestData
 import com.example.testing.WeatherClientFake
 import com.example.testing.assertTestWeather
@@ -26,12 +27,16 @@ import dagger.Lazy
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 
 @RunWith(RobolectricTestRunner::class)
 class WeatherSelectionTests {
+    @get:Rule
+    val mainDispatcherRule = MainDispatcherRule()
+
     private lateinit var datasource: LocalDataSourceDefault
     private lateinit var locationDao: LocationDao
     private lateinit var weatherDao: WeatherDao
@@ -51,7 +56,7 @@ class WeatherSelectionTests {
         weatherDao = database.weatherDao()
         datasource = LocalDataSourceDefault(dao)
         runBlocking { PrefillHelper(Lazy { locationDao }).prefill(getInitialLocations()) }
-        locationRepository = LocationRepositoryDefault(locationDao)
+        locationRepository = LocationRepositoryDefault(locationDao, mainDispatcherRule.testDispatcher)
         weatherRepository = WeatherRepositoryDefault(
             client = WeatherClientFake(),
             localDataSource = datasource,
@@ -59,8 +64,10 @@ class WeatherSelectionTests {
                 apiClient = WeatherClientFake(),
                 dao = weatherDao,
                 localDataSource = datasource,
-
+                readDispatcher = mainDispatcherRule.testDispatcher,
+                writeDispatcher = mainDispatcherRule.testDispatcher,
             ),
+            ioDispatcher = mainDispatcherRule.testDispatcher,
         )
     }
 

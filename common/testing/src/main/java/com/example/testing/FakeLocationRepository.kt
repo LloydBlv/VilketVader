@@ -1,7 +1,7 @@
 package com.example.testing
 
-import com.example.domain.Location
-import com.example.domain.LocationRepository
+import com.example.domain.models.Location
+import com.example.domain.repositories.LocationRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 

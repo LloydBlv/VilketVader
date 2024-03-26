@@ -9,7 +9,7 @@ import androidx.core.splashscreen.SplashScreen
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.glance.appwidget.updateAll
 import androidx.lifecycle.lifecycleScope
-import com.example.domain.ObserveSelectedLocationUseCase
+import com.example.domain.usecases.ObserveSelectedLocationUseCase
 import com.example.screens.HomeScreen
 import com.example.vilketvader.ui.theme.VilketVaderTheme
 import com.example.weather.LocalDateFormatter

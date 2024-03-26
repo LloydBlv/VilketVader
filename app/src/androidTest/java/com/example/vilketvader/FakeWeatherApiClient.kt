@@ -3,7 +3,7 @@ package com.example.vilketvader
 import androidx.test.platform.app.InstrumentationRegistry
 import com.example.data.datasource.WeatherApiClient
 import com.example.data.models.toWeather
-import com.example.domain.Weather
+import com.example.domain.models.Weather
 import com.example.testing.TestData
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.milliseconds

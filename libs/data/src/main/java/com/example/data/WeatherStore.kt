@@ -3,11 +3,13 @@ package com.example.data
 import com.example.data.datasource.WeatherApiClient
 import com.example.data.datasource.local.LocalDataSource
 import com.example.data.datasource.local.WeatherDao
-import com.example.domain.Location
-import com.example.domain.Weather
+import com.example.domain.di.ReadDispatcher
+import com.example.domain.di.WriteDispatcher
+import com.example.domain.models.Location
+import com.example.domain.models.Weather
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.minutes
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import org.mobilenativefoundation.store.store5.Fetcher
@@ -25,6 +27,8 @@ class WeatherStore @Inject constructor(
     apiClient: WeatherApiClient,
     dao: WeatherDao,
     localDataSource: LocalDataSource,
+    @ReadDispatcher private val readDispatcher: CoroutineDispatcher,
+    @WriteDispatcher private val writeDispatcher: CoroutineDispatcher,
 ) : Store<WeatherLoadParams, Weather> by storeBuilder(
     fetcher = Fetcher.of {
         apiClient.getWeather(it.location.name, it.language)
@@ -42,8 +46,8 @@ class WeatherStore @Inject constructor(
         deleteAll = dao::deleteAll,
     )
         .usingDispatchers(
-            readDispatcher = Dispatchers.IO.limitedParallelism(1),
-            writeDispatcher = Dispatchers.IO.limitedParallelism(4),
+            readDispatcher = readDispatcher,
+            writeDispatcher = writeDispatcher,
         ),
 )
     .validator(

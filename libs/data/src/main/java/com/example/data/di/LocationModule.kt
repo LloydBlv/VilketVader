@@ -1,7 +1,7 @@
 package com.example.data.di
 
 import com.example.data.repositories.LocationRepositoryDefault
-import com.example.domain.LocationRepository
+import com.example.domain.repositories.LocationRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

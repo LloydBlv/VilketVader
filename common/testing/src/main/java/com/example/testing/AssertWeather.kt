@@ -4,12 +4,12 @@ import assertk.Assert
 import assertk.all
 import assertk.assertions.isEqualTo
 import assertk.assertions.prop
-import com.example.domain.Condition
-import com.example.domain.Coordination
-import com.example.domain.Location
-import com.example.domain.Temperature
-import com.example.domain.Weather
-import com.example.domain.Wind
+import com.example.domain.models.Condition
+import com.example.domain.models.Coordination
+import com.example.domain.models.Location
+import com.example.domain.models.Temperature
+import com.example.domain.models.Weather
+import com.example.domain.models.Wind
 
 fun Assert<Weather>.assertTestWeather() {
     assertLocation()

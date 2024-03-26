@@ -1,12 +1,12 @@
 package com.example.data.models
 
-import com.example.domain.Condition
-import com.example.domain.Coordination
-import com.example.domain.Icon
-import com.example.domain.Location
-import com.example.domain.Temperature
-import com.example.domain.Weather
-import com.example.domain.Wind
+import com.example.domain.models.Condition
+import com.example.domain.models.Coordination
+import com.example.domain.models.Icon
+import com.example.domain.models.Location
+import com.example.domain.models.Temperature
+import com.example.domain.models.Weather
+import com.example.domain.models.Wind
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

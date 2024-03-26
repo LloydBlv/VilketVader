@@ -2,9 +2,9 @@ package com.example.testing
 
 import android.content.Context
 import com.example.data.models.toWeather
-import com.example.domain.Location
-import com.example.domain.Weather
-import com.example.domain.WeatherRepository
+import com.example.domain.models.Location
+import com.example.domain.models.Weather
+import com.example.domain.repositories.WeatherRepository
 import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow

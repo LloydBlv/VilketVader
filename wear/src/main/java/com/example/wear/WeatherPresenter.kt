@@ -4,9 +4,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
-import com.example.domain.ObserveSelectedWeatherUseCase
-import com.example.domain.RefreshSelectedWeatherUseCase
-import com.example.domain.Weather
+import com.example.domain.models.Weather
+import com.example.domain.usecases.ObserveSelectedWeatherUseCase
+import com.example.domain.usecases.RefreshSelectedWeatherUseCase
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.collectAsRetainedState
 import com.slack.circuit.runtime.CircuitUiState

@@ -2,8 +2,8 @@ package com.example.testing
 
 import android.content.Context
 import com.example.data.models.WeatherResponseDto
-import com.example.domain.Coordination
-import com.example.domain.Location
+import com.example.domain.models.Coordination
+import com.example.domain.models.Location
 import java.io.BufferedReader
 import java.io.File
 import kotlinx.serialization.json.Json

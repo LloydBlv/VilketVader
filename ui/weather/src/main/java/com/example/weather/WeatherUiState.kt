@@ -1,6 +1,6 @@
 package com.example.weather
 
-import com.example.domain.Weather
+import com.example.domain.models.Weather
 import com.slack.circuit.runtime.CircuitUiState
 
 sealed interface WeatherUiState : CircuitUiState {

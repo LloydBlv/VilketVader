@@ -2,8 +2,8 @@ package com.example.widget
 
 import android.content.Context
 import androidx.glance.appwidget.GlanceAppWidgetManager
-import com.example.domain.ObserveSelectedWeatherUseCase
-import com.example.domain.RefreshSelectedWeatherUseCase
+import com.example.domain.usecases.ObserveSelectedWeatherUseCase
+import com.example.domain.usecases.RefreshSelectedWeatherUseCase
 import dagger.hilt.android.EntryPointAccessors
 
 internal fun getGlanceAppWidgetManager(context: Context): GlanceAppWidgetManager {

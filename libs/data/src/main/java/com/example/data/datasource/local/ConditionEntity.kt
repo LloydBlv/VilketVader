@@ -1,7 +1,7 @@
 package com.example.data.datasource.local
 
 import androidx.room.ColumnInfo
-import com.example.domain.Condition
+import com.example.domain.models.Condition
 
 data class ConditionEntity(
     @ColumnInfo("type") val type: Int,

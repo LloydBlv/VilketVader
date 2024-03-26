@@ -12,7 +12,7 @@ import com.example.data.datasource.local.LocationDao
 import com.example.data.datasource.local.WeatherDao
 import com.example.data.datasource.local.WeatherDatabase
 import com.example.data.datasource.local.toEntity
-import com.example.domain.Weather
+import com.example.domain.models.Weather
 import com.example.testing.TestData
 import com.example.testing.WeatherRepositoryFake
 import kotlinx.coroutines.test.runTest

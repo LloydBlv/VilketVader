@@ -1,4 +1,4 @@
-package com.example.domain
+package com.example.domain.models
 
 class NoLocationSelectedException : Exception() {
     override val message: String

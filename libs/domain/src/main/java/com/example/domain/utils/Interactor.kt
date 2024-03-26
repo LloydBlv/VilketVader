@@ -1,4 +1,4 @@
-package com.example.domain
+package com.example.domain.utils
 
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.minutes

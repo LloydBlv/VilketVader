@@ -23,9 +23,9 @@ import androidx.glance.layout.Box
 import androidx.glance.layout.fillMaxSize
 import androidx.glance.layout.size
 import androidx.glance.text.Text
-import com.example.domain.ObserveSelectedWeatherUseCase
-import com.example.domain.Weather
-import com.example.domain.WeatherResult
+import com.example.domain.models.Weather
+import com.example.domain.models.WeatherResult
+import com.example.domain.usecases.ObserveSelectedWeatherUseCase
 import com.example.widget.AppWidgetBox
 import com.example.widget.AppWidgetColumn
 import com.example.widget.LocalAppContextProvider

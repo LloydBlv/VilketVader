@@ -1,6 +1,6 @@
 package com.example.vilketvader
 
-import com.example.domain.DateFormatter
+import com.example.domain.utils.DateFormatter
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale

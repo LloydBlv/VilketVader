@@ -10,17 +10,22 @@ import assertk.assertions.isTrue
 import assertk.assertions.prop
 import com.example.data.datasource.local.WeatherDatabase
 import com.example.data.repositories.LocationRepositoryDefault
-import com.example.domain.Location
-import com.example.domain.LocationRepository
+import com.example.domain.models.Location
+import com.example.domain.repositories.LocationRepository
+import com.example.testing.MainDispatcherRule
 import com.example.testing.TestData
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 
 @RunWith(RobolectricTestRunner::class)
 class LocationRepositoryTest {
+
+    @get:Rule
+    val mainDispatcherRule = MainDispatcherRule()
 
     private lateinit var repository: LocationRepository
 
@@ -32,7 +37,7 @@ class LocationRepositoryTest {
         )
             .allowMainThreadQueries()
             .build()
-        repository = LocationRepositoryDefault(database.locationDao())
+        repository = LocationRepositoryDefault(database.locationDao(), mainDispatcherRule.testDispatcher)
     }
 
     @Test

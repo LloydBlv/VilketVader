@@ -1,7 +1,7 @@
 package com.example.data.di
 
 import com.example.data.repositories.WeatherRepositoryDefault
-import com.example.domain.WeatherRepository
+import com.example.domain.repositories.WeatherRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

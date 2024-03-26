@@ -4,9 +4,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
-import com.example.domain.Location
-import com.example.domain.ObserveLocationsUseCase
-import com.example.domain.UpdateSelectedLocationUseCase
+import com.example.domain.models.Location
+import com.example.domain.usecases.ObserveLocationsUseCase
+import com.example.domain.usecases.UpdateSelectedLocationUseCase
 import com.example.home.drawer.UiLocation
 import com.example.screens.HomeScreen
 import com.slack.circuit.codegen.annotations.CircuitInject

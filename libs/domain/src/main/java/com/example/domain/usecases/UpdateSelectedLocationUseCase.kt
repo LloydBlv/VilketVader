@@ -1,5 +1,7 @@
-package com.example.domain
+package com.example.domain.usecases
 
+import com.example.domain.utils.Interactor
+import com.example.domain.repositories.LocationRepository
 import javax.inject.Inject
 
 class UpdateSelectedLocationUseCase @Inject constructor(

@@ -11,8 +11,8 @@ import androidx.wear.watchface.complications.data.SmallImage
 import androidx.wear.watchface.complications.data.SmallImageType
 import androidx.wear.watchface.complications.datasource.ComplicationRequest
 import androidx.wear.watchface.complications.datasource.SuspendingComplicationDataSourceService
-import com.example.domain.GetSelectedWeatherUseCase
-import com.example.domain.Weather
+import com.example.domain.models.Weather
+import com.example.domain.usecases.GetSelectedWeatherUseCase
 import com.example.wear.R
 import com.example.wear.di.getSelectedWeatherUseCase
 import com.example.wear.presentation.MainWearActivity
@@ -30,7 +30,9 @@ class MainComplicationService : SuspendingComplicationDataSourceService() {
     }
 
     override suspend fun onComplicationRequest(request: ComplicationRequest): ComplicationData {
-        val result: Result<Weather> = getSelectedWeatherUseCase(applicationContext).invoke(GetSelectedWeatherUseCase.Params())
+        val result: Result<Weather> = getSelectedWeatherUseCase(applicationContext).invoke(
+            GetSelectedWeatherUseCase.Params(),
+        )
         val weather = result.getOrThrow()
         return createComplicationData(text = "${weather.temperature.current}°", contentDescription = "Temperature")
     }

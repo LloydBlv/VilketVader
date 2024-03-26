@@ -10,8 +10,9 @@ import assertk.assertions.startsWith
 import com.example.data.datasource.WeatherApiClientDefault
 import com.example.data.di.NetModule
 import com.example.data.repositories.WeatherRepositoryDefault
-import com.example.domain.GetWeatherUseCase
+import com.example.domain.usecases.GetWeatherUseCase
 import com.example.testing.FakeLocalDataSource
+import com.example.testing.MainDispatcherRule
 import com.example.testing.TestData
 import com.example.testing.assertTestWeather
 import com.example.testing.createFakeWeatherStore
@@ -30,10 +31,15 @@ import io.ktor.http.HttpStatusCode
 import io.ktor.http.headersOf
 import io.ktor.serialization.kotlinx.json.json
 import io.ktor.util.reflect.instanceOf
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.test.runTest
+import org.junit.Rule
 import org.junit.Test
 
 class GetWeatherUseCaseTest {
+
+    @get:Rule
+    val mainDispatcherRule = MainDispatcherRule()
     private fun createdEngine(
         response: MockRequestHandleScope.(HttpRequestData) -> HttpResponseData,
     ): MockEngine {
@@ -47,6 +53,7 @@ class GetWeatherUseCaseTest {
     @Test
     fun `UseCase returns success when upstream returns data`() = runTest {
         val repository = createWeatherRepository(
+            testDispatcher = mainDispatcherRule.testDispatcher,
             response = {
                 respond(
                     content = TestData.getRawJsonFromResources(),
@@ -73,6 +80,7 @@ class GetWeatherUseCaseTest {
     @Test
     fun `UseCase returns failure when upstream fails`() = runTest {
         val repository = createWeatherRepository(
+            testDispatcher = mainDispatcherRule.testDispatcher,
             response = {
                 respond(
                     content = "",
@@ -96,6 +104,7 @@ class GetWeatherUseCaseTest {
     }
 
     private fun createWeatherRepository(
+        testDispatcher: CoroutineDispatcher,
         response: MockRequestHandleScope.(HttpRequestData) -> HttpResponseData,
     ): WeatherRepositoryDefault {
         val engine = createdEngine { response.invoke(this, it) }
@@ -105,7 +114,9 @@ class GetWeatherUseCaseTest {
                 ktorfit = dagger.Lazy { NetModule.provideKtorfit(createMockedClient(engine)) },
             ),
             localDataSource = FakeLocalDataSource(),
-            weatherStore = createFakeWeatherStore(),
+            weatherStore = createFakeWeatherStore(testDispatcher = testDispatcher),
+            ioDispatcher = testDispatcher,
+
         )
         return repository
     }

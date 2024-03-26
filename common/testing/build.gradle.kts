@@ -24,4 +24,5 @@ dependencies {
     implementation(projects.libs.data)
     implementation(projects.libs.domain)
     implementation("com.squareup.okhttp3:mockwebserver:4.12.0")
+    implementation(libs.kotlinx.coroutines.test)
 }

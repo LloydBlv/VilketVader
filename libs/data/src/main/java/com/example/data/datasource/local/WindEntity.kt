@@ -1,7 +1,7 @@
 package com.example.data.datasource.local
 
 import androidx.room.ColumnInfo
-import com.example.domain.Wind
+import com.example.domain.models.Wind
 
 data class WindEntity(
     @ColumnInfo("speed") val speed: Float,

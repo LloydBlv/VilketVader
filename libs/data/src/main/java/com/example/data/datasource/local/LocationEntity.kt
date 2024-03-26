@@ -3,8 +3,8 @@ package com.example.data.datasource.local
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.domain.Coordination
-import com.example.domain.Location
+import com.example.domain.models.Coordination
+import com.example.domain.models.Location
 
 @Entity(tableName = "location")
 data class LocationEntity(

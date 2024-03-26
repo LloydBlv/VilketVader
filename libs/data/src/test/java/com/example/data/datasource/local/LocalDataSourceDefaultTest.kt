@@ -7,7 +7,7 @@ import assertk.assertions.isEqualTo
 import assertk.assertions.isNotNull
 import assertk.assertions.isNull
 import assertk.assertions.prop
-import com.example.domain.Weather
+import com.example.domain.models.Weather
 import com.example.testing.TestData
 import com.example.testing.WeatherRepositoryFake
 import com.example.testing.assertTestWeather

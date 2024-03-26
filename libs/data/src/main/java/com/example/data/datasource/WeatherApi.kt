@@ -2,7 +2,7 @@ package com.example.data.datasource
 
 import com.example.data.models.WeatherResponseDto
 import com.example.data.models.toWeather
-import com.example.domain.Weather
+import com.example.domain.models.Weather
 import de.jensklingenberg.ktorfit.Ktorfit
 import de.jensklingenberg.ktorfit.http.GET
 import de.jensklingenberg.ktorfit.http.Query

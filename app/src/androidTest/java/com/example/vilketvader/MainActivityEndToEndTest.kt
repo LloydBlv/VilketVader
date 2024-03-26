@@ -8,7 +8,7 @@ import androidx.test.espresso.Espresso
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.data.di.DatabaseModule
 import com.example.data.di.WeatherApiModule
-import com.example.domain.WeatherRepository
+import com.example.domain.repositories.WeatherRepository
 import com.example.testing.TestData
 import com.example.testing.WeatherRepositoryFake
 import dagger.hilt.android.testing.HiltAndroidTest

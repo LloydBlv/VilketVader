@@ -2,7 +2,7 @@ package com.example.testing
 
 import com.example.data.datasource.WeatherApiClient
 import com.example.data.models.toWeather
-import com.example.domain.Weather
+import com.example.domain.models.Weather
 
 class WeatherClientFake : WeatherApiClient {
     var exception: Throwable? = null

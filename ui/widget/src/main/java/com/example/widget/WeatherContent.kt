@@ -13,7 +13,7 @@ import androidx.glance.text.Text
 import androidx.glance.text.TextAlign
 import androidx.glance.text.TextStyle
 import androidx.glance.unit.ColorProvider
-import com.example.domain.Weather
+import com.example.domain.models.Weather
 
 @SuppressLint("ComposeModifierMissing")
 @Composable

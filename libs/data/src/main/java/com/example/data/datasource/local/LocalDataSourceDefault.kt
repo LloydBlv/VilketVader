@@ -1,6 +1,6 @@
 package com.example.data.datasource.local
 
-import com.example.domain.Weather
+import com.example.domain.models.Weather
 import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map

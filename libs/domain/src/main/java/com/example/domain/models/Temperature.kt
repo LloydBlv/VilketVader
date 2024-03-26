@@ -1,4 +1,4 @@
-package com.example.domain
+package com.example.domain.models
 
 data class Temperature(
     val current: Float,

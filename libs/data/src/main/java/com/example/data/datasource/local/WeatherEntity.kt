@@ -6,8 +6,8 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import com.example.domain.Icon
-import com.example.domain.Weather
+import com.example.domain.models.Icon
+import com.example.domain.models.Weather
 
 @Entity(
     tableName = "weather",

@@ -21,8 +21,8 @@ import androidx.wear.compose.foundation.lazy.ScalingLazyColumn
 import androidx.wear.compose.foundation.lazy.ScalingLazyListState
 import androidx.wear.compose.material.Text
 import coil.compose.AsyncImage
-import com.example.domain.Icon
-import com.example.domain.Weather
+import com.example.domain.models.Icon
+import com.example.domain.models.Weather
 
 @Composable
 internal fun WeatherInfo(

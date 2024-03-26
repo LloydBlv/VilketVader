@@ -1,7 +1,7 @@
 package com.example.data.datasource.local
 
 import androidx.room.ColumnInfo
-import com.example.domain.Temperature
+import com.example.domain.models.Temperature
 
 data class TemperatureEntity(
     @ColumnInfo("current") val current: Float,

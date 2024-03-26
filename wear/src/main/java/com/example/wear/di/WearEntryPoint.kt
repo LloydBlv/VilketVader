@@ -1,8 +1,8 @@
 package com.example.wear.di
 
 import android.content.Context
-import com.example.domain.GetSelectedWeatherUseCase
-import com.example.domain.RefreshSelectedWeatherUseCase
+import com.example.domain.usecases.GetSelectedWeatherUseCase
+import com.example.domain.usecases.RefreshSelectedWeatherUseCase
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.android.EntryPointAccessors

@@ -4,8 +4,8 @@ import assertk.assertThat
 import assertk.assertions.isEqualTo
 import assertk.assertions.isInstanceOf
 import assertk.assertions.isNotNull
-import com.example.domain.ObserveSelectedWeatherUseCase
-import com.example.domain.RefreshSelectedWeatherUseCase
+import com.example.domain.usecases.ObserveSelectedWeatherUseCase
+import com.example.domain.usecases.RefreshSelectedWeatherUseCase
 import com.example.testing.FakeLocationRepository
 import com.example.testing.TestData
 import com.example.testing.WeatherRepositoryFake

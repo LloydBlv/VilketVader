@@ -32,7 +32,9 @@ class MainActivityRobot @Inject constructor() {
         }
     }
     context(RobotTestRule)
-    fun waitUntilWeatherIsLoaded(condition: String) {
+    fun waitUntilWeatherIsLoaded(
+        condition: String,
+    ) {
         composeTestRule.waitUntil(timeoutMillis = 5_000) {
             composeTestRule.onNodeWithText(condition).isDisplayed()
         }
@@ -52,7 +54,7 @@ class MainActivityRobot @Inject constructor() {
     private fun getTempWithSign(temp: Float): String {
         return InstrumentationRegistry.getInstrumentation().targetContext.getString(
             com.example.weather.R.string.degrees_with_sign,
-            temp
+            temp,
         )
     }
 
@@ -79,15 +81,16 @@ class MainActivityRobot @Inject constructor() {
     fun clickOnDrawer() {
         composeTestRule.onNodeWithContentDescription(
             InstrumentationRegistry.getInstrumentation().targetContext.getString(
-                com.example.home.R.string.navigation_icon_content_description
-            )
+                com.example.home.R.string.navigation_icon_content_description,
+            ),
         ).assertIsDisplayed()
             .performClick()
     }
 
     context(RobotTestRule)
-    fun assertTemperaturesAreDisplayed(weather: Weather) {
-
+    fun assertTemperaturesAreDisplayed(
+        weather: Weather,
+    ) {
         composeTestRule.onNodeWithText(getTempWithSign(weather.temperature.current))
             .assertIsDisplayed()
         composeTestRule.onNodeWithText(
@@ -95,8 +98,8 @@ class MainActivityRobot @Inject constructor() {
                 R.string.min_max_feelslike_placeholder,
                 weather.temperature.max,
                 weather.temperature.min,
-                weather.temperature.feelsLike
-            )
+                weather.temperature.feelsLike,
+            ),
         ).assertIsDisplayed()
     }
 

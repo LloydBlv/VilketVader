@@ -3,7 +3,6 @@ package com.example.home.drawer
 import android.annotation.SuppressLint
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.DismissibleNavigationDrawer
@@ -58,35 +57,42 @@ fun HomeScreenUi(state: HomeUiState, modifier: Modifier = Modifier) {
     fun openDrawer() {
         scope.launch { drawerState.open() }
     }
+
     fun closeDrawer() {
         scope.launch { drawerState.close() }
     }
 
-    BackHandler(enabled = drawerState.isOpen, onBack = ::openDrawer)
-
-    Box {
-        DismissibleNavigationDrawer(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Brush.verticalGradient(sunnyColorsGradient)),
-            drawerState = drawerState,
-            drawerContent = {
-                MainDrawerSheet(
-                    state = state,
-                    onDrawerItemClicked = {
-                        eventSink.invoke(HomeUiEvents.OnLocationSelected(it))
-                        closeDrawer()
-                    },
-                )
-            },
-            content = {
-                MainContent(
-                    state = state,
-                    onDrawerClicked = ::openDrawer,
-                )
-            },
-        )
+    fun toggle() {
+        if (drawerState.isOpen) {
+            closeDrawer()
+        } else {
+            openDrawer()
+        }
     }
+
+    BackHandler(enabled = drawerState.isOpen, onBack = ::toggle)
+
+    DismissibleNavigationDrawer(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Brush.verticalGradient(sunnyColorsGradient)),
+        drawerState = drawerState,
+        drawerContent = {
+            MainDrawerSheet(
+                state = state,
+                onDrawerItemClicked = {
+                    eventSink.invoke(HomeUiEvents.OnLocationSelected(it))
+                    toggle()
+                },
+            )
+        },
+        content = {
+            MainContent(
+                state = state,
+                onDrawerClicked = ::toggle,
+            )
+        },
+    )
 }
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -108,7 +114,9 @@ private fun MainContent(
     ) {
         CircuitContent(
             screen = WeatherScreen,
-            modifier = Modifier.fillMaxSize().padding(it),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(it),
         )
     }
 }

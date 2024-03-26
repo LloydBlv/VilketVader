@@ -15,6 +15,7 @@ class RobotTestRule(
         return RuleChain
             .outerRule(HiltAndroidAutoInjectRule(testInstance))
             .around(composeTestRule)
+            .around(DisableAnimationsRule())
             .apply(base, description)
     }
 }

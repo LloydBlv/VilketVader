@@ -16,14 +16,14 @@ object TestData {
     private const val RESOURCES_FOLDER_PATH = "../../libs/data/src/test/resources"
 
     fun getTestResponse(
-        location: Location = STOCKHOLM,
+        name: String = STOCKHOLM.name,
         context: Context? = null,
         json: Json = Json { ignoreUnknownKeys = true },
     ): WeatherResponseDto {
         val rawTestResponse = try {
-            getRawJsonFromResources(location)
+            getRawJsonFromResources(name)
         } catch (e: Exception) {
-            val loadAssets = context?.loadAssets(getAssetsFilePath(location))
+            val loadAssets = context?.loadAssets(getAssetsFilePath(name))
             loadAssets?.use { it.readUtf8() }.orEmpty()
         }
 
@@ -31,23 +31,23 @@ object TestData {
         return weatherDto
     }
 
-    private fun getResourceFilePath(location: Location): String {
-        return if (location.name == STOCKHOLM.name) {
+    private fun getResourceFilePath(location: String): String {
+        return if (location == STOCKHOLM.name) {
             "$RESOURCES_FOLDER_PATH/stockholm-weather-response.json"
         } else {
             "$RESOURCES_FOLDER_PATH/zurich-rainy-response.json"
         }
     }
 
-    private fun getAssetsFilePath(location: Location): String {
-        return if (location.name == STOCKHOLM.name) {
+    private fun getAssetsFilePath(location: String): String {
+        return if (location == STOCKHOLM.name) {
             "stockholm-weather-response.json"
         } else {
             "zurich-rainy-response.json"
         }
     }
 
-    fun getRawJsonFromResources(location: Location = STOCKHOLM): String {
+    fun getRawJsonFromResources(location: String = STOCKHOLM.name): String {
         val file = File(getResourceFilePath(location))
         val rawJson = file.bufferedReader().use(BufferedReader::readText)
         return rawJson

@@ -9,7 +9,7 @@ class FakeLocationRepository(
     val locations: MutableList<Location> = buildList {
         add(TestData.STOCKHOLM.copy(isSelected = true))
         add(TestData.ZURICH.copy(isSelected = false))
-    }.toMutableList()
+    }.toMutableList(),
 ) : LocationRepository {
     var exception: Throwable? = null
     override fun observeLocations() = flowOf(locations)

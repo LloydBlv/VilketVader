@@ -15,6 +15,6 @@ class WeatherClientFake : WeatherApiClient {
             "stockholm" -> TestData.STOCKHOLM
             else -> TestData.ZURICH
         }
-        return TestData.getTestResponse(location).toWeather()
+        return TestData.getTestResponse(location.name).toWeather()
     }
 }

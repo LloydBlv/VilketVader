@@ -14,7 +14,7 @@ import com.example.home.HomeUiState
 internal fun MainDrawerSheet(
     state: HomeUiState,
     modifier: Modifier = Modifier,
-    onDrawerItemClicked: (UiLocation) -> Unit
+    onDrawerItemClicked: (UiLocation) -> Unit,
 ) {
     DismissibleDrawerSheet(
         modifier = modifier.testTag("drawer_sheet"),

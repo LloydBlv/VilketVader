@@ -39,7 +39,7 @@ private fun NavigationIcon(onDrawerOpenClicked: () -> Unit) {
         Icon(
             tint = Color.White,
             imageVector = Icons.Default.Menu,
-            contentDescription = stringResource(id = R.string.navigation_icon_content_description)
+            contentDescription = stringResource(id = R.string.navigation_icon_content_description),
         )
     }
 }

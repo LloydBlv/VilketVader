@@ -21,7 +21,7 @@ class WeatherRepositoryFake(val context: Context? = null) : WeatherRepository {
             throw exception!!
         }
         delay(1.seconds)
-        return TestData.getTestResponse(location, context).toWeather()
+        return TestData.getTestResponse(location.name, context).toWeather()
     }
 
     override fun observeWeather(

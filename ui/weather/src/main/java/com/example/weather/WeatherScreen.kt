@@ -91,9 +91,11 @@ private fun BoxScope.WeatherScreenContent(state: WeatherUiState, modifier: Modif
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center,
             ) {
-                CircularProgressIndicator(modifier = Modifier
-                    .size(32.dp)
-                    .testTag("loading"))
+                CircularProgressIndicator(
+                    modifier = Modifier
+                        .size(32.dp)
+                        .testTag("loading"),
+                )
                 Spacer(modifier = Modifier.height(10.dp))
                 Text(
                     text = "Loading...",
@@ -216,7 +218,7 @@ private fun MinMaxTemperature(
             R.string.min_max_feelslike_placeholder,
             state.weather.temperature.max,
             state.weather.temperature.min,
-            state.weather.temperature.feelsLike
+            state.weather.temperature.feelsLike,
         ),
         style = MaterialTheme.typography.titleLarge,
     )
@@ -232,7 +234,7 @@ private fun CurrentTemperatureCard(
             Text(
                 text = stringResource(
                     R.string.degrees_with_sign,
-                    state.weather.temperature.current
+                    state.weather.temperature.current,
                 ),
                 style = MaterialTheme.typography.displayLarge.copy(fontSize = 67.sp),
             )

@@ -49,11 +49,11 @@ internal fun Content() {
 
     MaterialTheme(darkColorScheme()) {
         CompositionLocalProvider(LocalAppContextProvider provides appContext) {
-            Box (
+            Box(
                 modifier = GlanceModifier.background(MaterialTheme.colorScheme.primaryContainer)
                     .fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ){
+                contentAlignment = Alignment.Center,
+            ) {
                 WidgetContent(state = state, updateWeather = updateWeather)
             }
         }

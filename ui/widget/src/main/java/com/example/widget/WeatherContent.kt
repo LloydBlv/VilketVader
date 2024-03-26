@@ -15,7 +15,6 @@ import androidx.glance.text.TextStyle
 import androidx.glance.unit.ColorProvider
 import com.example.domain.Weather
 
-
 @SuppressLint("ComposeModifierMissing")
 @Composable
 internal fun WeatherContent(weather: Weather, updateWeather: () -> Unit) {
@@ -73,4 +72,3 @@ internal fun WeatherContent(weather: Weather, updateWeather: () -> Unit) {
         )
     }
 }
-

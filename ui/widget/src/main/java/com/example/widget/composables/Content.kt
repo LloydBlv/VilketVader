@@ -2,6 +2,8 @@ package com.example.widget.composables
 
 import android.annotation.SuppressLint
 import android.content.Context
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.darkColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
@@ -11,12 +13,14 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.unit.dp
 import androidx.glance.Button
 import androidx.glance.GlanceModifier
-import androidx.glance.GlanceTheme
 import androidx.glance.LocalContext
 import androidx.glance.LocalSize
 import androidx.glance.appwidget.CircularProgressIndicator
 import androidx.glance.appwidget.updateAll
+import androidx.glance.background
 import androidx.glance.layout.Alignment
+import androidx.glance.layout.Box
+import androidx.glance.layout.fillMaxSize
 import androidx.glance.layout.size
 import androidx.glance.text.Text
 import com.example.domain.ObserveSelectedWeatherUseCase
@@ -43,9 +47,15 @@ internal fun Content() {
     }
     val updateWeather: () -> Unit = { scope.launch { refreshWeather(appContext) } }
 
-    GlanceTheme {
+    MaterialTheme(darkColorScheme()) {
         CompositionLocalProvider(LocalAppContextProvider provides appContext) {
-            WidgetContent(state, updateWeather)
+            Box (
+                modifier = GlanceModifier.background(MaterialTheme.colorScheme.primaryContainer)
+                    .fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ){
+                WidgetContent(state = state, updateWeather = updateWeather)
+            }
         }
     }
 }

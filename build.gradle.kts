@@ -15,4 +15,5 @@ plugins {
     alias(libs.plugins.ktorfitGradlePlugin) apply false
     alias(libs.plugins.kspGradlePlugin) apply false
     alias(libs.plugins.dagger.hilt) apply false
+    alias(libs.plugins.dependencyGraph)
 }

@@ -11,7 +11,6 @@ android.namespace = "com.example.weather"
 
 dependencies {
     implementation(projects.libs.domain)
-
     implementation(projects.common.screens)
     implementation(projects.common.imageLoading)
     implementation(libs.timber)

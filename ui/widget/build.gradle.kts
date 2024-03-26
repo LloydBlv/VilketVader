@@ -16,8 +16,9 @@ android {
 dependencies {
     implementation(projects.libs.domain)
     implementation(libs.composeCoil)
-
+    implementation("com.google.android.glance.tools:appwidget-host:0.2.2")
     implementation("androidx.glance:glance-material3:1.0.0")
+    implementation(libs.androidx.material3)
     implementation(libs.androidx.glance.appwidget)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

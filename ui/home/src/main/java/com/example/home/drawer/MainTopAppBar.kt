@@ -13,7 +13,9 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import com.example.home.HomeUiState
+import com.example.home.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -37,7 +39,7 @@ private fun NavigationIcon(onDrawerOpenClicked: () -> Unit) {
         Icon(
             tint = Color.White,
             imageVector = Icons.Default.Menu,
-            contentDescription = null,
+            contentDescription = stringResource(id = R.string.navigation_icon_content_description)
         )
     }
 }

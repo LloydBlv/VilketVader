@@ -32,6 +32,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -89,7 +91,9 @@ private fun BoxScope.WeatherScreenContent(state: WeatherUiState, modifier: Modif
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center,
             ) {
-                CircularProgressIndicator(modifier = Modifier.size(32.dp))
+                CircularProgressIndicator(modifier = Modifier
+                    .size(32.dp)
+                    .testTag("loading"))
                 Spacer(modifier = Modifier.height(10.dp))
                 Text(
                     text = "Loading...",
@@ -105,6 +109,7 @@ private fun BoxScope.WeatherScreenContent(state: WeatherUiState, modifier: Modif
 private fun WeatherListUi(state: WeatherUiState.Success, modifier: Modifier = Modifier) {
     LazyColumn(
         modifier = modifier
+            .testTag("weather_list")
             .padding(8.dp),
     ) {
         item { CurrentTemperatureCard(state, Modifier.padding(8.dp)) }
@@ -207,7 +212,12 @@ private fun MinMaxTemperature(
 ) {
     Text(
         modifier = modifier,
-        text = "${state.weather?.temperature?.max}° / ${state.weather?.temperature?.min}° feels like ${state.weather?.temperature?.feelsLike}°",
+        text = stringResource(
+            R.string.min_max_feelslike_placeholder,
+            state.weather.temperature.max,
+            state.weather.temperature.min,
+            state.weather.temperature.feelsLike
+        ),
         style = MaterialTheme.typography.titleLarge,
     )
 }
@@ -220,17 +230,20 @@ private fun CurrentTemperatureCard(
     Row(modifier = modifier) {
         Column {
             Text(
-                text = "${state.weather.temperature?.current}°",
+                text = stringResource(
+                    R.string.degrees_with_sign,
+                    state.weather.temperature.current
+                ),
                 style = MaterialTheme.typography.displayLarge.copy(fontSize = 67.sp),
             )
             Spacer(modifier = Modifier.height(10.dp))
 
             Text(
-                text = "${state.weather?.conditions?.firstOrNull()?.name}",
+                text = "${state.weather.conditions.firstOrNull()?.name}",
                 style = MaterialTheme.typography.titleLarge,
             )
             Text(
-                text = "${state.weather?.conditions?.firstOrNull()?.description}",
+                text = "${state.weather.conditions.firstOrNull()?.description}",
                 style = MaterialTheme.typography.titleSmall,
                 color = Color.White.copy(alpha = 0.6f),
             )

@@ -7,14 +7,17 @@ import androidx.compose.material3.DismissibleDrawerSheet
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import com.example.home.HomeUiState
 
 @Composable
 internal fun MainDrawerSheet(
     state: HomeUiState,
-    onDrawerItemClicked: (UiLocation) -> Unit,
+    modifier: Modifier = Modifier,
+    onDrawerItemClicked: (UiLocation) -> Unit
 ) {
     DismissibleDrawerSheet(
+        modifier = modifier.testTag("drawer_sheet"),
         drawerContainerColor = Color.Transparent,
     ) {
         Card(

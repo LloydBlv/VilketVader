@@ -1,0 +1,46 @@
+{
+  "coord": {
+    "lon": 8.55,
+    "lat": 47.3667
+  },
+  "weather": [
+    {
+      "id": 500,
+      "main": "Rain",
+      "description": "light rain",
+      "icon": "10d"
+    }
+  ],
+  "base": "stations",
+  "main": {
+    "temp": 12.41,
+    "feels_like": 12.03,
+    "temp_min": 10.75,
+    "temp_max": 15.83,
+    "pressure": 1025,
+    "humidity": 89
+  },
+  "visibility": 10000,
+  "wind": {
+    "speed": 3.09,
+    "deg": 220
+  },
+  "rain": {
+    "1h": 0.13
+  },
+  "clouds": {
+    "all": 75
+  },
+  "dt": 1711015512,
+  "sys": {
+    "type": 2,
+    "id": 2019255,
+    "country": "CH",
+    "sunrise": 1710998773,
+    "sunset": 1711042769
+  },
+  "timezone": 3600,
+  "id": 2657896,
+  "name": "Zurich",
+  "cod": 200
+}

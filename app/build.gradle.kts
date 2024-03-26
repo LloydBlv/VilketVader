@@ -9,6 +9,9 @@ plugins {
 
 android {
     namespace = "com.example.vilketvader"
+    defaultConfig {
+        testInstrumentationRunner = "com.example.vilketvader.HiltTestRunner"
+    }
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -56,6 +59,8 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
+    androidTestImplementation(projects.common.testing)
+    androidTestImplementation(projects.libs.data)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 }

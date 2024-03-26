@@ -16,6 +16,9 @@ class HiltConventionPlugin : Plugin<Project> {
             dependencies {
                 "implementation"(libs["hilt.android"])
                 "ksp"(libs["hilt.android.compiler"])
+                "testImplementation"(libs["hilt.android.testing"])
+                "androidTestImplementation"(libs["hilt.android.testing"])
+                "kspTest"(libs["hilt.android.testing"])
             }
         }
     }

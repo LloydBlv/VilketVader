@@ -49,7 +49,7 @@ class GetWeatherUseCaseTest {
         val repository = createWeatherRepository(
             response = {
                 respond(
-                    content = TestData.getRawTestResponse(),
+                    content = TestData.getRawJsonFromResources(),
                     headers = headersOf(
                         HttpHeaders.ContentType,
                         ContentType.Application.Json.toString(),

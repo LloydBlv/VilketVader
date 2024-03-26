@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="degrees_with_sign">%1$s°</string>
+    <string name="min_max_feelslike_placeholder">%1$s° / %2$s° feels like %3$s°</string>
+</resources>

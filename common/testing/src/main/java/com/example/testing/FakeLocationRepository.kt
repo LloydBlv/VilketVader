@@ -5,7 +5,12 @@ import com.example.domain.LocationRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 
-class FakeLocationRepository(val locations: MutableList<Location>) : LocationRepository {
+class FakeLocationRepository(
+    val locations: MutableList<Location> = buildList {
+        add(TestData.STOCKHOLM.copy(isSelected = true))
+        add(TestData.ZURICH.copy(isSelected = false))
+    }.toMutableList()
+) : LocationRepository {
     var exception: Throwable? = null
     override fun observeLocations() = flowOf(locations)
     override fun observeSelectedLocation(): Flow<Location> =

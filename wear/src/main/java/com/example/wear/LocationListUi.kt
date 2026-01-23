@@ -20,11 +20,12 @@ import androidx.wear.compose.material.Vignette
 import androidx.wear.compose.material.VignettePosition
 import androidx.wear.compose.material.scrollAway
 import com.example.domain.models.Location
-import com.slack.circuit.codegen.annotations.CircuitInject
-import dagger.hilt.components.SingletonComponent
+import com.slack.circuit.runtime.CircuitContext
+import com.slack.circuit.runtime.screen.Screen
+import com.slack.circuit.runtime.ui.Ui
+import com.slack.circuit.runtime.ui.ui
 
 @Composable
-@CircuitInject(LocationsScreen::class, SingletonComponent::class)
 fun LocationsListScreenUi(
     state: LocationsScreen.UiState,
     modifier: Modifier = Modifier,
@@ -90,4 +91,15 @@ fun LocationCard(
             Text(text = location.country)
         },
     )
+}
+
+class LocationsUiFactory : Ui.Factory {
+    override fun create(screen: Screen, context: CircuitContext): Ui<*>? {
+        return when (screen) {
+            is LocationsScreen -> ui<LocationsScreen.UiState> { state, modifier ->
+                LocationsListScreenUi(state, modifier)
+            }
+            else -> null
+        }
+    }
 }

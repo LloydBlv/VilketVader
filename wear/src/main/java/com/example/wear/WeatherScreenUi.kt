@@ -28,10 +28,11 @@ import com.example.domain.models.Location
 import com.example.domain.models.Temperature
 import com.example.domain.models.Weather
 import com.example.wear.presentation.theme.VilketVaderTheme
-import com.slack.circuit.codegen.annotations.CircuitInject
-import dagger.hilt.components.SingletonComponent
+import com.slack.circuit.runtime.CircuitContext
+import com.slack.circuit.runtime.screen.Screen
+import com.slack.circuit.runtime.ui.Ui
+import com.slack.circuit.runtime.ui.ui
 
-@CircuitInject(WeatherScreen::class, SingletonComponent::class)
 @Composable
 fun WeatherScreenUi(
     state: WeatherScreen.UiState,
@@ -182,5 +183,16 @@ internal fun SuccessPreview() {
                 eventSink = {},
             ),
         )
+    }
+}
+
+class WearWeatherUiFactory : Ui.Factory {
+    override fun create(screen: Screen, context: CircuitContext): Ui<*>? {
+        return when (screen) {
+            is WeatherScreen -> ui<WeatherScreen.UiState> { state, modifier ->
+                WeatherScreenUi(state, modifier)
+            }
+            else -> null
+        }
     }
 }

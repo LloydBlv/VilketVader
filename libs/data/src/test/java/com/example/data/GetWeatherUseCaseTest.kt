@@ -111,7 +111,7 @@ class GetWeatherUseCaseTest {
 
         val repository = WeatherRepositoryDefault(
             client = WeatherApiClientDefault(
-                ktorfit = dagger.Lazy { NetModule.provideKtorfit(createMockedClient(engine)) },
+                ktorfitProvider = { NetModule.provideKtorfit(createMockedClient(engine)) },
             ),
             localDataSource = FakeLocalDataSource(),
             weatherStore = createFakeWeatherStore(testDispatcher = testDispatcher),

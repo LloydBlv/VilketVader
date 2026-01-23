@@ -36,7 +36,7 @@ class PrefillHelperTest {
 
     @Test
     fun `prefill with first item as selected, stores correctly`() = runTest {
-        val prefillHelper = PrefillHelper(dagger.Lazy<LocationDao> { locationDao })
+        val prefillHelper = PrefillHelper({ locationDao })
         val zurich = LocationEntity(
             id = 2657896,
             name = "Zurich",
@@ -63,7 +63,7 @@ class PrefillHelperTest {
 
     @Test
     fun `prefill with no items as selected, stores correctly`() = runTest {
-        val prefillHelper = PrefillHelper(dagger.Lazy<LocationDao> { locationDao })
+        val prefillHelper = PrefillHelper({ locationDao })
         val zurich = LocationEntity(
             id = 2657896,
             name = "Zurich",
@@ -94,7 +94,7 @@ class PrefillHelperTest {
 
     @Test
     fun `prefill with second item as selected, stores correctly`() = runTest {
-        val prefillHelper = PrefillHelper(dagger.Lazy<LocationDao> { locationDao })
+        val prefillHelper = PrefillHelper({ locationDao })
         val zurich = LocationEntity(
             id = 2657896,
             name = "Zurich",
@@ -125,7 +125,7 @@ class PrefillHelperTest {
 
     @Test
     fun `prefill with both items as selected, stores correctly`() = runTest {
-        val prefillHelper = PrefillHelper(dagger.Lazy<LocationDao> { locationDao })
+        val prefillHelper = PrefillHelper({ locationDao })
         val zurich = LocationEntity(
             id = 2657896,
             name = "Zurich",
@@ -156,7 +156,7 @@ class PrefillHelperTest {
 
     @Test
     fun `prefill with no item different order as selected, stores correctly`() = runTest {
-        val prefillHelper = PrefillHelper(dagger.Lazy<LocationDao> { locationDao })
+        val prefillHelper = PrefillHelper({ locationDao })
         val zurich = LocationEntity(
             id = 2657896,
             name = "Zurich",
@@ -187,7 +187,7 @@ class PrefillHelperTest {
 
     @Test
     fun `prefill one location should maintain correct selected state`() = runTest {
-        val prefillHelper = PrefillHelper(dagger.Lazy<LocationDao> { locationDao })
+        val prefillHelper = PrefillHelper({ locationDao })
         val zurich = LocationEntity(
             id = 2657896,
             name = "Zurich",

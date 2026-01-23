@@ -23,7 +23,6 @@ import com.example.testing.MainDispatcherRule
 import com.example.testing.TestData
 import com.example.testing.WeatherClientFake
 import com.example.testing.assertTestWeather
-import dagger.Lazy
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
@@ -55,7 +54,7 @@ class WeatherSelectionTests {
         locationDao = database.locationDao()
         weatherDao = database.weatherDao()
         datasource = LocalDataSourceDefault(dao)
-        runBlocking { PrefillHelper(Lazy { locationDao }).prefill(getInitialLocations()) }
+        runBlocking { PrefillHelper { locationDao }.prefill(getInitialLocations()) }
         locationRepository = LocationRepositoryDefault(locationDao, mainDispatcherRule.testDispatcher)
         weatherRepository = WeatherRepositoryDefault(
             client = WeatherClientFake(),

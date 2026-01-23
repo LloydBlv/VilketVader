@@ -8,17 +8,13 @@ import com.example.domain.models.Location
 import com.example.domain.usecases.ObserveLocationsUseCase
 import com.example.domain.usecases.UpdateSelectedLocationUseCase
 import com.example.wear.LocationsScreen.UiState
-import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.collectAsRetainedState
+import com.slack.circuit.runtime.CircuitContext
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
 import com.slack.circuit.runtime.screen.Screen
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
-import dagger.hilt.components.SingletonComponent
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.launch
@@ -37,8 +33,8 @@ data object LocationsScreen : Screen {
     }
 }
 
-class LocationsPresenter @AssistedInject constructor(
-    @Assisted private val navigator: Navigator,
+class LocationsPresenter(
+    private val navigator: Navigator,
     private val observeLocations: ObserveLocationsUseCase,
     private val selectedLocationUseCase: UpdateSelectedLocationUseCase,
 ) : Presenter<UiState> {
@@ -71,8 +67,18 @@ class LocationsPresenter @AssistedInject constructor(
     }
 }
 
-@CircuitInject(LocationsScreen::class, SingletonComponent::class)
-@AssistedFactory
-interface Factory {
-    fun create(navigator: Navigator): LocationsPresenter
+class LocationsPresenterFactory(
+    private val observeLocations: ObserveLocationsUseCase,
+    private val selectedLocationUseCase: UpdateSelectedLocationUseCase,
+) : Presenter.Factory {
+    override fun create(
+        screen: Screen,
+        navigator: Navigator,
+        context: CircuitContext,
+    ): Presenter<*>? {
+        return when (screen) {
+            is LocationsScreen -> LocationsPresenter(navigator, observeLocations, selectedLocationUseCase)
+            else -> null
+        }
+    }
 }

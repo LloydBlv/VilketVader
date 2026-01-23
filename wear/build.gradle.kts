@@ -3,7 +3,6 @@ plugins {
     id("com.vilketvader.android.application.compose")
     id("com.vilketvader.circuit.application")
     id("com.vilketvader.kotlin.android")
-    id("com.vilketvader.hilt")
     alias(libs.plugins.kotlin.parcelize)
 }
 
@@ -37,8 +36,10 @@ android {
 
 dependencies {
     implementation(projects.libs.domain)
+    implementation(projects.libs.data)
     implementation(projects.common.imageLoading)
-    runtimeOnly(projects.libs.data)
+    implementation(libs.koin.android)
+    implementation(libs.koin.android.compose)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.ui.icons)
 

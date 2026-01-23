@@ -19,14 +19,11 @@ import com.slack.circuit.foundation.Circuit
 import com.slack.circuit.foundation.CircuitCompositionLocals
 import com.slack.circuit.foundation.NavigableCircuitContent
 import com.slack.circuit.foundation.rememberCircuitNavigator
-import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
+import org.koin.android.ext.android.inject
 
-@AndroidEntryPoint
 class MainWearActivity : ComponentActivity() {
 
-    @Inject
-    lateinit var circuit: dagger.Lazy<Circuit>
+    private val circuit: Circuit by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
@@ -39,7 +36,7 @@ class MainWearActivity : ComponentActivity() {
             VilketVaderTheme {
                 val backstack = rememberSaveableBackStack(root = LocationsScreen)
                 val navigator = rememberCircuitNavigator(backstack)
-                CircuitCompositionLocals(circuit = circuit.get()) {
+                CircuitCompositionLocals(circuit = circuit) {
                     NavigableCircuitContent(
                         modifier = Modifier.fillMaxSize(),
                         navigator = navigator,

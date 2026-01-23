@@ -1,10 +1,17 @@
 plugins {
-    id("java-library")
-    alias(libs.plugins.jetbrains.kotlin.jvm)
+    id("com.vilketvader.kmp.library")
 }
-kotlin { jvmToolchain(17) }
-dependencies {
-    implementation(libs.kotlinx.coroutines.jvm)
-    implementation(libs.javax.inject)
-    implementation(libs.kermit)
+
+kotlin {
+    sourceSets {
+        commonMain.dependencies {
+            implementation(libs.kotlinx.coroutines.jvm)
+            implementation(libs.kermit)
+            implementation(libs.kotlinx.atomicfu)
+        }
+
+        commonTest.dependencies {
+            implementation(kotlin("test"))
+        }
+    }
 }

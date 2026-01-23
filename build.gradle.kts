@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android) apply false
     alias(libs.plugins.kotlin.parcelize) apply false
     alias(libs.plugins.jetbrains.kotlin.jvm) apply false
+    alias(libs.plugins.kotlin.multiplatform) apply false
     alias(libs.plugins.kotlinx.serialization)
     alias(libs.plugins.cacheFixPlugin) apply false
     alias(libs.plugins.spotless) apply false
@@ -15,5 +16,6 @@ plugins {
     alias(libs.plugins.ktorfitGradlePlugin) apply false
     alias(libs.plugins.kspGradlePlugin) apply false
     alias(libs.plugins.dagger.hilt) apply false
+    alias(libs.plugins.sqldelight) apply false
     alias(libs.plugins.dependencyGraph)
 }

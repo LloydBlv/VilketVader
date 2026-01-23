@@ -2,7 +2,6 @@ plugins {
     id("com.vilketvader.android.application")
     id("com.vilketvader.android.application.compose")
     id("com.vilketvader.kotlin.android")
-    id("com.vilketvader.hilt")
     id("com.vilketvader.circuit.application")
     alias(libs.plugins.kotlin.parcelize)
 }
@@ -41,9 +40,11 @@ android {
 
 dependencies {
     implementation(libs.androidx.glance.appwidget)
-    runtimeOnly(projects.libs.data)
+    implementation(projects.libs.data)
     implementation(projects.libs.domain)
     implementation(libs.timber)
+    implementation(libs.koin.android)
+    implementation(libs.koin.android.compose)
     implementation(projects.common.screens)
     implementation(projects.common.imageLoading)
     implementation(projects.ui.weather)

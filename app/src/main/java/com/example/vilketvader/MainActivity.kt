@@ -17,19 +17,14 @@ import com.example.widget.WeatherGlanceWidget
 import com.slack.circuit.foundation.Circuit
 import com.slack.circuit.foundation.CircuitCompositionLocals
 import com.slack.circuit.foundation.CircuitContent
-import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.koin.android.ext.android.inject
 
-@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    @Inject
-    lateinit var circuit: Circuit
-
-    @Inject
-    lateinit var observeSelectedLocationUseCase: ObserveSelectedLocationUseCase
+    private val circuit: Circuit by inject()
+    private val observeSelectedLocationUseCase: ObserveSelectedLocationUseCase by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen: SplashScreen = installSplashScreen()

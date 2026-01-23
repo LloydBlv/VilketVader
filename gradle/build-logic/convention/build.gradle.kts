@@ -72,5 +72,13 @@ gradlePlugin {
             id = "com.vilketvader.roborazzi"
             implementationClass = "com.example.vilketvader.plugins.RoborazziConventionPlugin"
         }
+        register("kmpLibrary") {
+            id = "com.vilketvader.kmp.library"
+            implementationClass = "com.example.vilketvader.plugins.KmpLibraryConventionPlugin"
+        }
+        register("kmpAndroidLibrary") {
+            id = "com.vilketvader.kmp.android.library"
+            implementationClass = "com.example.vilketvader.plugins.KmpAndroidLibraryConventionPlugin"
+        }
     }
 }

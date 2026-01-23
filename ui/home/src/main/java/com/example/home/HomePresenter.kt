@@ -9,16 +9,15 @@ import com.example.domain.usecases.ObserveLocationsUseCase
 import com.example.domain.usecases.UpdateSelectedLocationUseCase
 import com.example.home.drawer.UiLocation
 import com.example.screens.HomeScreen
-import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.collectAsRetainedState
+import com.slack.circuit.runtime.CircuitContext
+import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
-import dagger.hilt.components.SingletonComponent
+import com.slack.circuit.runtime.screen.Screen
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.launch
 
-class HomePresenter @AssistedInject constructor(
+class HomePresenter(
     private val getLocationsUseCase: ObserveLocationsUseCase,
     private val updateSelectedLocation: UpdateSelectedLocationUseCase,
 ) : Presenter<HomeUiState> {
@@ -53,8 +52,18 @@ private fun Location.toUiLocation(): UiLocation {
     return UiLocation(cityName = name, isSelected = isSelected, id = id)
 }
 
-@CircuitInject(HomeScreen::class, SingletonComponent::class)
-@AssistedFactory
-interface Factory {
-    fun create(): HomePresenter
+class HomePresenterFactory(
+    private val getLocationsUseCase: ObserveLocationsUseCase,
+    private val updateSelectedLocation: UpdateSelectedLocationUseCase,
+) : Presenter.Factory {
+    override fun create(
+        screen: Screen,
+        navigator: Navigator,
+        context: CircuitContext,
+    ): Presenter<*>? {
+        return when (screen) {
+            is HomeScreen -> HomePresenter(getLocationsUseCase, updateSelectedLocation)
+            else -> null
+        }
+    }
 }

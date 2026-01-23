@@ -4,26 +4,23 @@ import android.content.Context
 import androidx.glance.appwidget.GlanceAppWidgetManager
 import com.example.domain.usecases.ObserveSelectedWeatherUseCase
 import com.example.domain.usecases.RefreshSelectedWeatherUseCase
-import dagger.hilt.android.EntryPointAccessors
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
+
+object WidgetDependencies : KoinComponent {
+    val glanceAppWidgetManager: GlanceAppWidgetManager by inject()
+    val observeSelectedWeatherUseCase: ObserveSelectedWeatherUseCase by inject()
+    val refreshSelectedWeatherUseCase: RefreshSelectedWeatherUseCase by inject()
+}
 
 internal fun getGlanceAppWidgetManager(context: Context): GlanceAppWidgetManager {
-    val hiltEntryPoint = EntryPointAccessors.fromApplication(
-        context,
-        WidgetEntryPoint::class.java,
-    )
-    return hiltEntryPoint.glanceAppWidgetManager()
+    return WidgetDependencies.glanceAppWidgetManager
 }
+
 internal fun getObserveLocationUseCase(context: Context): ObserveSelectedWeatherUseCase {
-    val hiltEntryPoint = EntryPointAccessors.fromApplication(
-        context,
-        WidgetEntryPoint::class.java,
-    )
-    return hiltEntryPoint.observeLocationUseCase()
+    return WidgetDependencies.observeSelectedWeatherUseCase
 }
+
 internal fun getRefreshWeather(context: Context): RefreshSelectedWeatherUseCase {
-    val hiltEntryPoint = EntryPointAccessors.fromApplication(
-        context,
-        WidgetEntryPoint::class.java,
-    )
-    return hiltEntryPoint.refreshWeatherUseCase()
+    return WidgetDependencies.refreshSelectedWeatherUseCase
 }

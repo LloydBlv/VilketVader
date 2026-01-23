@@ -1,7 +1,6 @@
 plugins {
     id("com.vilketvader.kotlin.android")
     id("com.vilketvader.android.library")
-    id("com.vilketvader.hilt")
     id("com.vilketvader.android.library.compose")
     id("com.vilketvader.circuit")
     id("com.vilketvader.roborazzi")
@@ -14,6 +13,8 @@ dependencies {
     implementation(projects.common.screens)
     implementation(projects.common.imageLoading)
     implementation(libs.timber)
+    implementation(libs.koin.android)
+    implementation(libs.koin.android.compose)
 
     testImplementation(libs.androidx.ui.test.junit4)
 

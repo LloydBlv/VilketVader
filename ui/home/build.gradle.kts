@@ -1,7 +1,6 @@
 plugins {
     id("com.vilketvader.kotlin.android")
     id("com.vilketvader.android.library")
-    id("com.vilketvader.hilt")
     id("com.vilketvader.android.library.compose")
     id("com.vilketvader.circuit")
 }
@@ -20,10 +19,11 @@ android {
 }
 
 dependencies {
-
     implementation(projects.libs.domain)
     implementation(projects.common.screens)
     implementation(projects.common.imageLoading)
+    implementation(libs.koin.android)
+    implementation(libs.koin.android.compose)
 
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.icons)

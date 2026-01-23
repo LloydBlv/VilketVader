@@ -9,16 +9,15 @@ import com.example.domain.usecases.ObserveSelectedWeatherUseCase
 import com.example.domain.usecases.RefreshSelectedWeatherUseCase
 import com.example.domain.utils.invoke
 import com.example.screens.WeatherScreen
-import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.collectAsRetainedState
+import com.slack.circuit.runtime.CircuitContext
+import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
-import dagger.hilt.components.SingletonComponent
+import com.slack.circuit.runtime.screen.Screen
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
-class WeatherPresenter @AssistedInject constructor(
+class WeatherPresenter(
     private val observeSelectedWeather: ObserveSelectedWeatherUseCase,
     private val refreshSelectedWeather: RefreshSelectedWeatherUseCase,
 ) : Presenter<WeatherUiState> {
@@ -57,8 +56,18 @@ class WeatherPresenter @AssistedInject constructor(
     }
 }
 
-@CircuitInject(WeatherScreen::class, SingletonComponent::class)
-@AssistedFactory
-interface Factory {
-    fun create(): WeatherPresenter
+class WeatherPresenterFactory(
+    private val observeSelectedWeather: ObserveSelectedWeatherUseCase,
+    private val refreshSelectedWeather: RefreshSelectedWeatherUseCase,
+) : Presenter.Factory {
+    override fun create(
+        screen: Screen,
+        navigator: Navigator,
+        context: CircuitContext,
+    ): Presenter<*>? {
+        return when (screen) {
+            is WeatherScreen -> WeatherPresenter(observeSelectedWeather, refreshSelectedWeather)
+            else -> null
+        }
+    }
 }

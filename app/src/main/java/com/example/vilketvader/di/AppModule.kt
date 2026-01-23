@@ -1,7 +1,6 @@
 package com.example.vilketvader.di
 
-import com.example.domain.repositories.LocationRepository
-import com.example.domain.repositories.WeatherRepository
+import androidx.glance.appwidget.GlanceAppWidgetManager
 import com.example.domain.usecases.GetSelectedWeatherUseCase
 import com.example.domain.usecases.GetWeatherUseCase
 import com.example.domain.usecases.ObserveLocationsUseCase
@@ -10,13 +9,15 @@ import com.example.domain.usecases.ObserveSelectedWeatherUseCase
 import com.example.domain.usecases.RefreshSelectedWeatherUseCase
 import com.example.domain.usecases.UpdateSelectedLocationUseCase
 import com.example.domain.utils.DateFormatter
-import com.example.domain.utils.DefaultLanguageProvider
 import com.example.domain.utils.LanguageProvider
+import com.example.home.HomePresenterFactory
 import com.example.vilketvader.AndroidLanguageProvider
 import com.example.vilketvader.DateFormatterDefault
+import com.example.weather.WeatherPresenterFactory
 import com.slack.circuit.foundation.Circuit
 import com.slack.circuit.runtime.presenter.Presenter
 import com.slack.circuit.runtime.ui.Ui
+import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
 val appModule = module {
@@ -34,6 +35,13 @@ val appModule = module {
     single { ObserveSelectedWeatherUseCase(get(), get(), get()) }
     single { RefreshSelectedWeatherUseCase(get(), get(), get()) }
     single { UpdateSelectedLocationUseCase(get()) }
+
+    // Widget
+    single { GlanceAppWidgetManager(androidContext()) }
+
+    // Presenter factories
+    single<Presenter.Factory> { WeatherPresenterFactory(get(), get()) }
+    single<Presenter.Factory> { HomePresenterFactory(get(), get()) }
 
     // Circuit
     single {

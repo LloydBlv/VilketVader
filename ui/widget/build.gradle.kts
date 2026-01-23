@@ -1,7 +1,6 @@
 plugins {
     id("com.vilketvader.kotlin.android")
     id("com.vilketvader.android.library")
-    id("com.vilketvader.hilt")
     id("com.vilketvader.android.library.compose")
 }
 
@@ -15,6 +14,7 @@ android {
 
 dependencies {
     implementation(projects.libs.domain)
+    implementation(libs.koin.android)
     implementation(libs.composeCoil)
     implementation("com.google.android.glance.tools:appwidget-host:0.2.2")
     implementation("androidx.glance:glance-material3:1.0.0")

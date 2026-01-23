@@ -11,9 +11,11 @@ import com.example.domain.usecases.UpdateSelectedLocationUseCase
 import com.example.domain.utils.DateFormatter
 import com.example.domain.utils.LanguageProvider
 import com.example.home.HomePresenterFactory
+import com.example.home.drawer.HomeUiFactory
 import com.example.vilketvader.AndroidLanguageProvider
 import com.example.vilketvader.DateFormatterDefault
 import com.example.weather.WeatherPresenterFactory
+import com.example.weather.WeatherUiFactory
 import com.slack.circuit.foundation.Circuit
 import com.slack.circuit.runtime.presenter.Presenter
 import com.slack.circuit.runtime.ui.Ui
@@ -42,6 +44,10 @@ val appModule = module {
     // Presenter factories
     single<Presenter.Factory> { WeatherPresenterFactory(get(), get()) }
     single<Presenter.Factory> { HomePresenterFactory(get(), get()) }
+
+    // UI factories
+    single<Ui.Factory> { WeatherUiFactory() }
+    single<Ui.Factory> { HomeUiFactory() }
 
     // Circuit
     single {

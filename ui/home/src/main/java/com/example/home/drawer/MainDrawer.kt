@@ -18,9 +18,11 @@ import com.example.home.HomeUiEvents
 import com.example.home.HomeUiState
 import com.example.screens.HomeScreen
 import com.example.screens.WeatherScreen
-import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.foundation.CircuitContent
-import dagger.hilt.components.SingletonComponent
+import com.slack.circuit.runtime.CircuitContext
+import com.slack.circuit.runtime.screen.Screen
+import com.slack.circuit.runtime.ui.Ui
+import com.slack.circuit.runtime.ui.ui
 import kotlinx.coroutines.launch
 
 val beforeSunrise = listOf(
@@ -48,7 +50,6 @@ val sunnyColorsGradient = listOf(
 )
 
 @Composable
-@CircuitInject(HomeScreen::class, SingletonComponent::class)
 fun HomeScreenUi(state: HomeUiState, modifier: Modifier = Modifier) {
     val eventSink = state.evenSink
     val drawerState = rememberDrawerState(DrawerValue.Closed)
@@ -118,5 +119,16 @@ private fun MainContent(
                 .fillMaxSize()
                 .padding(it),
         )
+    }
+}
+
+class HomeUiFactory : Ui.Factory {
+    override fun create(screen: Screen, context: CircuitContext): Ui<*>? {
+        return when (screen) {
+            is HomeScreen -> ui<HomeUiState> { state, modifier ->
+                HomeScreenUi(state, modifier)
+            }
+            else -> null
+        }
     }
 }

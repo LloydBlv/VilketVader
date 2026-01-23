@@ -40,13 +40,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.screens.WeatherScreen
-import com.slack.circuit.codegen.annotations.CircuitInject
-import dagger.hilt.components.SingletonComponent
+import com.slack.circuit.runtime.CircuitContext
+import com.slack.circuit.runtime.screen.Screen
+import com.slack.circuit.runtime.ui.Ui
+import com.slack.circuit.runtime.ui.ui
 import timber.log.Timber
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-@CircuitInject(WeatherScreen::class, SingletonComponent::class)
 fun WeatherScreenUi(
     state: WeatherUiState,
     modifier: Modifier = Modifier,
@@ -301,4 +302,15 @@ private fun WeatherScreenUiPreview() {
 //    VilketVaderTheme {
 //        WeatherScreenUi(location = UiLocation("Stockholm"))
 //    }
+}
+
+class WeatherUiFactory : Ui.Factory {
+    override fun create(screen: Screen, context: CircuitContext): Ui<*>? {
+        return when (screen) {
+            is WeatherScreen -> ui<WeatherUiState> { state, modifier ->
+                WeatherScreenUi(state, modifier)
+            }
+            else -> null
+        }
+    }
 }

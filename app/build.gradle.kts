@@ -9,7 +9,7 @@ plugins {
 android {
     namespace = "com.example.vilketvader"
     defaultConfig {
-        testInstrumentationRunner = "com.example.vilketvader.HiltTestRunner"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     signingConfigs {
         create("release") {
